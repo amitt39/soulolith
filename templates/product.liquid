@@ -200,7 +200,7 @@
             {%- render 'wishlisthero-collection-product',
               product: product,
               buttonMode: 'icon_only',
-              buttonView: 'Product',
+              buttonView: 'Collection',
               buttonClass: 'sl-wl-icon-btn'
             -%}
           </div>
@@ -674,6 +674,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+  }
+  .sl-wl-slot .wishlist-hero-custom-button.sl-wl-icon-btn,
+  .sl-wl-slot > * {
+    width: 52px !important;
+    height: 52px !important;
+    max-height: 52px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .sl-wl-slot svg,
+  .sl-wl-slot .wlh-svg-Icon {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   /* Style the wishlist-hero app button as a square icon */
@@ -1101,6 +1123,9 @@
       width: calc(20% - 7px);
     }
   }
+  #wishlisthero-product-page-button-container {
+    display: none !important;
+  }
 </style>
 
 <script>
@@ -1268,29 +1293,4 @@
       });
     }
   })();
-  /* ── Suppress all auto-injected wishlist-hero buttons outside our CTA slot ── */
-    (function () {
-      function suppressWishlistInjection() {
-        document.querySelectorAll('[class*="wishlist-hero"], [id*="wishlist-hero"]').forEach(function (el) {
-          if (!el.closest('.sl-wl-slot')) {
-            el.style.setProperty('display', 'none', 'important');
-            el.style.setProperty('height', '0', 'important');
-            el.style.setProperty('overflow', 'hidden', 'important');
-            el.style.setProperty('pointer-events', 'none', 'important');
-          }
-        });
-      }
-
-      /* Run immediately, then again after typical app injection delays */
-      suppressWishlistInjection();
-      setTimeout(suppressWishlistInjection, 300);
-      setTimeout(suppressWishlistInjection, 1000);
-      setTimeout(suppressWishlistInjection, 2500);
-
-      /* Keep watching — suppress anything the app injects later */
-      new MutationObserver(suppressWishlistInjection).observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-    })();
 </script>
