@@ -1,0 +1,190 @@
+{% comment %}
+  Soulolith — Article / Blog Post Page
+  File: templates/article.liquid
+{% endcomment %}
+
+<section class="sl-section" style="padding-top: 60px;">
+  <div class="sl-container">
+    <div class="sl-article-layout">
+
+      <!-- Article -->
+      <article class="sl-article">
+
+        <!-- Breadcrumb -->
+        <div class="sl-article-breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span>·</span>
+          <a href="{{ blog.url }}">{{ blog.title }}</a>
+          <span>·</span>
+          <span>{{ article.title }}</span>
+        </div>
+
+        <!-- Header -->
+        <div class="sl-article-header">
+          {%- if article.tags.size > 0 -%}
+            <span class="sl-eyebrow">{{ article.tags | first }}</span>
+          {%- endif -%}
+          <h1 class="sl-article-title">{{ article.title }}</h1>
+          <div class="sl-article-meta">
+            <span>{{ article.published_at | date: '%B %d, %Y' }}</span>
+            <span>·</span>
+            <span>By {{ article.author }}</span>
+            {%- if article.read_time > 0 -%}
+              <span>·</span>
+              <span>{{ article.read_time }} min read</span>
+            {%- endif -%}
+          </div>
+          <div class="sl-divider" style="margin: 24px 0;"></div>
+        </div>
+
+        <!-- Featured Image -->
+        {%- if article.image != blank -%}
+          <div class="sl-article-featured-image">
+            <img src="{{ article.image | image_url: width: 1200 }}"
+                 alt="{{ article.image.alt | escape }}"
+                 loading="eager" width="1200">
+          </div>
+        {%- endif -%}
+
+        <!-- Content -->
+        <div class="sl-article-content">
+          {{ article.content }}
+        </div>
+
+        <!-- Tags -->
+        {%- if article.tags.size > 0 -%}
+          <div class="sl-article-tags">
+            {%- for tag in article.tags -%}
+              <span class="sl-article-tag">{{ tag }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <!-- Back to blog -->
+        <div style="margin-top: 48px;">
+          <a href="{{ blog.url }}" class="sl-btn-outline">← Back to {{ blog.title }}</a>
+        </div>
+
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Related Articles -->
+{%- if blog.articles.size > 1 -%}
+  <section class="sl-section" style="padding-top: 0; background: var(--bg-card);">
+    <div class="sl-container">
+      <div class="sl-section-header">
+        <span class="sl-eyebrow">Continue Reading</span>
+        <h2 class="sl-section-title">More from the <em>Journal</em></h2>
+        <div class="sl-divider"></div>
+      </div>
+      <div class="sl-blog-grid">
+        {%- for a in blog.articles limit: 3 -%}
+          {%- unless a.id == article.id -%}
+            <a href="{{ a.url }}" class="sl-blog-card">
+              <div class="sl-blog-card-image">
+                {%- if a.image != blank -%}
+                  <img src="{{ a.image | image_url: width: 600 }}" alt="{{ a.image.alt | escape }}" loading="lazy" width="600">
+                {%- else -%}
+                  <div class="sl-blog-card-placeholder">✦</div>
+                {%- endif -%}
+              </div>
+              <div class="sl-blog-card-info">
+                <div class="sl-blog-card-meta">
+                  <span>{{ a.published_at | date: '%B %d, %Y' }}</span>
+                </div>
+                <h2 class="sl-blog-card-title">{{ a.title }}</h2>
+                <p class="sl-blog-card-excerpt">{{ a.excerpt_or_content | strip_html | truncate: 100 }}</p>
+                <span class="sl-blog-card-read">Read More →</span>
+              </div>
+            </a>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<style>
+  .sl-article-layout { max-width: 760px; margin: 0 auto; }
+
+  .sl-article-breadcrumb {
+    font-family: 'Jost', sans-serif; font-size: 11px;
+    letter-spacing: 1px; color: var(--text-muted);
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .sl-article-breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .sl-article-breadcrumb a:hover { color: var(--rose-light); }
+
+  .sl-article-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 400; line-height: 1.2;
+    margin: 12px 0 16px; color: var(--text);
+  }
+  .sl-article-meta {
+    font-family: 'Jost', sans-serif; font-size: 11px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--rose); display: flex; gap: 10px; flex-wrap: wrap;
+  }
+
+  .sl-article-featured-image {
+    width: 100%; aspect-ratio: 16/9; overflow: hidden;
+    margin-bottom: 40px; border: 1px solid var(--border);
+  }
+  .sl-article-featured-image img { width: 100%; height: 100%; object-fit: cover; }
+
+  .sl-article-content {
+    font-family: 'Jost', sans-serif; font-size: 15px;
+    line-height: 1.9; color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+  .sl-article-content h1, .sl-article-content h2, .sl-article-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text); font-weight: 400;
+    margin: 32px 0 12px; line-height: 1.3;
+  }
+  .sl-article-content h2 { font-size: 28px; }
+  .sl-article-content h3 { font-size: 22px; }
+  .sl-article-content p { margin-bottom: 20px; }
+  .sl-article-content a { color: var(--rose-light); text-decoration: underline; text-underline-offset: 3px; }
+  .sl-article-content img { max-width: 100%; border: 1px solid var(--border); margin: 20px 0; }
+  .sl-article-content ul, .sl-article-content ol { padding-left: 20px; margin-bottom: 20px; }
+  .sl-article-content li { margin-bottom: 8px; }
+  .sl-article-content blockquote {
+    border-left: 2px solid var(--rose-dark); padding-left: 20px;
+    margin: 24px 0; font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic; color: var(--text);
+  }
+
+  .sl-article-tags {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding-top: 24px; border-top: 1px solid var(--border);
+  }
+  .sl-article-tag {
+    font-family: 'Jost', sans-serif; font-size: 10px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border: 1px solid var(--border); padding: 6px 14px;
+    color: var(--text-muted);
+  }
+
+  /* Reuse blog grid styles from blog.liquid */
+  .sl-blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-bottom: 0; }
+  .sl-blog-card { display: flex; flex-direction: column; text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: transform 0.3s ease; }
+  .sl-blog-card:hover { transform: translateY(-2px); }
+  .sl-blog-card-image { aspect-ratio: 16/9; overflow: hidden; background: var(--bg-card); }
+  .sl-blog-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .sl-blog-card:hover .sl-blog-card-image img { transform: scale(1.04); }
+  .sl-blog-card-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--rose-dark); background: linear-gradient(135deg,#1e0e14,#2e1520); }
+  .sl-blog-card-info { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .sl-blog-card-meta { font-family: 'Jost',sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); }
+  .sl-blog-card-title { font-family: 'Cormorant Garamond',serif; font-size: 18px; font-weight: 400; line-height: 1.3; }
+  .sl-blog-card-excerpt { font-family: 'Jost',sans-serif; font-size: 12px; color: var(--text-muted); line-height: 1.7; flex: 1; }
+  .sl-blog-card-read { font-family: 'Jost',sans-serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rose-light); }
+
+  @media (max-width: 1024px) { .sl-blog-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 768px) { .sl-blog-grid { grid-template-columns: 1fr; } .sl-article-title { font-size: 26px; } }
+</style>

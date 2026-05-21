@@ -1,0 +1,92 @@
+{% comment %}
+  Soulolith — Newsletter
+  File: sections/sl-newsletter.liquid
+  Uses Shopify's native customer email signup (no third-party needed).
+{% endcomment %}
+
+<section class="sl-section sl-newsletter-section">
+  <div class="sl-container">
+    <div class="sl-newsletter-inner">
+
+      <span class="sl-eyebrow">{{ section.settings.eyebrow | default: 'Join the Community' }}</span>
+      <h2 class="sl-section-title">{{ section.settings.heading | default: 'Stay in Vibration' }}</h2>
+      <p>{{ section.settings.subtext | default: 'Get early access to new arrivals, crystal guides, and exclusive offers — delivered gently to your inbox.' }}</p>
+
+      {%- form 'customer', id: 'sl-newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="sl-newsletter-form">
+          <input type="email"
+                 name="contact[email]"
+                 id="sl-newsletter-email"
+                 class="sl-form-input"
+                 placeholder="{{ section.settings.placeholder | default: 'Your email address' }}"
+                 required
+                 autocorrect="off"
+                 autocapitalize="off"
+                 autocomplete="email"
+
+                 aria-label="Email address">
+          <button type="submit" class="sl-btn-primary">
+            {{ section.settings.btn_label | default: 'Subscribe' }}
+          </button>
+        </div>
+
+        {%- if form.posted_successfully? -%}
+          <p style="color:var(--rose-light);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-top:16px;">
+            ✦ Thank you for subscribing
+          </p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p style="color:var(--rose-dark);font-size:12px;margin-top:12px;">
+            {{ form.errors | default_errors }}
+          </p>
+        {%- endif -%}
+      {%- endform -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SL Newsletter",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Join the Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stay in Vibration"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Get early access to new arrivals, crystal guides, and exclusive offers — delivered gently to your inbox."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input Placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label",
+      "default": "Subscribe"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SL Newsletter"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,123 @@
+{% comment %}
+  Soulolith — Testimonials
+  File: sections/sl-testimonials.liquid
+{% endcomment %}
+
+<section class="sl-section sl-testimonials-section">
+  <div class="sl-container">
+
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">{{ section.settings.eyebrow | default: 'Customer Stories' }}</span>
+      <h2 class="sl-section-title">{{ section.settings.heading | default: 'Loved by Souls' }}</h2>
+      <div class="sl-divider"></div>
+    </div>
+
+    <div class="sl-testimonials-grid">
+      {%- for block in section.blocks -%}
+        <div class="sl-testimonial-card" {{ block.shopify_attributes }}>
+          <div class="sl-testimonial-stars">★★★★★</div>
+          <p class="sl-testimonial-quote">"{{ block.settings.quote }}"</p>
+          <div class="sl-testimonial-author">{{ block.settings.author }}</div>
+          {%- if block.settings.product != blank -%}
+            <div class="sl-testimonial-product">{{ block.settings.product }}</div>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="sl-testimonial-card">
+          <div class="sl-testimonial-stars">★★★★★</div>
+          <p class="sl-testimonial-quote">"The bracelet arrived beautifully packaged. I can genuinely feel a shift in my energy since wearing it every day."</p>
+          <div class="sl-testimonial-author">Priya M., Mumbai</div>
+          <div class="sl-testimonial-product">Rose Quartz Bracelet</div>
+        </div>
+        <div class="sl-testimonial-card">
+          <div class="sl-testimonial-stars">★★★★★</div>
+          <p class="sl-testimonial-quote">"Finally a store that takes crystal quality seriously. The amethyst pendant is absolutely exquisite — pure and deep colour."</p>
+          <div class="sl-testimonial-author">Sahil R., Delhi</div>
+          <div class="sl-testimonial-product">Amethyst Pendant</div>
+        </div>
+        <div class="sl-testimonial-card">
+          <div class="sl-testimonial-stars">★★★★★</div>
+          <p class="sl-testimonial-quote">"I gifted the citrine bracelet to my sister and she hasn't taken it off. The craftsmanship is luxury but the price is so fair."</p>
+          <div class="sl-testimonial-author">Anjali K., Ahmedabad</div>
+          <div class="sl-testimonial-product">Citrine Bracelet</div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SL Testimonials",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Customer Stories"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by Souls"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote (without quotes)"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author Name & Location"
+        },
+        {
+          "type": "text",
+          "id": "product",
+          "label": "Product Purchased"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SL Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The bracelet arrived beautifully packaged. I can genuinely feel a shift in my energy since wearing it every day.",
+            "author": "Priya M., Mumbai",
+            "product": "Rose Quartz Bracelet"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally a store that takes crystal quality seriously. The amethyst pendant is absolutely exquisite — pure and deep colour.",
+            "author": "Sahil R., Delhi",
+            "product": "Amethyst Pendant"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I gifted the citrine bracelet to my sister and she hasn't taken it off. The craftsmanship is luxury but the price is so fair.",
+            "author": "Anjali K., Ahmedabad",
+            "product": "Citrine Bracelet"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

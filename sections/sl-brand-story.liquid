@@ -1,0 +1,113 @@
+{% comment %}
+  Soulolith — Brand Story
+  File: sections/sl-brand-story.liquid
+{% endcomment %}
+
+<section class="sl-section">
+  <div class="sl-container">
+    <div class="sl-brand-story-grid">
+
+      <!-- Visual -->
+      <div class="sl-brand-story-visual">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 800 }}"
+               alt="{{ section.settings.image.alt | escape }}"
+               loading="lazy" width="800">
+        {%- else -%}
+          ◈
+        {%- endif -%}
+      </div>
+
+      <!-- Content -->
+      <div class="sl-brand-story-content">
+        <span class="sl-eyebrow">{{ section.settings.eyebrow | default: 'Our Philosophy' }}</span>
+        <h2 class="sl-section-title">{{ section.settings.heading | default: 'Stones that Speak to the Soul' }}</h2>
+        <div class="sl-brand-story-divider"></div>
+
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'paragraph' -%}
+            <p {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+          {%- endif -%}
+        {%- else -%}
+          <p>Every crystal carries a vibration older than time itself. At Soulolith, we believe that wearing the right stone is not just adornment — it is <em>intention made visible</em>.</p>
+          <p>We hand-select each crystal and gemstone for its energetic quality, crafting pieces that are as spiritually resonant as they are visually stunning.</p>
+        {%- endfor -%}
+
+        <a href="{{ section.settings.btn_url | default: routes.root_url | append: 'pages/our-story' }}"
+           class="sl-btn-outline">
+          {{ section.settings.btn_label | default: 'Discover Our Story' }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SL Brand Story",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Brand Story Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Philosophy"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Stones that Speak to the Soul"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label",
+      "default": "Discover Our Story"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SL Brand Story",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Every crystal carries a vibration older than time itself. At Soulolith, we believe that wearing the right stone is not just adornment — it is <em>intention made visible</em>.</p>"
+          }
+        },
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>We hand-select each crystal and gemstone for its energetic quality, crafting pieces that are as spiritually resonant as they are visually stunning.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

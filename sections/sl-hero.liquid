@@ -1,0 +1,43 @@
+{%- assign hero_img_desktop = section.settings.hero_image -%}
+{%- assign hero_img_mobile = section.settings.hero_image_mobile -%}
+
+<section class="sl-hero{% if hero_img_desktop != blank or hero_img_mobile != blank %} has-image{% endif %}"
+  {% if hero_img_desktop != blank %}
+    style="--hero-image-desktop: url('{{ hero_img_desktop | image_url: width: 1920 }}'); --hero-image-mobile: url('{{ hero_img_mobile | default: hero_img_desktop | image_url: width: 1080 }}');"
+  {% endif %}>
+
+  <div class="sl-hero-content">
+    <span class="sl-eyebrow sl-fade-up">{{ section.settings.eyebrow | default: '✦ New Collection — Crystal Intentions ✦' }}</span>
+    <h1 class="sl-fade-up">{{ section.settings.heading | default: 'Wear the <em>Energy</em><br>of the Earth' }}</h1>
+    <p class="sl-hero-subheading sl-fade-up">{{ section.settings.subheading | default: 'Handcrafted stone jewelry &nbsp;·&nbsp; Ethically sourced crystals' }}</p>
+    <div class="sl-hero-buttons sl-fade-up">
+      <a href="{{ section.settings.primary_btn_url | default: routes.collections_url | append: '/all' }}" class="sl-btn-primary">{{ section.settings.primary_btn_label | default: 'Explore Collection' }}</a>
+      <a href="{{ section.settings.secondary_btn_url | default: routes.root_url | append: 'pages/our-story' }}" class="sl-btn-outline">{{ section.settings.secondary_btn_label | default: 'Our Story' }}</a>
+    </div>
+  </div>
+
+  <div class="sl-scroll-indicator">
+    <span>Discover</span>
+    <div class="sl-scroll-line"></div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "SL Hero",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Background Image — Desktop (16:9 landscape)" },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Background Image — Mobile (2:3 portrait)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow Text", "default": "✦ New Collection — Crystal Intentions ✦" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Wear the <em>Energy</em><br>of the Earth</p>" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Handcrafted stone jewelry · Ethically sourced crystals" },
+    { "type": "text", "id": "primary_btn_label", "label": "Primary Button Label", "default": "Explore Collection" },
+    { "type": "url", "id": "primary_btn_url", "label": "Primary Button URL" },
+    { "type": "text", "id": "secondary_btn_label", "label": "Secondary Button Label", "default": "Our Story" },
+    { "type": "url", "id": "secondary_btn_url", "label": "Secondary Button URL" }
+  ],
+  "presets": [{ "name": "SL Hero" }]
+}
+{% endschema %}

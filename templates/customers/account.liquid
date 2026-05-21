@@ -1,0 +1,46 @@
+{% comment %} Soulolith — Customer Account {% endcomment %}
+<section class="sl-section" style="padding-top:60px;">
+  <div class="sl-container" style="max-width:700px;">
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">My Account</span>
+      <h1 class="sl-section-title">Hello, <em>{{ customer.first_name }}</em></h1>
+      <div class="sl-divider"></div>
+    </div>
+    <div style="display:flex;gap:40px;flex-wrap:wrap;margin-bottom:48px;">
+      <div style="flex:1;min-width:200px;">
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:16px;">Recent Orders</h3>
+        {%- if customer.orders.size > 0 -%}
+          {%- for order in customer.orders limit:5 -%}
+            <div style="padding:16px 0;border-bottom:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                <a href="{{ order.customer_url }}" style="color:var(--rose-light);font-size:13px;">{{ order.name }}</a>
+                <span style="font-size:12px;color:var(--text-muted);">{{ order.created_at | date: '%b %d, %Y' }}</span>
+              </div>
+              <div style="font-size:13px;color:var(--text-muted);">{{ order.total_price | money }} · {{ order.financial_status }}</div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <p style="color:var(--text-muted);font-size:13px;">No orders yet. <a href="{{ routes.collections_url }}/all" style="color:var(--rose-light);">Start shopping →</a></p>
+        {%- endif -%}
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:16px;">Default Address</h3>
+        {%- if customer.default_address -%}
+          <address style="color:var(--text-muted);font-size:13px;font-style:normal;line-height:1.7;">
+            {{ customer.default_address.name }}<br>
+            {{ customer.default_address.address1 }}<br>
+            {%- if customer.default_address.address2 != blank -%}{{ customer.default_address.address2 }}<br>{%- endif -%}
+            {{ customer.default_address.city }}, {{ customer.default_address.province }} {{ customer.default_address.zip }}<br>
+            {{ customer.default_address.country }}
+          </address>
+        {%- else -%}
+          <p style="color:var(--text-muted);font-size:13px;">No address saved.</p>
+        {%- endif -%}
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="{{ routes.account_addresses_url }}" class="sl-btn-outline">Manage Addresses</a>
+      <a href="{{ routes.account_logout_url }}" class="sl-btn-outline">Log Out</a>
+    </div>
+  </div>
+</section>

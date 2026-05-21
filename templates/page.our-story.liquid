@@ -1,0 +1,161 @@
+{% comment %}
+  Soulolith — Our Story Page
+  File: templates/page.our-story.liquid
+  All content customizable via Theme Settings (Online Store → Customize → Theme Settings)
+{% endcomment %}
+
+{%- assign s = settings -%}
+
+<!-- Hero -->
+<section class="sl-about-hero sl-section sl-about-hero--has-image"
+  {%- if s.story_hero_image != blank -%}
+    style="--about-hero-image: url('{{ s.story_hero_image | image_url: width: 1920 }}')"
+  {%- else -%}
+    style="--about-hero-image: url('https://cdn.shopify.com/s/files/1/0816/7063/5763/files/lucid-origin_a_cinematic_photo_of_Deep_mystical_dark_purple_atmosphere_scattered_crystals_ame-0.jpg?v=1775058380')"
+  {%- endif -%}>
+  <div class="sl-container">
+    <span class="sl-eyebrow">{{ s.story_hero_eyebrow | default: 'Our Story' }}</span>
+    <h1>{{ s.story_hero_heading | default: 'Born from <em>Earth</em>,<br>Made for the Soul' }}</h1>
+  </div>
+</section>
+
+<!-- Founder Story -->
+<section class="sl-section">
+  <div class="sl-container">
+    <div class="sl-founder-grid">
+      <div class="sl-founder-text">
+        <span class="sl-eyebrow">{{ s.story_founder_eyebrow | default: 'Where It All Began' }}</span>
+        <h2>{{ s.story_founder_heading | default: 'A passion born from <em>healing</em>' }}</h2>
+        <div class="sl-founder-divider"></div>
+        <p>{{ s.story_founder_p1 | default: 'Soulolith was born from a deeply personal journey. After years of navigating stress, anxiety, and the search for inner peace, our founder discovered the transformative power of crystals — not as superstition, but as tools for intention and mindfulness.' }}</p>
+        <p>{{ s.story_founder_p2 | default: 'What started as a small collection of stones gathered during travels across India became a mission: to share the beauty and energy of authentic crystals with those who are ready to receive them.' }}</p>
+        <p>{{ s.story_founder_p3 | default: 'Every piece we create carries the intention it was made with. We believe the stones find their people — and perhaps, this is how you found us.' }}</p>
+      </div>
+      <div class="sl-founder-visual">
+        {%- if s.story_founder_image != blank -%}
+          <img src="{{ s.story_founder_image | image_url: width: 800 }}" alt="{{ s.story_founder_eyebrow | default: 'Founder' }}">
+        {%- else -%}
+          <img src="https://cdn.shopify.com/s/files/1/0816/7063/5763/files/lucid-origin_a_cinematic_photo_of_Close_up_elegant_hands_holding_large_glowing_rose_quartz_cr-0.jpg?v=1775059034" alt="Soulolith founder with crystal">
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="sl-section sl-values-section">
+  <div class="sl-container">
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">{{ s.story_values_eyebrow | default: 'Our Core Beliefs' }}</span>
+      <h2 class="sl-section-title">{{ s.story_values_heading | default: 'Guiding <em>Principles</em>' }}</h2>
+      <div class="sl-divider"></div>
+    </div>
+    <div class="sl-values-grid">
+      <div class="sl-value-card sl-value-card--has-image"
+        {%- if s.story_value1_image != blank -%}
+          style="--value-bg: url('{{ s.story_value1_image | image_url: width: 800 }}')"
+        {%- else -%}
+          style="--value-bg: url('https://cdn.shopify.com/s/files/1/0816/7063/5763/files/lucid-origin_a_cinematic_photo_of_Rose_quartz_crystals_scattered_on_dark_black_surface_soft_p-0.jpg?v=1774854855')"
+        {%- endif -%}>
+        <div class="sl-value-card-inner">
+          <span class="sl-value-icon">{{ s.story_value1_icon | default: '◈' }}</span>
+          <h3>{{ s.story_value1_title | default: 'Authenticity' }}</h3>
+          <p>{{ s.story_value1_text | default: 'Every crystal we use is genuine, ethically sourced, and energetically tested. We never compromise on quality or the integrity of our stones.' }}</p>
+        </div>
+      </div>
+      <div class="sl-value-card sl-value-card--has-image"
+        {%- if s.story_value2_image != blank -%}
+          style="--value-bg: url('{{ s.story_value2_image | image_url: width: 800 }}')"
+        {%- else -%}
+          style="--value-bg: url('https://cdn.shopify.com/s/files/1/0816/7063/5763/files/lucid-origin_a_cinematic_photo_of_Black_tourmaline_and_obsidian_crystals_on_dark_black_surfac-0.jpg?v=1774854855')"
+        {%- endif -%}>
+        <div class="sl-value-card-inner">
+          <span class="sl-value-icon">{{ s.story_value2_icon | default: '♡' }}</span>
+          <h3>{{ s.story_value2_title | default: 'Intention' }}</h3>
+          <p>{{ s.story_value2_text | default: 'Each piece is crafted with a specific intention in mind. We believe jewelry should be more than beautiful — it should be meaningful and transformative.' }}</p>
+        </div>
+      </div>
+      <div class="sl-value-card sl-value-card--has-image"
+        {%- if s.story_value3_image != blank -%}
+          style="--value-bg: url('{{ s.story_value3_image | image_url: width: 800 }}')"
+        {%- else -%}
+          style="--value-bg: url('https://cdn.shopify.com/s/files/1/0816/7063/5763/files/lucid-origin_a_cinematic_photo_of_Citrine_and_green_aventurine_crystals_on_dark_black_surface-0.jpg?v=1774854855')"
+        {%- endif -%}>
+        <div class="sl-value-card-inner">
+          <span class="sl-value-icon">{{ s.story_value3_icon | default: '✦' }}</span>
+          <h3>{{ s.story_value3_title | default: 'Sustainability' }}</h3>
+          <p>{{ s.story_value3_text | default: 'We work directly with responsible miners and artisans, ensuring fair wages, ethical practices, and minimal environmental impact at every step.' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process Steps -->
+<section class="sl-section">
+  <div class="sl-container">
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">{{ s.story_process_eyebrow | default: 'How We Create' }}</span>
+      <h2 class="sl-section-title">{{ s.story_process_heading | default: 'From <em>Earth</em> to You' }}</h2>
+      <div class="sl-divider"></div>
+    </div>
+    <div class="sl-process-steps">
+      <div class="sl-step">
+        <div class="sl-step-icon">{{ s.story_step1_icon | default: '◎' }}</div>
+        <h4>{{ s.story_step1_title | default: 'Source' }}</h4>
+        <p>{{ s.story_step1_text | default: 'We travel to source authentic crystals directly from ethical miners across India, Brazil and Madagascar.' }}</p>
+      </div>
+      <div class="sl-step">
+        <div class="sl-step-icon">{{ s.story_step2_icon | default: '◇' }}</div>
+        <h4>{{ s.story_step2_title | default: 'Select' }}</h4>
+        <p>{{ s.story_step2_text | default: 'Each stone is hand-examined for colour, clarity, and energetic quality. Only the best make the cut.' }}</p>
+      </div>
+      <div class="sl-step">
+        <div class="sl-step-icon">{{ s.story_step3_icon | default: '○' }}</div>
+        <h4>{{ s.story_step3_title | default: 'Craft' }}</h4>
+        <p>{{ s.story_step3_text | default: 'Our artisans handcraft each piece with care, setting stones in high-quality, durable materials.' }}</p>
+      </div>
+      <div class="sl-step">
+        <div class="sl-step-icon">{{ s.story_step4_icon | default: '✦' }}</div>
+        <h4>{{ s.story_step4_title | default: 'Charge' }}</h4>
+        <p>{{ s.story_step4_text | default: 'Before shipping, every piece is cleansed and charged under moonlight with positive intentions set.' }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section style="padding: 0 0 100px;">
+  <div class="sl-container">
+    <div class="sl-stats-strip">
+      <div>
+        <span class="sl-stat-number">{{ s.story_stat1_number | default: '10,000+' }}</span>
+        <span class="sl-stat-label">{{ s.story_stat1_label | default: 'Happy Customers' }}</span>
+      </div>
+      <div>
+        <span class="sl-stat-number">{{ s.story_stat2_number | default: '50+' }}</span>
+        <span class="sl-stat-label">{{ s.story_stat2_label | default: 'Crystal Varieties' }}</span>
+      </div>
+      <div>
+        <span class="sl-stat-number">{{ s.story_stat3_number | default: '100%' }}</span>
+        <span class="sl-stat-label">{{ s.story_stat3_label | default: 'Authentic Stones' }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sl-section sl-cta-section">
+  <div class="sl-container">
+    <h2>{{ s.story_cta_heading | default: 'Ready to Find Your <em>Stone</em>?' }}</h2>
+    <p>{{ s.story_cta_text | default: 'Browse our full collection of crystals, jewelry, and home décor — all handcrafted with love and intention.' }}</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="{{ routes.collections_url }}/all" class="sl-btn-primary">
+        {{ s.story_cta_btn1 | default: 'Shop the Collection' }}
+      </a>
+      <a href="{{ routes.root_url }}pages/contact" class="sl-btn-outline">
+        {{ s.story_cta_btn2 | default: 'Get in Touch' }}
+      </a>
+    </div>
+  </div>
+</section>

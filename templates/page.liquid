@@ -1,0 +1,36 @@
+{% comment %}
+  Soulolith — Default Page Template
+  File: templates/page.liquid
+  Used for pages like FAQ, Crystal Guide, Track Order etc.
+{% endcomment %}
+
+<section class="sl-section" style="padding-top: 60px;">
+  <div class="sl-container" style="max-width: 800px;">
+
+    <div class="sl-section-header" style="text-align:left;">
+      <span class="sl-eyebrow" style="margin-bottom: 16px;">{{ page.title }}</span>
+      <div class="sl-divider" style="margin: 0 0 40px;"></div>
+    </div>
+
+    <div class="sl-page-content" style="color: var(--text-muted); line-height: 1.9; font-size: 14px;">
+      {{ page.content }}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .sl-page-content h1, .sl-page-content h2, .sl-page-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text);
+    margin: 32px 0 16px;
+  }
+  .sl-page-content h2 { font-size: 28px; }
+  .sl-page-content h3 { font-size: 22px; }
+  .sl-page-content p  { margin-bottom: 16px; }
+  .sl-page-content a  { color: var(--rose-light); border-bottom: 1px solid var(--border-hover); transition: border-color .3s; }
+  .sl-page-content a:hover { border-color: var(--rose); }
+  .sl-page-content ul, .sl-page-content ol { padding-left: 20px; margin-bottom: 16px; }
+  .sl-page-content li { margin-bottom: 8px; }
+  .sl-page-content strong { color: var(--text); font-weight: 400; }
+</style>

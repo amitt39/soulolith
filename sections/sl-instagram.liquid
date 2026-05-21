@@ -1,0 +1,118 @@
+{% comment %}
+  Soulolith — Instagram Feed
+  File: sections/sl-instagram.liquid
+  Upload 6 images in section settings; they show as the grid tiles.
+{% endcomment %}
+
+<section class="sl-section sl-instagram-section">
+  <div class="sl-container">
+
+    <div class="sl-instagram-header">
+      <span class="sl-eyebrow">{{ section.settings.eyebrow | default: 'Follow Our World' }}</span>
+      <div class="sl-instagram-handle">{{ section.settings.handle | default: '@soulolith' }}</div>
+    </div>
+
+    <div class="sl-instagram-grid">
+      {%- for block in section.blocks -%}
+        <a href="{{ section.settings.instagram_url | default: '#' }}"
+           class="sl-instagram-tile"
+           target="_blank" rel="noopener"
+           {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 400 }}"
+                 alt="{{ block.settings.image.alt | escape }}"
+                 loading="lazy" width="400">
+          {%- else -%}
+            <!-- Fallback gradient placeholder -->
+            <div style="width:100%;height:100%;
+              {%- case forloop.index -%}
+                {%- when 1 -%}background:linear-gradient(135deg,#2a1520,#3d2030)
+                {%- when 2 -%}background:linear-gradient(135deg,#1a0f2e,#2d1f4a)
+                {%- when 3 -%}background:linear-gradient(135deg,#0f1520,#1a253a)
+                {%- when 4 -%}background:linear-gradient(135deg,#0d1f15,#1a3525)
+                {%- when 5 -%}background:linear-gradient(135deg,#15151f,#20202e)
+                {%- else  -%}background:linear-gradient(135deg,#080808,#141414)
+              {%- endcase -%}
+              ">✧</div>
+          {%- endif -%}
+        </a>
+      {%- else -%}
+        <!-- Default placeholders -->
+        <a href="#" class="sl-instagram-tile sl-bg-rose-quartz">✧</a>
+        <a href="#" class="sl-instagram-tile sl-bg-amethyst">✦</a>
+        <a href="#" class="sl-instagram-tile sl-bg-labradorite">◇</a>
+        <a href="#" class="sl-instagram-tile sl-bg-aventurine">◈</a>
+        <a href="#" class="sl-instagram-tile sl-bg-moonstone">○</a>
+        <a href="#" class="sl-instagram-tile sl-bg-tourmaline">⬡</a>
+      {%- endfor -%}
+    </div>
+
+    <div class="sl-instagram-link">
+      <a href="{{ section.settings.instagram_url | default: '#' }}"
+         class="sl-btn-outline"
+         target="_blank" rel="noopener">
+        {{ section.settings.btn_label | default: 'Follow on Instagram' }}
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SL Instagram Feed",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Follow Our World"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Instagram Handle",
+      "default": "@soulolith"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram Profile URL"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label",
+      "default": "Follow on Instagram"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Photo Tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Instagram Photo"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "SL Instagram Feed",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

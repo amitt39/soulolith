@@ -1,0 +1,30 @@
+{% comment %} Soulolith — Customer Login {% endcomment %}
+<section class="sl-section" style="padding-top:60px;min-height:70vh;display:flex;align-items:center;">
+  <div class="sl-container" style="max-width:480px;">
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">Welcome Back</span>
+      <h1 class="sl-section-title">Sign <em>In</em></h1>
+      <div class="sl-divider"></div>
+    </div>
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <div style="color:var(--rose-dark);font-size:12px;margin-bottom:20px;">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="sl-contact-form">
+        <div class="sl-form-group">
+          <label class="sl-form-label" for="CustomerEmail">Email</label>
+          <input class="sl-form-input" type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" autocorrect="off" autocapitalize="off" placeholder="you@email.com">
+        </div>
+        <div class="sl-form-group">
+          <label class="sl-form-label" for="CustomerPassword">Password</label>
+          <input class="sl-form-input" type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" placeholder="Your password">
+        </div>
+        <button type="submit" class="sl-btn-primary" style="align-self:flex-start;">Sign In</button>
+      </div>
+    {%- endform -%}
+    <div style="margin-top:24px;display:flex;gap:24px;flex-wrap:wrap;">
+      <a href="{{ routes.account_recover_url }}" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-faint);transition:color .3s;" onmouseover="this.style.color='var(--rose-light)'" onmouseout="this.style.color='var(--text-faint)'">Forgot Password?</a>
+      <a href="{{ routes.account_register_url }}" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-faint);transition:color .3s;" onmouseover="this.style.color='var(--rose-light)'" onmouseout="this.style.color='var(--text-faint)'">Create Account →</a>
+    </div>
+  </div>
+</section>

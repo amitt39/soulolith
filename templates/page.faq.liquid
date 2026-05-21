@@ -1,0 +1,221 @@
+{% comment %}
+  Soulolith — FAQ Page
+  File: templates/page.faq.liquid
+  Assign this template to the FAQ page in Shopify Admin → Pages
+  Purnesh can edit questions/answers directly from the Page content editor
+{% endcomment %}
+
+<section class="sl-section" style="padding-top: 60px;">
+  <div class="sl-container">
+
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">Got Questions?</span>
+      <h1 class="sl-section-title">Frequently Asked <em>Questions</em></h1>
+      <div class="sl-divider"></div>
+    </div>
+
+    <div class="sl-faq-layout">
+
+      <!-- FAQ Items — edit content from Shopify Admin → Pages → FAQ -->
+      <div class="sl-faq-list" id="sl-faq-list">
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            Are your crystals genuine and authentic?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Yes — every crystal at Soulolith is 100% genuine and ethically sourced. We work directly with trusted miners and suppliers across India, Brazil, and Madagascar. Each stone is hand-examined for quality, colour, and energetic integrity before it reaches you.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            How long does delivery take?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>We deliver within 5–8 business days across India. Orders are dispatched within 1–2 business days of confirmation. You will receive a tracking link once your order is shipped.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            Do you offer free shipping?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Yes! Orders above ₹1,499 qualify for free shipping across India. Orders below ₹1,499 have a flat shipping fee of ₹99. We currently ship within India only.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            Is Cash on Delivery (COD) available?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Yes, COD is available with a convenience fee of ₹100. You will receive a WhatsApp OTP verification before your order is confirmed for COD.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            What is your return and refund policy?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>We accept returns within 7 days of delivery for damaged or incorrect items. The customer is responsible for return shipping costs. Selenite products are final sale and cannot be returned. To initiate a return, contact us at {{ settings.contact_email | default: 'support@soulolith.com' }}.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            How do I track my order?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Once your order is shipped, you'll receive a tracking link via email. You can also track your order anytime at <a href="{{ routes.root_url }}pages/track-order" style="color:var(--rose-light);">soulolith.com/pages/track-order</a>.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            Do you cleanse and charge the crystals before shipping?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Yes — every crystal is cleansed and charged under moonlight before it is packed and shipped. We also set positive intentions for each order. Your crystal arrives energetically ready for you.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            How should I care for my crystals?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Cleanse your crystals monthly under moonlight or with sage smoke. Avoid prolonged direct sunlight as it can fade certain stones. Set your intention before wearing or placing them. Store separately to prevent scratches. Selenite and salt lamps should be kept away from moisture.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            Can I choose a specific crystal from the batch?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Each crystal is unique — colour, pattern, and size may vary slightly from the product photos as they are natural stones. This is the beauty of genuine crystals. If you have specific preferences, feel free to reach out to us before ordering.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            Do you ship internationally?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>Currently we ship within India only. International shipping is something we're working towards — follow us on Instagram @soulolith for updates.</p>
+          </div>
+        </div>
+
+        <div class="sl-faq-item">
+          <button class="sl-faq-question" aria-expanded="false">
+            How can I contact you?
+            <span class="sl-faq-icon">+</span>
+          </button>
+          <div class="sl-faq-answer">
+            <p>You can reach us at <a href="mailto:{{ settings.contact_email | default: 'support@soulolith.com' }}" style="color:var(--rose-light);">{{ settings.contact_email | default: 'support@soulolith.com' }}</a>{% if settings.contact_phone != blank %} or WhatsApp us at {{ settings.contact_phone }}{% endif %}. We respond within 24 hours, Monday to Saturday.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Still have questions CTA -->
+      <div class="sl-faq-cta">
+        <span class="sl-eyebrow">Still have questions?</span>
+        <h3>We're happy to <em>help</em></h3>
+        <p>Reach out to us directly and we'll get back to you within 24 hours.</p>
+        <a href="{{ routes.root_url }}pages/contact" class="sl-btn-primary">Contact Us</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .sl-faq-layout { max-width: 760px; margin: 0 auto; }
+
+  .sl-faq-list { margin-bottom: 64px; }
+
+  .sl-faq-item { border-bottom: 1px solid var(--border); }
+
+  .sl-faq-question {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; background: none; border: none; cursor: pointer;
+    font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400;
+    color: var(--text); text-align: left; gap: 16px;
+    transition: color 0.2s ease;
+  }
+  .sl-faq-question:hover { color: var(--rose-light); }
+  .sl-faq-question[aria-expanded="true"] { color: var(--rose-light); }
+
+  .sl-faq-icon {
+    font-size: 22px; color: var(--rose); flex-shrink: 0;
+    font-weight: 300; transition: transform 0.3s ease; line-height: 1;
+  }
+  .sl-faq-question[aria-expanded="true"] .sl-faq-icon { transform: rotate(45deg); }
+
+  .sl-faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0;
+  }
+  .sl-faq-answer.is-open {
+    max-height: 400px;
+    padding-bottom: 24px;
+  }
+  .sl-faq-answer p {
+    font-family: 'Jost', sans-serif; font-size: 14px; line-height: 1.8;
+    color: var(--text-muted); margin: 0;
+  }
+
+  .sl-faq-cta {
+    text-align: center; padding: 56px 40px;
+    border: 1px solid var(--border); background: var(--bg-card);
+  }
+  .sl-faq-cta .sl-eyebrow { margin-bottom: 12px; }
+  .sl-faq-cta h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 32px;
+    font-weight: 400; margin-bottom: 12px;
+  }
+  .sl-faq-cta p {
+    font-family: 'Jost', sans-serif; font-size: 13px; color: var(--text-muted);
+    margin-bottom: 28px; line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .sl-faq-question { font-size: 17px; padding: 20px 0; }
+  }
+</style>
+
+<script>
+document.querySelectorAll('.sl-faq-question').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var answer = btn.nextElementSibling;
+    var isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+    /* Close all others */
+    document.querySelectorAll('.sl-faq-question').forEach(function(b) {
+      b.setAttribute('aria-expanded', 'false');
+      b.nextElementSibling.classList.remove('is-open');
+    });
+
+    /* Toggle clicked */
+    if (!isOpen) {
+      btn.setAttribute('aria-expanded', 'true');
+      answer.classList.add('is-open');
+    }
+  });
+});
+</script>

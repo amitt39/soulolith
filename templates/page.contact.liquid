@@ -1,0 +1,159 @@
+{% comment %}
+  Soulolith — Contact Page
+  File: templates/page.contact.liquid
+  Contact info reads from Theme Settings → Contact Information
+{% endcomment %}
+
+<section class="sl-section" style="padding-top: 60px;">
+  <div class="sl-container">
+
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">We'd Love to Hear from You</span>
+      <h1 class="sl-section-title">Get in <em>Touch</em></h1>
+      <div class="sl-divider"></div>
+    </div>
+
+    <div class="sl-contact-layout">
+
+      <!-- Contact Info -->
+      <div class="sl-contact-info">
+        <span class="sl-eyebrow">Reach Us</span>
+        <h2>We're here to <em>help</em></h2>
+        <div class="sl-contact-divider"></div>
+        <p>Whether you have a question about a crystal, need help choosing the right piece, or simply want to connect — our team responds within 24 hours with warmth and care.</p>
+
+        <div class="sl-contact-details">
+          {%- if settings.contact_email != blank -%}
+            <div class="sl-contact-detail-item">
+              <span class="sl-contact-detail-icon">✉</span>
+              <div>
+                <h4>Email</h4>
+                <p><a href="mailto:{{ settings.contact_email }}" style="color:var(--text-muted);text-decoration:none;">{{ settings.contact_email }}</a></p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if settings.contact_phone != blank -%}
+            <div class="sl-contact-detail-item">
+              <span class="sl-contact-detail-icon">☎</span>
+              <div>
+                <h4>WhatsApp</h4>
+                <p>
+                  {%- if settings.social_whatsapp_link != blank -%}
+                    <a href="{{ settings.social_whatsapp_link }}" target="_blank" style="color:var(--text-muted);text-decoration:none;">{{ settings.contact_phone }}</a>
+                  {%- else -%}
+                    {{ settings.contact_phone }}
+                  {%- endif -%}
+                </p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if settings.contact_hours != blank -%}
+            <div class="sl-contact-detail-item">
+              <span class="sl-contact-detail-icon">○</span>
+              <div>
+                <h4>Hours</h4>
+                <p>{{ settings.contact_hours }}</p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if settings.social_instagram_link != blank -%}
+            <div class="sl-contact-detail-item">
+              <span class="sl-contact-detail-icon">◇</span>
+              <div>
+                <h4>Instagram</h4>
+                <p><a href="{{ settings.social_instagram_link }}" target="_blank" style="color:var(--text-muted);text-decoration:none;">@soulolith</a></p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if settings.contact_address != blank -%}
+            <div class="sl-contact-detail-item">
+              <span class="sl-contact-detail-icon">◈</span>
+              <div>
+                <h4>Location</h4>
+                <p>{{ settings.contact_address }}{%- if settings.contact_city != blank -%}, {{ settings.contact_city }}{%- endif -%}</p>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div>
+        {%- form 'contact', id: 'sl-contact-form' -%}
+
+          {%- if form.posted_successfully? -%}
+            <div style="padding: 32px; border: 1px solid var(--border); text-align: center; background: var(--bg-card);">
+              <p style="font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:8px;">✦</p>
+              <p style="color:var(--rose-light);letter-spacing:2px;text-transform:uppercase;font-size:11px;">Message Received</p>
+              <p style="color:var(--text-muted);margin-top:12px;font-size:13px;">We'll get back to you within 24 hours.</p>
+            </div>
+          {%- else -%}
+
+            <div class="sl-contact-form">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="sl-contact-name-email-grid">
+                <div class="sl-form-group">
+                  <label class="sl-form-label" for="ContactForm-name">Name</label>
+                  <input class="sl-form-input"
+                         type="text"
+                         id="ContactForm-name"
+                         name="contact[name]"
+                         value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                         placeholder="Your name"
+                         autocomplete="name">
+                </div>
+                <div class="sl-form-group">
+                  <label class="sl-form-label" for="ContactForm-email">Email *</label>
+                  <input class="sl-form-input"
+                         type="email"
+                         id="ContactForm-email"
+                         name="contact[email]"
+                         value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                         placeholder="your@email.com"
+                         required
+                         autocomplete="email"
+                         autocorrect="off"
+                         autocapitalize="off">
+                </div>
+              </div>
+
+              <div class="sl-form-group">
+                <label class="sl-form-label" for="ContactForm-subject">Subject</label>
+                <input class="sl-form-input"
+                       type="text"
+                       id="ContactForm-subject"
+                       name="contact[subject]"
+                       placeholder="How can we help?">
+              </div>
+
+              <div class="sl-form-group">
+                <label class="sl-form-label" for="ContactForm-body">Message *</label>
+                <textarea class="sl-form-input sl-form-textarea"
+                          id="ContactForm-body"
+                          name="contact[body]"
+                          placeholder="Tell us what's on your mind..."
+                          required>{{ form.body }}</textarea>
+              </div>
+
+              {%- if form.errors -%}
+                <div style="color:var(--rose-dark);font-size:12px;margin-top:-8px;">
+                  {{ form.errors | default_errors }}
+                </div>
+              {%- endif -%}
+
+              <button type="submit" class="sl-btn-primary" style="align-self:flex-start;margin-top:8px;">
+                Send Message
+              </button>
+            </div>
+
+          {%- endif -%}
+
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+{% comment %} Soulolith — Customer Addresses {% endcomment %}
+<section class="sl-section" style="padding-top:60px;">
+  <div class="sl-container" style="max-width:700px;">
+    <div class="sl-section-header" style="text-align:left;">
+      <span class="sl-eyebrow">My Account</span>
+      <h1 class="sl-section-title">Your <em>Addresses</em></h1>
+      <div class="sl-divider" style="margin:0 0 40px;"></div>
+    </div>
+    {%- for address in customer.addresses -%}
+      <div style="padding:24px;border:1px solid var(--border);margin-bottom:16px;background:var(--bg-card);">
+        {%- if address == customer.default_address -%}
+          <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:8px;">Default</span>
+        {%- endif -%}
+        <address style="font-style:normal;color:var(--text-muted);font-size:13px;line-height:1.7;">
+          <strong style="color:var(--text);font-weight:400;">{{ address.name }}</strong><br>
+          {{ address.address1 }}<br>
+          {%- if address.address2 != blank -%}{{ address.address2 }}<br>{%- endif -%}
+          {{ address.city }}, {{ address.province }} {{ address.zip }}<br>
+          {{ address.country }}<br>
+          {%- if address.phone != blank -%}{{ address.phone }}{%- endif -%}
+        </address>
+        <div style="margin-top:16px;display:flex;gap:12px;">
+          <a href="#" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rose-light);">Edit</a>
+          <a href="{{ routes.account_addresses_url }}/{{ address.id }}" data-method="delete" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-faint);">Delete</a>
+        </div>
+      </div>
+    {%- endfor -%}
+    <div style="margin-top:32px;">
+      <a href="{{ routes.account_url }}" class="sl-btn-outline">← Back to Account</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,607 @@
+[
+  {
+    "name": "Logo & Branding",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "header_logo",
+        "label": "Header Logo",
+        "info": "Recommended: PNG with transparent background, min 400px wide"
+      },
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Footer Logo",
+        "info": "Leave blank to use header logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Recommended: 32x32px PNG"
+      },
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand Name",
+        "default": "Soulolith",
+        "info": "Used in footer copyright"
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline",
+        "label": "Brand Tagline",
+        "default": "Luxury in Every Vibration",
+        "info": "Shown below logo in header"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_description",
+        "label": "Footer Description",
+        "default": "Luxury crystal jewelry and spiritual décor handcrafted with intention. Each piece is ethically sourced and energetically selected."
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Social Share Image",
+        "info": "Shown when links shared on WhatsApp, Instagram etc. Recommended: 1200x630px"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Background",
+        "default": "#080706"
+      },
+      {
+        "type": "color",
+        "id": "color_rose",
+        "label": "Primary Color",
+        "default": "#c4887a",
+        "info": "Main brand color — buttons, accents, badges"
+      },
+      {
+        "type": "color",
+        "id": "color_rose_light",
+        "label": "Primary Light",
+        "default": "#d9a898"
+      },
+      {
+        "type": "color",
+        "id": "color_rose_dark",
+        "label": "Primary Dark",
+        "default": "#9a6358"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#f0eae0"
+      }
+    ]
+  },
+  {
+    "name": "Announcement Bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_enabled",
+        "label": "Show Announcement Bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement Text",
+        "default": "FREE SHIPPING ON ORDERS ABOVE ₹1499  |  100% AUTHENTIC CRYSTALS",
+        "info": "Use | to separate two messages"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_announcement_product",
+        "label": "Hide on Product Pages",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_announcement_cart",
+        "label": "Hide on Cart Page",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram_link",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook_link",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube_link",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "url",
+        "id": "social_whatsapp_link",
+        "label": "WhatsApp URL",
+        "info": "Format: https://wa.me/91XXXXXXXXXX"
+      }
+    ]
+  },
+  {
+    "name": "Shipping",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free Shipping Threshold (₹)",
+        "default": 1499,
+        "info": "Must match your Shopify shipping rate"
+      }
+    ]
+  },
+  {
+    "name": "Product Page — Trust Badges",
+    "settings": [
+      {
+        "type": "text",
+        "id": "trust_badge_1",
+        "label": "Trust Badge 1",
+        "default": "100% Authentic Crystals"
+      },
+      {
+        "type": "text",
+        "id": "trust_badge_2",
+        "label": "Trust Badge 2",
+        "default": "Free Shipping Above ₹1499"
+      },
+      {
+        "type": "text",
+        "id": "trust_badge_3",
+        "label": "Trust Badge 3",
+        "default": "Easy Returns within 7 Days"
+      }
+    ]
+  },
+  {
+    "name": "Product Page — Crystal Care",
+    "settings": [
+      {
+        "type": "text",
+        "id": "crystal_care_1",
+        "label": "Care Tip 1",
+        "default": "Cleanse monthly under moonlight or with sage"
+      },
+      {
+        "type": "text",
+        "id": "crystal_care_2",
+        "label": "Care Tip 2",
+        "default": "Avoid prolonged direct sunlight"
+      },
+      {
+        "type": "text",
+        "id": "crystal_care_3",
+        "label": "Care Tip 3",
+        "default": "Set your intention before wearing"
+      },
+      {
+        "type": "text",
+        "id": "crystal_care_4",
+        "label": "Care Tip 4",
+        "default": "Store separately to prevent scratches"
+      }
+    ]
+  },
+  {
+    "name": "Cart Page — Trust Badges",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cart_trust_1",
+        "label": "Cart Trust Badge 1",
+        "default": "Secure Checkout"
+      },
+      {
+        "type": "text",
+        "id": "cart_trust_2",
+        "label": "Cart Trust Badge 2",
+        "default": "Free Shipping Above ₹1499"
+      },
+      {
+        "type": "text",
+        "id": "cart_trust_3",
+        "label": "Cart Trust Badge 3",
+        "default": "Easy 7-Day Returns"
+      },
+      {
+        "type": "text",
+        "id": "cart_trust_4",
+        "label": "Cart Trust Badge 4",
+        "default": "100% Authentic Crystals"
+      }
+    ]
+  },
+  {
+    "name": "Contact Information",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Contact Email",
+        "default": "support@soulolith.com"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Contact Phone"
+      },
+      {
+        "type": "text",
+        "id": "contact_address",
+        "label": "Store Address"
+      },
+      {
+        "type": "text",
+        "id": "contact_city",
+        "label": "City",
+        "default": "Ahmedabad, Gujarat, India"
+      },
+      {
+        "type": "text",
+        "id": "contact_hours",
+        "label": "Business Hours",
+        "default": "Monday – Saturday, 10am – 7pm IST"
+      }
+    ]
+  },
+  {
+    "name": "Our Story — Hero",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "story_hero_image",
+        "label": "Hero Background Image"
+      },
+      {
+        "type": "text",
+        "id": "story_hero_eyebrow",
+        "label": "Eyebrow",
+        "default": "Our Story"
+      },
+      {
+        "type": "text",
+        "id": "story_hero_heading",
+        "label": "Hero Heading",
+        "default": "Born from Earth, Made for the Soul"
+      }
+    ]
+  },
+  {
+    "name": "Our Story — Founder",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "story_founder_image",
+        "label": "Founder Image"
+      },
+      {
+        "type": "text",
+        "id": "story_founder_eyebrow",
+        "label": "Eyebrow",
+        "default": "Where It All Began"
+      },
+      {
+        "type": "text",
+        "id": "story_founder_heading",
+        "label": "Heading",
+        "default": "A passion born from healing"
+      },
+      {
+        "type": "textarea",
+        "id": "story_founder_p1",
+        "label": "Paragraph 1",
+        "default": "Soulolith was born from a deeply personal journey. After years of navigating stress, anxiety, and the search for inner peace, our founder discovered the transformative power of crystals — not as superstition, but as tools for intention and mindfulness."
+      },
+      {
+        "type": "textarea",
+        "id": "story_founder_p2",
+        "label": "Paragraph 2",
+        "default": "What started as a small collection of stones gathered during travels across India became a mission: to share the beauty and energy of authentic crystals with those who are ready to receive them."
+      },
+      {
+        "type": "textarea",
+        "id": "story_founder_p3",
+        "label": "Paragraph 3",
+        "default": "Every piece we create carries the intention it was made with. We believe the stones find their people — and perhaps, this is how you found us."
+      }
+    ]
+  },
+  {
+    "name": "Our Story — Values",
+    "settings": [
+      {
+        "type": "text",
+        "id": "story_values_eyebrow",
+        "label": "Eyebrow",
+        "default": "Our Core Beliefs"
+      },
+      {
+        "type": "text",
+        "id": "story_values_heading",
+        "label": "Heading",
+        "default": "Guiding Principles"
+      },
+      {
+        "type": "header",
+        "content": "Value 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "story_value1_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "text",
+        "id": "story_value1_icon",
+        "label": "Icon",
+        "default": "◈"
+      },
+      {
+        "type": "text",
+        "id": "story_value1_title",
+        "label": "Title",
+        "default": "Authenticity"
+      },
+      {
+        "type": "textarea",
+        "id": "story_value1_text",
+        "label": "Description",
+        "default": "Every crystal we use is genuine, ethically sourced, and energetically tested. We never compromise on quality or the integrity of our stones."
+      },
+      {
+        "type": "header",
+        "content": "Value 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "story_value2_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "text",
+        "id": "story_value2_icon",
+        "label": "Icon",
+        "default": "♡"
+      },
+      {
+        "type": "text",
+        "id": "story_value2_title",
+        "label": "Title",
+        "default": "Intention"
+      },
+      {
+        "type": "textarea",
+        "id": "story_value2_text",
+        "label": "Description",
+        "default": "Each piece is crafted with a specific intention in mind. We believe jewelry should be more than beautiful — it should be meaningful and transformative."
+      },
+      {
+        "type": "header",
+        "content": "Value 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "story_value3_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "text",
+        "id": "story_value3_icon",
+        "label": "Icon",
+        "default": "✦"
+      },
+      {
+        "type": "text",
+        "id": "story_value3_title",
+        "label": "Title",
+        "default": "Sustainability"
+      },
+      {
+        "type": "textarea",
+        "id": "story_value3_text",
+        "label": "Description",
+        "default": "We work directly with responsible miners and artisans, ensuring fair wages, ethical practices, and minimal environmental impact at every step."
+      }
+    ]
+  },
+  {
+    "name": "Our Story — Process",
+    "settings": [
+      {
+        "type": "text",
+        "id": "story_process_eyebrow",
+        "label": "Eyebrow",
+        "default": "How We Create"
+      },
+      {
+        "type": "text",
+        "id": "story_process_heading",
+        "label": "Heading",
+        "default": "From Earth to You"
+      },
+      {
+        "type": "header",
+        "content": "Step 1"
+      },
+      {
+        "type": "text",
+        "id": "story_step1_icon",
+        "label": "Icon",
+        "default": "◎"
+      },
+      {
+        "type": "text",
+        "id": "story_step1_title",
+        "label": "Title",
+        "default": "Source"
+      },
+      {
+        "type": "textarea",
+        "id": "story_step1_text",
+        "label": "Description",
+        "default": "We travel to source authentic crystals directly from ethical miners across India, Brazil and Madagascar."
+      },
+      {
+        "type": "header",
+        "content": "Step 2"
+      },
+      {
+        "type": "text",
+        "id": "story_step2_icon",
+        "label": "Icon",
+        "default": "◇"
+      },
+      {
+        "type": "text",
+        "id": "story_step2_title",
+        "label": "Title",
+        "default": "Select"
+      },
+      {
+        "type": "textarea",
+        "id": "story_step2_text",
+        "label": "Description",
+        "default": "Each stone is hand-examined for colour, clarity, and energetic quality. Only the best make the cut."
+      },
+      {
+        "type": "header",
+        "content": "Step 3"
+      },
+      {
+        "type": "text",
+        "id": "story_step3_icon",
+        "label": "Icon",
+        "default": "○"
+      },
+      {
+        "type": "text",
+        "id": "story_step3_title",
+        "label": "Title",
+        "default": "Craft"
+      },
+      {
+        "type": "textarea",
+        "id": "story_step3_text",
+        "label": "Description",
+        "default": "Our artisans handcraft each piece with care, setting stones in high-quality, durable materials."
+      },
+      {
+        "type": "header",
+        "content": "Step 4"
+      },
+      {
+        "type": "text",
+        "id": "story_step4_icon",
+        "label": "Icon",
+        "default": "✦"
+      },
+      {
+        "type": "text",
+        "id": "story_step4_title",
+        "label": "Title",
+        "default": "Charge"
+      },
+      {
+        "type": "textarea",
+        "id": "story_step4_text",
+        "label": "Description",
+        "default": "Before shipping, every piece is cleansed and charged under moonlight with positive intentions set."
+      }
+    ]
+  },
+  {
+    "name": "Our Story — Stats & CTA",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Stats"
+      },
+      {
+        "type": "text",
+        "id": "story_stat1_number",
+        "label": "Stat 1 Number",
+        "default": "10,000+"
+      },
+      {
+        "type": "text",
+        "id": "story_stat1_label",
+        "label": "Stat 1 Label",
+        "default": "Happy Customers"
+      },
+      {
+        "type": "text",
+        "id": "story_stat2_number",
+        "label": "Stat 2 Number",
+        "default": "50+"
+      },
+      {
+        "type": "text",
+        "id": "story_stat2_label",
+        "label": "Stat 2 Label",
+        "default": "Crystal Varieties"
+      },
+      {
+        "type": "text",
+        "id": "story_stat3_number",
+        "label": "Stat 3 Number",
+        "default": "100%"
+      },
+      {
+        "type": "text",
+        "id": "story_stat3_label",
+        "label": "Stat 3 Label",
+        "default": "Authentic Stones"
+      },
+      {
+        "type": "header",
+        "content": "Call to Action"
+      },
+      {
+        "type": "text",
+        "id": "story_cta_heading",
+        "label": "CTA Heading",
+        "default": "Ready to Find Your Stone?"
+      },
+      {
+        "type": "textarea",
+        "id": "story_cta_text",
+        "label": "CTA Text",
+        "default": "Browse our full collection of crystals, jewelry, and home décor — all handcrafted with love and intention."
+      },
+      {
+        "type": "text",
+        "id": "story_cta_btn1",
+        "label": "Primary Button Label",
+        "default": "Shop the Collection"
+      },
+      {
+        "type": "text",
+        "id": "story_cta_btn2",
+        "label": "Secondary Button Label",
+        "default": "Get in Touch"
+      }
+    ]
+  }
+]

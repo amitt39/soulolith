@@ -1,0 +1,1192 @@
+{% comment %}
+  Soulolith — Product Page
+  File: templates/product.liquid
+
+  CUSTOMIZATION GUIDE FOR PURNESH:
+  - Trust badges → Online Store > Customize > Theme Settings > Product Page — Trust Badges
+  - Crystal care tips → Online Store > Customize > Theme Settings > Product Page — Crystal Care
+  - Intention options → Add tags to products like: intention:Love, intention:Protection, intention:Calm
+  - Short description → First paragraph of product description (shown above ATC)
+  - Full description → Shown in Description accordion below ATC
+{% endcomment %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_images = product.images -%}
+
+{%- comment %} Parse structured tags {%- endcomment %}
+{%- assign stone_tag = '' -%}
+{%- assign chakra_tag = '' -%}
+{%- assign intention_tag = '' -%}
+{%- assign intentions = '' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'stone:' -%}{%- assign stone_tag = tag | remove: 'stone:' | strip -%}{%- endif -%}
+  {%- if tag contains 'chakra:' -%}{%- assign chakra_tag = tag | remove: 'chakra:' | strip -%}{%- endif -%}
+  {%- if tag contains 'intention:' -%}
+    {%- assign intention_val = tag | remove: 'intention:' | strip -%}
+    {%- if intentions == '' -%}
+      {%- assign intentions = intention_val -%}
+    {%- else -%}
+      {%- assign intentions = intentions | append: ',' | append: intention_val -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign intention_list = intentions | split: ',' -%}
+
+{%- comment %} Extract short description (first paragraph) from description {%- endcomment %}
+{%- assign short_desc = product.description | strip_html | truncate: 150, '' -%}
+
+<div class="sl-container">
+  <div class="sl-product-layout">
+    <!-- ── LEFT: Gallery ── -->
+    <div class="sl-product-gallery">
+      <!-- Main image with counter -->
+      <div class="sl-product-main-image" id="sl-main-image-wrap">
+        {%- if product.featured_image != blank -%}
+          <img
+            id="sl-main-product-image"
+            src="{{ product.featured_image | image_url: width: 900 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            loading="eager"
+            width="900"
+          >
+        {%- else -%}
+          <div class="sl-product-img-placeholder">◈</div>
+        {%- endif -%}
+        {%- if product_images.size > 1 -%}
+          <div class="sl-img-counter">
+            <span id="sl-img-current">01</span> / <span>{{ product_images.size | prepend: '00' | slice: -2, 2 }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Thumbnails -->
+      {%- if product_images.size > 1 -%}
+        <div class="sl-product-thumbs">
+          {%- for image in product_images limit: 6 -%}
+            <div
+              class="sl-product-thumb {% if forloop.first %}active{% endif %}"
+              data-src="{{ image | image_url: width: 900 }}"
+              data-index="{{ forloop.index }}"
+            >
+              <img
+                src="{{ image | image_url: width: 200 }}"
+                alt="{{ image.alt | default: product.title | escape }}"
+                loading="lazy"
+                width="200"
+              >
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- ── RIGHT: Details ── -->
+    <div class="sl-product-details" style="min-width:0;overflow:visible;word-break:break-word;">
+      <!-- Breadcrumb -->
+      <nav class="sl-product-breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ routes.collections_url }}/all">Shop All</a>
+        {%- if product.type != blank -%}
+          <span aria-hidden="true">›</span>
+          <a href="{{ routes.collections_url }}/{{ product.type | handleize }}">{{ product.type }}</a>
+        {%- endif -%}
+      </nav>
+
+      <!-- Eyebrow -->
+      {%- if stone_tag != '' -%}
+        <span class="sl-eyebrow">{{ stone_tag }}</span>
+      {%- elsif product.type != blank -%}
+        <span class="sl-eyebrow">{{ product.type }}</span>
+      {%- endif -%}
+
+      <!-- Title -->
+      <h1 class="sl-product-title">{{ product.title }}</h1>
+
+      <!-- Price -->
+      <div class="sl-product-price-block" id="sl-price-block">
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="sl-original-price">{{ current_variant.compare_at_price | money_without_trailing_zeros }}</span>
+        {%- endif -%}
+        <span class="sl-sale-price">{{ current_variant.price | money_without_trailing_zeros }}</span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          {%- assign savings = current_variant.compare_at_price | minus: current_variant.price -%}
+          {%- assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price -%}
+          <span class="sl-savings-badge">Save {{ savings_pct }}%</span>
+        {%- endif -%}
+      </div>
+      <div class="sl-price-divider"></div>
+
+      <!-- Product Form -->
+      {%- form 'product', product, id: 'sl-product-form', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" id="sl-variant-id">
+
+        <!-- Intention Picker (from product tags: intention:Love, intention:Protection etc.) -->
+        {%- if intention_list.size > 0 and intention_list[0] != '' -%}
+          <div class="sl-intention-picker" style="margin-bottom: 20px;">
+            <div class="sl-option-label-row">
+              <span class="sl-option-label">Set Your Intention</span>
+              <span class="sl-intention-selected" id="sl-intention-label">{{ intention_list[0] }}</span>
+            </div>
+            <div class="sl-intention-options">
+              {%- for intention in intention_list -%}
+                {%- assign intent_lower = intention | downcase | strip -%}
+                {%- assign intent_icon = '◈' -%}
+                {%- if intent_lower == 'love' -%}{%- assign intent_icon = '♡' -%}{%- endif -%}
+                {%- if intent_lower == 'protection' -%}{%- assign intent_icon = '◇' -%}{%- endif -%}
+                {%- if intent_lower == 'abundance' -%}{%- assign intent_icon = '✦' -%}{%- endif -%}
+                {%- if intent_lower == 'calm' or intent_lower == 'peace' -%}
+                  {%- assign intent_icon = '○' -%}
+                {%- endif -%}
+                {%- if intent_lower == 'healing' -%}{%- assign intent_icon = '⊹' -%}{%- endif -%}
+                {%- if intent_lower == 'balance' -%}{%- assign intent_icon = '◈' -%}{%- endif -%}
+                {%- if intent_lower == 'energy' -%}{%- assign intent_icon = '△' -%}{%- endif -%}
+                <button
+                  type="button"
+                  class="sl-intention-option {% if forloop.first %}active{% endif %}"
+                  data-intention="{{ intention | strip | escape }}"
+                >
+                  <span class="sl-intention-icon">{{ intent_icon }}</span>
+                  <span class="sl-intention-name">{{ intention | strip }}</span>
+                </button>
+              {%- endfor -%}
+            </div>
+            <input
+              type="hidden"
+              name="properties[Intention]"
+              id="sl-intention-input"
+              value="{{ intention_list[0] | strip }}"
+            >
+          </div>
+        {%- endif -%}
+
+        <!-- Variant Options (size etc.) -->
+        {%- unless product.has_only_default_variant -%}
+          <div class="sl-product-options">
+            {%- for option in product.options_with_values -%}
+              <div style="margin-bottom: 20px;">
+                <span class="sl-option-label">{{ option.name }}</span>
+                <div class="sl-option-swatch-group">
+                  {%- for value in option.values -%}
+                    <div
+                      class="sl-option-swatch {% if option.selected_value == value %}active{% endif %}"
+                      data-option-index="{{ forloop.parentloop.index0 }}"
+                      data-value="{{ value | escape }}"
+                    >
+                      {{ value }}
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        <!-- Quantity + ATC inline row -->
+        <div class="sl-qty-atc-row">
+          <div class="sl-cart-qty">
+            <button type="button" data-action="minus" aria-label="Decrease">−</button>
+            <input type="number" name="quantity" id="sl-quantity" value="1" min="1" aria-label="Quantity">
+            <button type="button" data-action="plus" aria-label="Increase">+</button>
+          </div>
+          {%- if current_variant.available -%}
+            <button type="submit" name="add" class="sl-add-to-cart sl-atc-full" id="sl-main-atc">
+              Add to Cart — {{ current_variant.price | money_without_trailing_zeros }}
+            </button>
+          {%- else -%}
+            <button type="button" disabled class="sl-add-to-cart sl-atc-full sl-btn--disabled" id="sl-main-atc">
+              Sold Out
+            </button>
+          {%- endif -%}
+        </div>
+
+        <!-- BIN -->
+        {%- if current_variant.available -%}
+          <div class="sl-dynamic-checkout" style="margin-top: 12px;">
+            {{ form | payment_button }}
+          </div>
+        {%- endif -%}
+
+        <!-- Wishlist injects here -->
+      {%- endform -%}
+
+      <!-- Trust Badges — inline row -->
+      <div class="sl-trust-badges-row">
+        <div class="sl-trust-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          {{ settings.trust_badge_1 | default: '100% Authentic' }}
+        </div>
+        <div class="sl-trust-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+          {{ settings.trust_badge_2 | default: 'Free Ship ₹1499+' }}
+        </div>
+        <div class="sl-trust-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          {{ settings.trust_badge_3 | default: '7-Day Returns' }}
+        </div>
+      </div>
+
+      <!-- Accordions -->
+      <div class="sl-product-accordions">
+        <!-- Description -->
+        <div class="sl-accordion">
+          <button class="sl-accordion-trigger" aria-expanded="true" data-target="acc-desc">
+            <span>Description</span>
+            <span class="sl-accordion-icon">−</span>
+          </button>
+          <div class="sl-accordion-body is-open" id="acc-desc">
+            <div class="sl-product-description">{{ product.description }}</div>
+          </div>
+        </div>
+
+        <!-- Additional Info -->
+        {%- if product.vendor != blank
+          or product.type != blank
+          or stone_tag != ''
+          or chakra_tag != ''
+          or intention_tag != ''
+        -%}
+          <div class="sl-accordion">
+            <button class="sl-accordion-trigger" aria-expanded="false" data-target="acc-info">
+              <span>Additional Information</span>
+              <span class="sl-accordion-icon">+</span>
+            </button>
+            <div class="sl-accordion-body" id="acc-info">
+              <div class="sl-product-meta">
+                {%- if product.vendor != blank -%}
+                  <div class="sl-product-meta-item"
+                    ><strong>Brand</strong><span>{{ product.vendor }}</span></div
+                  >
+                {%- endif -%}
+                {%- if product.type != blank -%}
+                  <div class="sl-product-meta-item"
+                    ><strong>Type</strong><span>{{ product.type }}</span></div
+                  >
+                {%- endif -%}
+                {%- if stone_tag != '' -%}
+                  <div class="sl-product-meta-item"
+                    ><strong>Crystal</strong><span>{{ stone_tag }}</span></div
+                  >
+                {%- endif -%}
+                {%- if chakra_tag != '' -%}
+                  <div class="sl-product-meta-item"
+                    ><strong>Chakra</strong><span>{{ chakra_tag }}</span></div
+                  >
+                {%- endif -%}
+                {%- if intentions != '' -%}
+                  <div class="sl-product-meta-item"
+                    ><strong>Intentions</strong><span>{{ intentions | replace: ',', ', ' }}</span></div
+                  >
+                {%- endif -%}
+                <div class="sl-product-meta-item"
+                  ><strong>SKU</strong><span>{{ current_variant.sku | default: 'N/A' }}</span></div
+                >
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Crystal Care -->
+        <div class="sl-accordion">
+          <button class="sl-accordion-trigger" aria-expanded="false" data-target="acc-care">
+            <span>Crystal Care</span>
+            <span class="sl-accordion-icon">+</span>
+          </button>
+          <div class="sl-accordion-body" id="acc-care">
+            <ul class="sl-crystal-care-list">
+              <li>{{ settings.crystal_care_1 | default: 'Cleanse monthly under moonlight or with sage' }}</li>
+              <li>{{ settings.crystal_care_2 | default: 'Avoid prolonged direct sunlight' }}</li>
+              <li>{{ settings.crystal_care_3 | default: 'Set your intention before wearing' }}</li>
+              <li>{{ settings.crystal_care_4 | default: 'Store separately to prevent scratches' }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Related Products ── -->
+{%- assign related_collection = collections[product.type | handleize] -%}
+{%- if related_collection != blank and related_collection.products.size > 1 -%}
+  <section class="sl-section" style="padding-top: 0;">
+    <div class="sl-container">
+      <div class="sl-section-header">
+        <span class="sl-eyebrow">You May Also Like</span>
+        <h2 class="sl-section-title">Related <em>Pieces</em></h2>
+        <div class="sl-divider"></div>
+      </div>
+      <div class="sl-product-grid">
+        {%- for related in related_collection.products limit: 4 -%}
+          {%- unless related.id == product.id -%}
+            <div class="sl-product-card sl-product-card--featured">
+              <a href="{{ related.url }}" class="sl-product-image-wrapper sl-product-image-wrapper--square">
+                {%- if related.featured_image != blank -%}
+                  <img
+                    src="{{ related.featured_image | image_url: width: 600 }}"
+                    alt="{{ related.featured_image.alt | escape }}"
+                    loading="lazy"
+                    width="600"
+                  >
+                {%- else -%}
+                  <div class="sl-product-placeholder"></div>
+                {%- endif -%}
+                <div class="sl-product-hover-overlay">
+                  <span class="sl-btn-primary sl-btn--sm">View Product</span>
+                </div>
+              </a>
+              <div class="sl-product-info sl-product-info--featured">
+                {%- if related.type != blank -%}
+                  <div class="sl-product-stone">{{ related.type }}</div>
+                {%- endif -%}
+                <a href="{{ related.url }}" class="sl-product-name-link">
+                  <h3 class="sl-product-name">{{ related.title }}</h3>
+                </a>
+                <div class="sl-product-price-row">
+                  <div class="sl-product-price">
+                    {%- if related.compare_at_price > related.price -%}
+                      <span class="sl-original-price">
+                        {{- related.compare_at_price | money_without_trailing_zeros -}}
+                      </span>
+                    {%- endif -%}
+                    <span class="sl-sale-price">{{ related.price | money_without_trailing_zeros }}</span>
+                  </div>
+                  {%- if related.available -%}
+                    <form action="{{ routes.cart_add_url }}" method="post" class="sl-atc-form">
+                      <input type="hidden" name="id" value="{{ related.selected_or_first_available_variant.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="sl-atc-btn">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+                        </svg>
+                        Add to Cart
+                      </button>
+                    </form>
+                  {%- else -%}
+                    <span class="sl-sold-out-label">Sold Out</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<!-- ── Sticky ATC Bar ── -->
+<div class="sl-sticky-atc" id="sl-sticky-atc">
+  <div class="sl-sticky-atc-inner">
+    <div class="sl-sticky-atc-info">
+      <span class="sl-sticky-atc-title">{{ product.title }}</span>
+      <span class="sl-sticky-atc-price" id="sl-sticky-price">
+        {{- current_variant.price | money_without_trailing_zeros -}}
+      </span>
+    </div>
+    {%- if current_variant.available -%}
+      <button type="button" class="sl-sticky-atc-btn" id="sl-sticky-atc-btn">Add to Cart</button>
+    {%- else -%}
+      <button type="button" class="sl-sticky-atc-btn sl-btn--disabled" id="sl-sticky-atc-btn" disabled>Sold Out</button>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  /* ── Layout ── */
+  .sl-product-layout {
+    display: grid;
+    grid-template-columns: 45fr 55fr;
+    gap: 56px;
+    padding: 40px 0 100px;
+    align-items: start;
+  }
+  .sl-product-gallery {
+    position: sticky;
+    top: calc(var(--header-height, 100px) + 16px);
+    align-self: start;
+  }
+  .sl-product-main-image {
+    position: relative;
+    width: 100%;
+    max-height: calc(100vh - var(--header-height, 100px) - 140px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+  }
+  .sl-product-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .sl-product-main-image:hover img {
+    transform: scale(1.03);
+  }
+  .sl-product-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: rgba(240, 234, 224, 0.06);
+    background: var(--bg-card);
+  }
+  .sl-img-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    background: rgba(8, 7, 6, 0.7);
+    padding: 4px 10px;
+  }
+  .sl-product-thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .sl-product-thumb {
+    width: calc(16.66% - 7px);
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+    opacity: 0.55;
+  }
+  .sl-product-thumb.active,
+  .sl-product-thumb:hover {
+    border-color: var(--rose);
+    opacity: 1;
+  }
+  .sl-product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Right column ── */
+  .sl-product-breadcrumb {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .sl-product-breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .sl-product-breadcrumb a:hover {
+    color: var(--rose-light);
+  }
+
+  .sl-product-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 1.4vw, 22px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 10px 0 16px;
+    color: var(--text);
+  }
+
+  .sl-product-price-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .sl-product-price-block .sl-sale-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--rose-light);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .sl-product-price-block .sl-original-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text-faint);
+    text-decoration: line-through;
+    letter-spacing: 1px;
+  }
+  .sl-price-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--rose-dark);
+    margin: 12px 0 20px;
+  }
+  .sl-savings-badge {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: var(--rose-dark);
+    color: var(--text);
+    padding: 4px 10px;
+  }
+
+  .sl-product-short-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin: 0 0 4px;
+  }
+
+  /* ── Intention Picker ── */
+  .sl-option-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .sl-intention-selected {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--rose-light);
+  }
+  .sl-intention-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sl-intention-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    min-width: 64px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .sl-intention-option:hover {
+    border-color: var(--rose-dark);
+  }
+  .sl-intention-option.active {
+    border-color: var(--rose);
+    background: rgba(196, 136, 122, 0.06);
+  }
+  .sl-intention-icon {
+    font-size: 16px;
+    color: var(--rose-light);
+  }
+  .sl-intention-name {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .sl-intention-option.active .sl-intention-name {
+    color: var(--rose-light);
+  }
+
+  /* ── Variant swatches ── */
+  .sl-option-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .sl-option-swatch-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sl-option-swatch {
+    padding: 10px 20px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    min-width: 60px;
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sl-option-swatch:hover {
+    border-color: var(--rose-dark);
+    color: var(--text);
+  }
+  .sl-option-swatch.active {
+    border-color: var(--rose);
+    color: var(--text);
+  }
+
+  /* ── Qty + ATC inline ── */
+  .sl-qty-atc-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 0;
+    height: 52px;
+  }
+  .sl-cart-qty {
+    height: 52px;
+  }
+  .sl-add-to-cart.sl-atc-full {
+    height: 52px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sl-cart-qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+  }
+  .sl-cart-qty button {
+    width: 44px;
+    height: 100%;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    transition: background 0.2s;
+  }
+  .sl-cart-qty button:hover {
+    background: var(--rose-dark);
+    color: var(--text);
+  }
+  .sl-cart-qty input {
+    width: 44px;
+    text-align: center;
+    background: none;
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    padding: 0;
+  }
+  .sl-cart-qty input::-webkit-outer-spin-button,
+  .sl-cart-qty input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  .sl-add-to-cart.sl-atc-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    padding: 0 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--rose-dark);
+    color: var(--rose-light);
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .sl-add-to-cart.sl-atc-full:hover:not(:disabled) {
+    background: var(--rose-dark);
+    color: var(--text);
+  }
+  .sl-btn--disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+  }
+
+  /* BIN */
+  .sl-dynamic-checkout .shopify-payment-button {
+    margin: 0;
+  }
+  .sl-dynamic-checkout .shopify-payment-button__button--unbranded {
+    background: var(--rose) !important;
+    border: 1px solid var(--rose) !important;
+    color: #080706 !important;
+    border-radius: 0 !important;
+    font-family: 'Jost', sans-serif !important;
+    letter-spacing: 2.5px !important;
+    font-size: 11px !important;
+    padding: 16px !important;
+    text-transform: uppercase !important;
+    transition: background 0.25s ease !important;
+    width: 100% !important;
+  }
+  .sl-dynamic-checkout .shopify-payment-button__button--unbranded:hover {
+    background: var(--rose-dark) !important;
+    border-color: var(--rose-dark) !important;
+    color: var(--text) !important;
+  }
+  .sl-dynamic-checkout .shopify-payment-button__button--branded {
+    border-radius: 0 !important;
+    min-height: 52px !important;
+  }
+
+  /* ── Trust badges inline ── */
+  .sl-trust-badges-row {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+  .sl-trust-badges-row .sl-trust-badge {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 8px;
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+  }
+  .sl-trust-badges-row .sl-trust-badge:last-child {
+    border-right: none;
+  }
+  .sl-trust-badges-row .sl-trust-badge svg {
+    color: var(--rose);
+  }
+
+  /* ── Accordions ── */
+  .sl-product-accordions {
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .sl-accordion {
+    border-bottom: 1px solid var(--border);
+  }
+  .sl-accordion-trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    text-align: left;
+    transition: color 0.2s;
+  }
+  .sl-accordion-trigger:hover {
+    color: var(--rose-light);
+  }
+  .sl-accordion-icon {
+    font-size: 18px;
+    color: var(--rose);
+    font-weight: 300;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .sl-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding-bottom: 0;
+  }
+  .sl-accordion-body.is-open {
+    max-height: 1200px;
+    padding-bottom: 20px;
+  }
+
+  /* Description inside accordion */
+  .sl-product-description {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .sl-product-description h1,
+  .sl-product-description h2,
+  .sl-product-description h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text);
+    font-size: 18px;
+    margin: 16px 0 8px;
+  }
+  .sl-product-description ul {
+    padding-left: 18px;
+  }
+  .sl-product-description li {
+    margin-bottom: 6px;
+  }
+  .sl-product-description strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* Meta inside accordion */
+  .sl-product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sl-product-meta-item {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+  }
+  .sl-product-meta-item strong {
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 10px;
+    min-width: 80px;
+  }
+  .sl-product-meta-item span {
+    color: var(--text);
+  }
+
+  /* Crystal care inside accordion */
+  .sl-crystal-care-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .sl-crystal-care-list li {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+  .sl-crystal-care-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--rose-dark);
+  }
+
+  /* ── Sticky ATC bar ── */
+  .sl-sticky-atc {
+    position: fixed;
+    bottom: -80px;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    z-index: 900;
+    transition: bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+  }
+  .sl-sticky-atc.is-visible {
+    bottom: 0;
+  }
+  .sl-sticky-atc-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .sl-sticky-atc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .sl-sticky-atc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sl-sticky-atc-price {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: var(--rose-light);
+  }
+  .sl-sticky-atc-btn {
+    flex-shrink: 0;
+    padding: 13px 28px;
+    background: var(--rose);
+    border: 1px solid var(--rose);
+    color: #080706;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    white-space: nowrap;
+  }
+  .sl-sticky-atc-btn:hover:not(:disabled) {
+    background: var(--rose-dark);
+    border-color: var(--rose-dark);
+    color: var(--text);
+  }
+  .sl-sticky-atc-btn.is-added {
+    background: var(--rose-dark);
+    color: var(--text);
+  }
+
+  /* Push wishlist up when sticky visible */
+  body.sl-sticky-visible .wishlist-hero--floating-launcher,
+  body.sl-sticky-visible [id*='wishlist-hero-floating'],
+  body.sl-sticky-visible [class*='floating-launcher'] {
+    bottom: 70px !important;
+    transition: bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .sl-product-layout {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 20px 0 80px;
+    }
+    .sl-product-gallery {
+      position: static;
+    }
+    .sl-product-main-image {
+      aspect-ratio: 4/3;
+      max-height: none;
+    }
+    .sl-product-title {
+      font-size: clamp(18px, 5vw, 24px);
+    }
+    .sl-product-price-block .sl-sale-price {
+      font-size: 30px;
+    }
+    yousaid: like thos? .sl-qty-atc-row {
+      grid-template-columns: auto 1fr;
+    }
+    .sl-sticky-atc {
+      padding: 12px 16px;
+    }
+    .sl-sticky-atc-title {
+      font-size: 12px;
+    }
+    .sl-sticky-atc-btn {
+      padding: 12px 16px;
+      font-size: 10px;
+    }
+    .sl-trust-badges-row .sl-trust-badge {
+      font-size: 9px;
+      padding: 10px 4px;
+    }
+    .sl-product-thumb {
+      width: calc(20% - 7px);
+    }
+  }
+</style>
+
+<script>
+  (function(){
+    var productData = {{ product.variants | json }};
+    var swatches    = document.querySelectorAll('.sl-option-swatch');
+    var priceBlock  = document.getElementById('sl-price-block');
+    var variantIdEl = document.getElementById('sl-variant-id');
+    var addBtn      = document.getElementById('sl-main-atc');
+    var stickyBar   = document.getElementById('sl-sticky-atc');
+    var stickyBtn   = document.getElementById('sl-sticky-atc-btn');
+    var stickyPrice = document.getElementById('sl-sticky-price');
+    var mainForm    = document.getElementById('sl-product-form');
+    var thumbs      = document.querySelectorAll('.sl-product-thumb');
+    var mainImg     = document.getElementById('sl-main-product-image');
+    var imgCurrent  = document.getElementById('sl-img-current');
+
+    function formatPrice(cents) {
+      return '₹' + Math.round(cents / 100).toLocaleString('en-IN');
+    }
+
+    function updateUI(variant) {
+      if (!variant) return;
+      variantIdEl.value = variant.id;
+      var price = formatPrice(variant.price);
+      var comp  = variant.compare_at_price;
+      if (comp > variant.price) {
+        var pct = Math.round((comp - variant.price) / comp * 100);
+        priceBlock.innerHTML =
+          '<span class="sl-original-price">' + formatPrice(comp) + '</span>' +
+          '<span class="sl-sale-price">' + price + '</span>' +
+          '<span class="sl-savings-badge">Save ' + pct + '%</span>';
+      } else {
+        priceBlock.innerHTML = '<span class="sl-sale-price">' + price + '</span>';
+      }
+      if (addBtn) {
+        addBtn.textContent = variant.available ? 'Add to Cart — ' + price : 'Sold Out';
+        addBtn.disabled = !variant.available;
+        addBtn.classList.toggle('sl-btn--disabled', !variant.available);
+      }
+      if (stickyPrice) stickyPrice.textContent = price;
+      if (stickyBtn) {
+        stickyBtn.textContent = variant.available ? 'Add to Cart' : 'Sold Out';
+        stickyBtn.disabled = !variant.available;
+        stickyBtn.classList.toggle('sl-btn--disabled', !variant.available);
+      }
+    }
+
+    function getSelectedOptions() {
+      var opts = {};
+      swatches.forEach(function(sw) {
+        if (sw.classList.contains('active')) opts[sw.getAttribute('data-option-index')] = sw.getAttribute('data-value');
+      });
+      return opts;
+    }
+
+    /* ── Variant switcher ── */
+    swatches.forEach(function(sw) {
+      sw.addEventListener('click', function() {
+        var idx = sw.getAttribute('data-option-index');
+        document.querySelectorAll('[data-option-index="' + idx + '"]').forEach(function(s) { s.classList.remove('active'); });
+        sw.classList.add('active');
+        var variant = productData.find(function(v) {
+          return v.options.every(function(opt, i) { return getSelectedOptions()[i] === opt; });
+        });
+        updateUI(variant);
+      });
+    });
+
+    /* ── Thumbnail switcher ── */
+    thumbs.forEach(function(thumb) {
+      thumb.addEventListener('click', function() {
+        thumbs.forEach(function(t) { t.classList.remove('active'); });
+        thumb.classList.add('active');
+        var src = thumb.getAttribute('data-src');
+        if (src && mainImg) mainImg.src = src;
+        if (imgCurrent) {
+          var idx = thumb.getAttribute('data-index') || '1';
+          imgCurrent.textContent = idx.toString().padStart(2, '0');
+        }
+      });
+    });
+
+    /* ── Intention picker ── */
+    document.querySelectorAll('.sl-intention-option').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.sl-intention-option').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var intention = btn.getAttribute('data-intention');
+        var input = document.getElementById('sl-intention-input');
+        var label = document.getElementById('sl-intention-label');
+        if (input) input.value = intention;
+        if (label) label.textContent = intention;
+      });
+    });
+
+    /* ── Accordion ── */
+    document.querySelectorAll('.sl-accordion-trigger').forEach(function(trigger) {
+      trigger.addEventListener('click', function() {
+        var targetId = trigger.getAttribute('data-target');
+        var body = document.getElementById(targetId);
+        var icon = trigger.querySelector('.sl-accordion-icon');
+        var isOpen = body.classList.contains('is-open');
+        body.classList.toggle('is-open', !isOpen);
+        trigger.setAttribute('aria-expanded', !isOpen);
+        if (icon) icon.textContent = isOpen ? '+' : '−';
+      });
+    });
+
+    /* ── Sticky bar scroll ── */
+    if (stickyBar && addBtn) {
+      function checkSticky() {
+        var rect = addBtn.getBoundingClientRect();
+        var off  = rect.bottom < 0 || rect.top > window.innerHeight;
+        stickyBar.classList.toggle('is-visible', off);
+        document.body.classList.toggle('sl-sticky-visible', off);
+      }
+      window.addEventListener('scroll', checkSticky, { passive: true });
+      checkSticky();
+    }
+
+    /* ── Qty buttons ── */
+    document.querySelectorAll('.sl-cart-qty:not([data-cart-handled])').forEach(function(widget) {
+      var input = widget.querySelector('input');
+      widget.querySelectorAll('button').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var delta = btn.getAttribute('data-action') === 'minus' ? -1 : 1;
+          input.value = Math.max(1, (parseInt(input.value, 10) || 1) + delta);
+        });
+      });
+    });
+
+    /* ── Sticky ATC click ── */
+    if (stickyBtn && mainForm) {
+      stickyBtn.addEventListener('click', function() {
+        if (stickyBtn.disabled) return;
+        stickyBtn.textContent = 'Adding...';
+        stickyBtn.disabled = true;
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(mainForm))
+        })
+        .then(function(r) { return r.json(); })
+        .then(function() {
+          stickyBtn.textContent = '✓ Added!';
+          stickyBtn.classList.add('is-added');
+          fetch('/cart.js').then(function(r) { return r.json(); }).then(function(cart) {
+            document.querySelectorAll('.sl-cart-count').forEach(function(b) {
+              b.textContent = cart.item_count;
+              b.style.display = cart.item_count > 0 ? 'flex' : 'none';
+            });
+          });
+          setTimeout(function() {
+            stickyBtn.textContent = 'View Cart';
+            stickyBtn.classList.remove('is-added');
+            stickyBtn.disabled = false;
+            stickyBtn.onclick = function() { window.location.href = '/cart'; };
+          }, 1500);
+        })
+        .catch(function() {
+          stickyBtn.textContent = 'Add to Cart';
+          stickyBtn.disabled = false;
+        });
+      });
+    }
+  })();
+</script>

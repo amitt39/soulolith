@@ -1,0 +1,39 @@
+{% comment %} Soulolith — Customer Register {% endcomment %}
+<section class="sl-section" style="padding-top:60px;min-height:70vh;display:flex;align-items:center;">
+  <div class="sl-container" style="max-width:480px;">
+    <div class="sl-section-header">
+      <span class="sl-eyebrow">Join the Community</span>
+      <h1 class="sl-section-title">Create <em>Account</em></h1>
+      <div class="sl-divider"></div>
+    </div>
+    {%- form 'create_customer' -%}
+      {%- if form.errors -%}
+        <div style="color:var(--rose-dark);font-size:12px;margin-bottom:20px;">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="sl-contact-form">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="sl-form-group">
+            <label class="sl-form-label" for="RegisterFirstName">First Name</label>
+            <input class="sl-form-input" type="text" name="customer[first_name]" id="RegisterFirstName" autocomplete="given-name" placeholder="First name">
+          </div>
+          <div class="sl-form-group">
+            <label class="sl-form-label" for="RegisterLastName">Last Name</label>
+            <input class="sl-form-input" type="text" name="customer[last_name]" id="RegisterLastName" autocomplete="family-name" placeholder="Last name">
+          </div>
+        </div>
+        <div class="sl-form-group">
+          <label class="sl-form-label" for="RegisterEmail">Email</label>
+          <input class="sl-form-input" type="email" name="customer[email]" id="RegisterEmail" autocomplete="email" autocorrect="off" autocapitalize="off" placeholder="you@email.com">
+        </div>
+        <div class="sl-form-group">
+          <label class="sl-form-label" for="RegisterPassword">Password</label>
+          <input class="sl-form-input" type="password" name="customer[password]" id="RegisterPassword" autocomplete="new-password" placeholder="Min. 5 characters">
+        </div>
+        <button type="submit" class="sl-btn-primary" style="align-self:flex-start;">Create Account</button>
+      </div>
+    {%- endform -%}
+    <div style="margin-top:24px;">
+      <a href="{{ routes.account_login_url }}" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-faint);">Already have an account? Sign In →</a>
+    </div>
+  </div>
+</section>

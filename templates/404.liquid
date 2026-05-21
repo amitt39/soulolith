@@ -1,0 +1,21 @@
+{% comment %}
+  Soulolith — 404 Not Found
+  File: templates/404.liquid
+{% endcomment %}
+
+<section class="sl-section" style="min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+  <div class="sl-container">
+    <div style="font-size:80px;color:rgba(240,234,224,0.06);margin-bottom:24px;">◈</div>
+    <span class="sl-eyebrow" style="margin-bottom:16px;">404 — Page Not Found</span>
+    <h1 style="font-size:clamp(36px,6vw,72px);font-weight:300;margin-bottom:16px;">
+      Lost in the <em>Cosmos</em>
+    </h1>
+    <p style="color:var(--text-muted);font-size:14px;max-width:400px;margin:0 auto 40px;line-height:1.7;">
+      The page you are looking for has drifted away. Let us guide you back.
+    </p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="{{ routes.root_url }}" class="sl-btn-primary">Back to Home</a>
+      <a href="{{ routes.collections_url }}/all" class="sl-btn-outline">Shop All</a>
+    </div>
+  </div>
+</section>

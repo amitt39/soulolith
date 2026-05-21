@@ -1,0 +1,264 @@
+{% comment %}
+  Soulolith — Collection / Shop Page
+  Clean layout — no sidebar filters, full-width grid
+{% endcomment %}
+
+{%- assign banner_image = collection.image -%}
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+
+<!-- Shop Hero Banner -->
+<section class="sl-shop-hero"
+  {% if banner_image != blank %}
+    style="background-image: linear-gradient(rgba(8,7,6,0.65), rgba(8,7,6,0.65)), url('{{ banner_image | image_url: width: 1920 }}'); background-size: cover; background-position: center; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;"
+  {% endif %}>
+  <div class="sl-container">
+    <span class="sl-eyebrow">
+      {%- if collection.handle == 'all' -%}Browse Everything
+      {%- else -%}{{ collection.title }}{%- endif -%}
+    </span>
+    <h1>
+      {%- if collection.handle == 'all' -%}Shop <em>All</em>
+      {%- else -%}{{ collection.title }}{%- endif -%}
+    </h1>
+    {%- if collection.description != blank -%}
+      <p class="sl-collection-desc">{{ collection.description }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<div class="sl-container">
+
+  <!-- Category Quick Links (only on Shop All page) -->
+  {%- if collection.handle == 'all' -%}
+    <div class="sl-quick-filters">
+      <a href="/collections/all" class="sl-quick-filter sl-quick-filter--active">All</a>
+      <a href="/collections/raw-stones" class="sl-quick-filter">Raw Stones</a>
+      <a href="/collections/tumble-stones" class="sl-quick-filter">Tumble Stones</a>
+      <a href="/collections/pyramids" class="sl-quick-filter">Pyramids</a>
+      <a href="/collections/spheres" class="sl-quick-filter">Spheres</a>
+      <a href="/collections/towers-pencils" class="sl-quick-filter">Towers</a>
+      <a href="/collections/crystal-trees" class="sl-quick-filter">Crystal Trees</a>
+      <a href="/collections/selenite" class="sl-quick-filter">Selenite</a>
+      <a href="/collections/bracelets" class="sl-quick-filter">Bracelets</a>
+      <a href="/collections/7-chakra" class="sl-quick-filter">7 Chakra</a>
+    </div>
+  {%- endif -%}
+
+  <!-- Top Bar -->
+  <div class="sl-shop-top">
+    <span class="sl-product-count">{{ collection.products_count }} product{%- if collection.products_count != 1 -%}s{%- endif -%}</span>
+    <select class="sl-sort-select" onchange="window.location.href=window.location.pathname+'?sort_by='+this.value">
+      <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
+      <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+      <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+      <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+      <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+    </select>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="sl-product-grid-full">
+    {%- paginate collection.products by 16 -%}
+      {%- for product in collection.products -%}
+
+        <div class="sl-product-card sl-product-card--featured">
+          <a href="{{ product.url }}" class="sl-product-image-wrapper sl-product-image-wrapper--square" aria-label="{{ product.title }}">
+            {%- if product.featured_image != blank -%}
+              <img src="{{ product.featured_image | image_url: width: 600 }}"
+                   alt="{{ product.featured_image.alt | escape }}"
+                   loading="lazy" width="600">
+            {%- else -%}
+              <div class="sl-product-placeholder"></div>
+            {%- endif -%}
+            {%- if product.tags contains 'badge:New' -%}
+              <div class="sl-product-badge">New</div>
+            {%- elsif product.tags contains 'badge:Bestseller' -%}
+              <div class="sl-product-badge">Bestseller</div>
+            {%- endif -%}
+            <div class="sl-product-hover-overlay">
+              <span class="sl-btn-primary sl-btn--sm">View Product</span>
+            </div>
+          </a>
+          <div class="sl-product-info sl-product-info--featured">
+            {%- if product.type != blank -%}
+              <div class="sl-product-stone">{{ product.type }}</div>
+            {%- endif -%}
+            <a href="{{ product.url }}" class="sl-product-name-link">
+              <h3 class="sl-product-name">{{ product.title }}</h3>
+            </a>
+            <div class="sl-product-price-row">
+              <div class="sl-product-price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="sl-original-price">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                {%- endif -%}
+                <span class="sl-sale-price">{{ product.price | money_without_trailing_zeros }}</span>
+              </div>
+              {%- if product.available -%}
+                <form action="{{ routes.cart_add_url }}" method="post" class="sl-atc-form">
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="sl-atc-btn" aria-label="Add {{ product.title }} to cart">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Add to Cart
+                  </button>
+                </form>
+              {%- else -%}
+                <span class="sl-sold-out-label">Sold Out</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+
+      {%- else -%}
+        <div class="sl-empty-collection">
+          <p class="sl-empty-icon">◈</p>
+          <p class="sl-empty-text">No products found</p>
+          <a href="/collections/all" class="sl-btn-outline">Shop All</a>
+        </div>
+      {%- endfor -%}
+
+      {%- if paginate.pages > 1 -%}
+        <div class="sl-pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+
+</div>
+
+<!-- ═══ STYLES ═══ -->
+<style>
+  .sl-collection-desc {
+    color: var(--text-muted, #a09888);
+    max-width: 480px;
+    margin: 16px auto 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .sl-quick-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 0 10px;
+  }
+  .sl-quick-filter {
+    padding: 8px 18px;
+    border: 1px solid rgba(240,234,224,0.1);
+    border-radius: 30px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted, #a09888);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .sl-quick-filter:hover {
+    border-color: var(--rose, #c4887a);
+    color: var(--rose, #c4887a);
+  }
+  .sl-quick-filter--active {
+    background: var(--rose, #c4887a);
+    border-color: var(--rose, #c4887a);
+    color: var(--bg, #080706);
+  }
+
+  .sl-shop-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0 16px;
+    border-bottom: 1px solid rgba(240,234,224,0.06);
+  }
+  .sl-product-count {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted, #a09888);
+  }
+  .sl-sort-select {
+    background: rgba(240,234,224,0.04);
+    border: 1px solid rgba(240,234,224,0.1);
+    color: var(--text, #f0eae0);
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    padding: 8px 28px 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a09888' fill='none' stroke-width='1.2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  .sl-sort-select option {
+    background: #1a1614;
+    color: var(--text, #f0eae0);
+  }
+
+  .sl-product-grid-full {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding-bottom: 80px;
+  }
+
+  .sl-empty-collection {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 0;
+    color: var(--text-muted, #a09888);
+  }
+  .sl-empty-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  .sl-empty-text {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .sl-pagination {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .sl-pagination a, .sl-pagination span {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 0 4px;
+    color: var(--text-muted, #a09888);
+    text-decoration: none;
+    border: 1px solid rgba(240,234,224,0.08);
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .sl-pagination a:hover {
+    border-color: var(--rose, #c4887a);
+    color: var(--rose, #c4887a);
+  }
+  .sl-pagination span.current {
+    background: var(--rose, #c4887a);
+    border-color: var(--rose, #c4887a);
+    color: var(--bg, #080706);
+  }
+
+  @media (max-width: 1024px) {
+    .sl-product-grid-full { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  }
+  @media (max-width: 768px) {
+    .sl-product-grid-full { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .sl-quick-filters { padding: 24px 0 0; gap: 6px; }
+    .sl-quick-filter { padding: 6px 14px; font-size: 11px; }
+  }
+</style>

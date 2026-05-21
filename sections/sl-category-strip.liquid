@@ -1,0 +1,98 @@
+{% comment %}
+  Soulolith — Category Strip
+  File: sections/sl-category-strip.liquid
+  Fully customizable via Theme Customizer — add/remove/edit categories
+{% endcomment %}
+
+{% comment %}
+
+<section class="sl-category-strip">
+  <div class="sl-container">
+    <div class="sl-category-strip-inner">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.url | default: routes.collections_url }}" class="sl-category-item" {{ block.shopify_attributes }}>
+          <div class="sl-category-icon">{{ block.settings.icon | default: '◈' }}</div>
+          <span class="sl-category-label">{{ block.settings.label | default: 'Category' }}</span>
+        </a>
+      {%- else -%}
+        <a href="{{ routes.collections_url }}/bracelets" class="sl-category-item">
+          <div class="sl-category-icon">○</div>
+          <span class="sl-category-label">Bracelets</span>
+        </a>
+        <a href="{{ routes.collections_url }}/raw-stones" class="sl-category-item">
+          <div class="sl-category-icon">⬡</div>
+          <span class="sl-category-label">Raw Crystals</span>
+        </a>
+        <a href="{{ routes.collections_url }}/pyramids" class="sl-category-item">
+          <div class="sl-category-icon">△</div>
+          <span class="sl-category-label">Pyramids</span>
+        </a>
+        <a href="{{ routes.collections_url }}/spheres" class="sl-category-item">
+          <div class="sl-category-icon">◎</div>
+          <span class="sl-category-label">Spheres</span>
+        </a>
+        <a href="{{ routes.collections_url }}/crystal-trees" class="sl-category-item">
+          <div class="sl-category-icon">✦</div>
+          <span class="sl-category-label">Trees</span>
+        </a>
+        <a href="{{ routes.collections_url }}/7-chakra" class="sl-category-item">
+          <div class="sl-category-icon">◈</div>
+          <span class="sl-category-label">7 Chakra</span>
+        </a>
+        <a href="{{ routes.collections_url }}/crystals-decor" class="sl-category-item">
+          <div class="sl-category-icon">⊹</div>
+          <span class="sl-category-label">All Décor</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SL Category Strip",
+  "tag": "div",
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (symbol/emoji)",
+          "default": "◈",
+          "info": "Use any symbol: ○ ⬡ △ ◎ ✦ ◈ ⊹ ♡ ◇"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Category Label",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SL Category Strip",
+      "blocks": [
+        { "type": "category", "settings": { "icon": "○", "label": "Bracelets" } },
+        { "type": "category", "settings": { "icon": "⬡", "label": "Raw Crystals" } },
+        { "type": "category", "settings": { "icon": "△", "label": "Pyramids" } },
+        { "type": "category", "settings": { "icon": "◎", "label": "Spheres" } },
+        { "type": "category", "settings": { "icon": "✦", "label": "Trees" } },
+        { "type": "category", "settings": { "icon": "◈", "label": "7 Chakra" } },
+        { "type": "category", "settings": { "icon": "⊹", "label": "All Décor" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% endcomment %}
