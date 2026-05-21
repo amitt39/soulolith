@@ -35,44 +35,44 @@
 {%- comment %} Extract short description (first paragraph) from description {%- endcomment %}
 {%- assign short_desc = product.description | strip_html | truncate: 150, '' -%}
 
-<div class="sl-container">
-  <div class="sl-product-layout">
+<div class='sl-container'>
+  <div class='sl-product-layout'>
     <!-- ── LEFT: Gallery ── -->
-    <div class="sl-product-gallery">
+    <div class='sl-product-gallery'>
       <!-- Main image with counter -->
-      <div class="sl-product-main-image" id="sl-main-image-wrap">
+      <div class='sl-product-main-image' id='sl-main-image-wrap'>
         {%- if product.featured_image != blank -%}
           <img
-            id="sl-main-product-image"
-            src="{{ product.featured_image | image_url: width: 900 }}"
-            alt="{{ product.featured_image.alt | escape }}"
-            loading="eager"
-            width="900"
+            id='sl-main-product-image'
+            src='{{ product.featured_image | image_url: width: 900 }}'
+            alt='{{ product.featured_image.alt | escape }}'
+            loading='eager'
+            width='900'
           >
         {%- else -%}
-          <div class="sl-product-img-placeholder">◈</div>
+          <div class='sl-product-img-placeholder'>◈</div>
         {%- endif -%}
         {%- if product_images.size > 1 -%}
-          <div class="sl-img-counter">
-            <span id="sl-img-current">01</span> / <span>{{ product_images.size | prepend: '00' | slice: -2, 2 }}</span>
+          <div class='sl-img-counter'>
+            <span id='sl-img-current'>01</span> / <span>{{ product_images.size | prepend: '00' | slice: -2, 2 }}</span>
           </div>
         {%- endif -%}
       </div>
 
       <!-- Thumbnails -->
       {%- if product_images.size > 1 -%}
-        <div class="sl-product-thumbs">
+        <div class='sl-product-thumbs'>
           {%- for image in product_images limit: 6 -%}
             <div
-              class="sl-product-thumb {% if forloop.first %}active{% endif %}"
-              data-src="{{ image | image_url: width: 900 }}"
-              data-index="{{ forloop.index }}"
+              class='sl-product-thumb {% if forloop.first %}active{% endif %}'
+              data-src='{{ image | image_url: width: 900 }}'
+              data-index='{{ forloop.index }}'
             >
               <img
-                src="{{ image | image_url: width: 200 }}"
-                alt="{{ image.alt | default: product.title | escape }}"
-                loading="lazy"
-                width="200"
+                src='{{ image | image_url: width: 200 }}'
+                alt='{{ image.alt | default: product.title | escape }}'
+                loading='lazy'
+                width='200'
               >
             </div>
           {%- endfor -%}
@@ -81,52 +81,52 @@
     </div>
 
     <!-- ── RIGHT: Details ── -->
-    <div class="sl-product-details" style="min-width:0;overflow:visible;word-break:break-word;">
+    <div class='sl-product-details' style='min-width:0;overflow:visible;word-break:break-word;'>
       <!-- Breadcrumb -->
-      <nav class="sl-product-breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ routes.collections_url }}/all">Shop All</a>
+      <nav class='sl-product-breadcrumb' aria-label='Breadcrumb'>
+        <a href='{{ routes.collections_url }}/all'>Shop All</a>
         {%- if product.type != blank -%}
-          <span aria-hidden="true">›</span>
-          <a href="{{ routes.collections_url }}/{{ product.type | handleize }}">{{ product.type }}</a>
+          <span aria-hidden='true'>›</span>
+          <a href='{{ routes.collections_url }}/{{ product.type | handleize }}'>{{ product.type }}</a>
         {%- endif -%}
       </nav>
 
       <!-- Eyebrow -->
       {%- if stone_tag != '' -%}
-        <span class="sl-eyebrow">{{ stone_tag }}</span>
+        <span class='sl-eyebrow'>{{ stone_tag }}</span>
       {%- elsif product.type != blank -%}
-        <span class="sl-eyebrow">{{ product.type }}</span>
+        <span class='sl-eyebrow'>{{ product.type }}</span>
       {%- endif -%}
 
       <!-- Title -->
-      <h1 class="sl-product-title">{{ product.title }}</h1>
+      <h1 class='sl-product-title'>{{ product.title }}</h1>
 
       <!-- Price -->
-      <div class="sl-product-price-block" id="sl-price-block">
+      <div class='sl-product-price-block' id='sl-price-block'>
         {%- if current_variant.compare_at_price > current_variant.price -%}
-          <span class="sl-original-price">{{ current_variant.compare_at_price | money_without_trailing_zeros }}</span>
+          <span class='sl-original-price'>{{ current_variant.compare_at_price | money_without_trailing_zeros }}</span>
         {%- endif -%}
-        <span class="sl-sale-price">{{ current_variant.price | money_without_trailing_zeros }}</span>
+        <span class='sl-sale-price'>{{ current_variant.price | money_without_trailing_zeros }}</span>
         {%- if current_variant.compare_at_price > current_variant.price -%}
           {%- assign savings = current_variant.compare_at_price | minus: current_variant.price -%}
           {%- assign savings_pct = savings | times: 100 | divided_by: current_variant.compare_at_price -%}
-          <span class="sl-savings-badge">Save {{ savings_pct }}%</span>
+          <span class='sl-savings-badge'>Save {{ savings_pct }}%</span>
         {%- endif -%}
       </div>
-      <div class="sl-price-divider"></div>
+      <div class='sl-price-divider'></div>
 
       <!-- Product Form -->
       {%- form 'product', product, id: 'sl-product-form', novalidate: 'novalidate' -%}
-        <input type="hidden" name="id" value="{{ current_variant.id }}" id="sl-variant-id">
+        <input type='hidden' name='id' value='{{ current_variant.id }}' id='sl-variant-id'>
 
         <!-- Intention Picker (from product tags: intention:Love, intention:Protection etc.) -->
         {%- if intention_list.size > 0 and intention_list[0] != '' -%}
-          <div class="sl-intention-picker" style="margin-bottom: 20px;">
-            <div class="sl-option-label-row">
-              <span class="sl-option-label">Set Your Intention</span>
-              <span class="sl-intention-selected" id="sl-intention-label">{{ intention_list[0] }}</span>
+          <div class='sl-intention-picker' style='margin-bottom: 20px;'>
+            <div class='sl-option-label-row'>
+              <span class='sl-option-label'>Set Your Intention</span>
+              <span class='sl-intention-selected' id='sl-intention-label'>{{ intention_list[0] }}</span>
             </div>
-            <div class="sl-intention-options">
+            <div class='sl-intention-options'>
               {%- for intention in intention_list -%}
                 {%- assign intent_lower = intention | downcase | strip -%}
                 {%- assign intent_icon = '◈' -%}
@@ -140,36 +140,36 @@
                 {%- if intent_lower == 'balance' -%}{%- assign intent_icon = '◈' -%}{%- endif -%}
                 {%- if intent_lower == 'energy' -%}{%- assign intent_icon = '△' -%}{%- endif -%}
                 <button
-                  type="button"
-                  class="sl-intention-option {% if forloop.first %}active{% endif %}"
-                  data-intention="{{ intention | strip | escape }}"
+                  type='button'
+                  class='sl-intention-option {% if forloop.first %}active{% endif %}'
+                  data-intention='{{ intention | strip | escape }}'
                 >
-                  <span class="sl-intention-icon">{{ intent_icon }}</span>
-                  <span class="sl-intention-name">{{ intention | strip }}</span>
+                  <span class='sl-intention-icon'>{{ intent_icon }}</span>
+                  <span class='sl-intention-name'>{{ intention | strip }}</span>
                 </button>
               {%- endfor -%}
             </div>
             <input
-              type="hidden"
-              name="properties[Intention]"
-              id="sl-intention-input"
-              value="{{ intention_list[0] | strip }}"
+              type='hidden'
+              name='properties[Intention]'
+              id='sl-intention-input'
+              value='{{ intention_list[0] | strip }}'
             >
           </div>
         {%- endif -%}
 
         <!-- Variant Options (size etc.) -->
         {%- unless product.has_only_default_variant -%}
-          <div class="sl-product-options">
+          <div class='sl-product-options'>
             {%- for option in product.options_with_values -%}
-              <div style="margin-bottom: 20px;">
-                <span class="sl-option-label">{{ option.name }}</span>
-                <div class="sl-option-swatch-group">
+              <div style='margin-bottom: 20px;'>
+                <span class='sl-option-label'>{{ option.name }}</span>
+                <div class='sl-option-swatch-group'>
                   {%- for value in option.values -%}
                     <div
-                      class="sl-option-swatch {% if option.selected_value == value %}active{% endif %}"
-                      data-option-index="{{ forloop.parentloop.index0 }}"
-                      data-value="{{ value | escape }}"
+                      class='sl-option-swatch {% if option.selected_value == value %}active{% endif %}'
+                      data-option-index='{{ forloop.parentloop.index0 }}'
+                      data-value='{{ value | escape }}'
                     >
                       {{ value }}
                     </div>
@@ -181,18 +181,18 @@
         {%- endunless -%}
 
         <!-- Quantity + ATC inline row -->
-        <div class="sl-qty-atc-row">
-          <div class="sl-cart-qty">
-            <button type="button" data-action="minus" aria-label="Decrease">−</button>
-            <input type="number" name="quantity" id="sl-quantity" value="1" min="1" aria-label="Quantity">
-            <button type="button" data-action="plus" aria-label="Increase">+</button>
+        <div class='sl-qty-atc-row'>
+          <div class='sl-cart-qty'>
+            <button type='button' data-action='minus' aria-label='Decrease'>−</button>
+            <input type='number' name='quantity' id='sl-quantity' value='1' min='1' aria-label='Quantity'>
+            <button type='button' data-action='plus' aria-label='Increase'>+</button>
           </div>
           {%- if current_variant.available -%}
-            <button type="submit" name="add" class="sl-add-to-cart sl-atc-full" id="sl-main-atc">
+            <button type='submit' name='add' class='sl-add-to-cart sl-atc-full' id='sl-main-atc'>
               Add to Cart — {{ current_variant.price | money_without_trailing_zeros }}
             </button>
           {%- else -%}
-            <button type="button" disabled class="sl-add-to-cart sl-atc-full sl-btn--disabled" id="sl-main-atc">
+            <button type='button' disabled class='sl-add-to-cart sl-atc-full sl-btn--disabled' id='sl-main-atc'>
               Sold Out
             </button>
           {%- endif -%}
@@ -200,7 +200,7 @@
 
         <!-- BIN -->
         {%- if current_variant.available -%}
-          <div class="sl-dynamic-checkout" style="margin-top: 12px;">
+          <div class='sl-dynamic-checkout' style='margin-top: 12px;'>
             {{ form | payment_button }}
           </div>
         {%- endif -%}
@@ -209,21 +209,21 @@
       {%- endform -%}
 
       <!-- Trust Badges — inline row -->
-      <div class="sl-trust-badges-row">
-        <div class="sl-trust-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <div class='sl-trust-badges-row'>
+        <div class='sl-trust-badge'>
+          <svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'>
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
           {{ settings.trust_badge_1 | default: '100% Authentic' }}
         </div>
-        <div class="sl-trust-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class='sl-trust-badge'>
+          <svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'>
             <rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
           </svg>
           {{ settings.trust_badge_2 | default: 'Free Ship ₹1499+' }}
         </div>
-        <div class="sl-trust-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class='sl-trust-badge'>
+          <svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'>
             <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
           </svg>
           {{ settings.trust_badge_3 | default: '7-Day Returns' }}
@@ -231,15 +231,15 @@
       </div>
 
       <!-- Accordions -->
-      <div class="sl-product-accordions">
+      <div class='sl-product-accordions'>
         <!-- Description -->
-        <div class="sl-accordion">
-          <button class="sl-accordion-trigger" aria-expanded="true" data-target="acc-desc">
+        <div class='sl-accordion'>
+          <button class='sl-accordion-trigger' aria-expanded='true' data-target='acc-desc'>
             <span>Description</span>
-            <span class="sl-accordion-icon">−</span>
+            <span class='sl-accordion-icon'>−</span>
           </button>
-          <div class="sl-accordion-body is-open" id="acc-desc">
-            <div class="sl-product-description">{{ product.description }}</div>
+          <div class='sl-accordion-body is-open' id='acc-desc'>
+            <div class='sl-product-description'>{{ product.description }}</div>
           </div>
         </div>
 
@@ -250,54 +250,54 @@
           or chakra_tag != ''
           or intention_tag != ''
         -%}
-          <div class="sl-accordion">
-            <button class="sl-accordion-trigger" aria-expanded="false" data-target="acc-info">
+          <div class='sl-accordion'>
+            <button class='sl-accordion-trigger' aria-expanded='false' data-target='acc-info'>
               <span>Additional Information</span>
-              <span class="sl-accordion-icon">+</span>
+              <span class='sl-accordion-icon'>+</span>
             </button>
-            <div class="sl-accordion-body" id="acc-info">
-              <div class="sl-product-meta">
+            <div class='sl-accordion-body' id='acc-info'>
+              <div class='sl-product-meta'>
                 {%- if product.vendor != blank -%}
-                  <div class="sl-product-meta-item"
-                    ><strong>Brand</strong><span>{{ product.vendor }}</span></div
-                  >
+                  <div class='sl-product-meta-item'>
+                    <strong>Brand</strong><span>{{ product.vendor }}</span>
+                  </div>
                 {%- endif -%}
                 {%- if product.type != blank -%}
-                  <div class="sl-product-meta-item"
-                    ><strong>Type</strong><span>{{ product.type }}</span></div
-                  >
+                  <div class='sl-product-meta-item'>
+                    <strong>Type</strong><span>{{ product.type }}</span>
+                  </div>
                 {%- endif -%}
                 {%- if stone_tag != '' -%}
-                  <div class="sl-product-meta-item"
-                    ><strong>Crystal</strong><span>{{ stone_tag }}</span></div
-                  >
+                  <div class='sl-product-meta-item'>
+                    <strong>Crystal</strong><span>{{ stone_tag }}</span>
+                  </div>
                 {%- endif -%}
                 {%- if chakra_tag != '' -%}
-                  <div class="sl-product-meta-item"
-                    ><strong>Chakra</strong><span>{{ chakra_tag }}</span></div
-                  >
+                  <div class='sl-product-meta-item'>
+                    <strong>Chakra</strong><span>{{ chakra_tag }}</span>
+                  </div>
                 {%- endif -%}
                 {%- if intentions != '' -%}
-                  <div class="sl-product-meta-item"
-                    ><strong>Intentions</strong><span>{{ intentions | replace: ',', ', ' }}</span></div
-                  >
+                  <div class='sl-product-meta-item'>
+                    <strong>Intentions</strong><span>{{ intentions | replace: ',', ', ' }}</span>
+                  </div>
                 {%- endif -%}
-                <div class="sl-product-meta-item"
-                  ><strong>SKU</strong><span>{{ current_variant.sku | default: 'N/A' }}</span></div
-                >
+                <div class='sl-product-meta-item'>
+                  <strong>SKU</strong><span>{{ current_variant.sku | default: 'N/A' }}</span>
+                </div>
               </div>
             </div>
           </div>
         {%- endif -%}
 
         <!-- Crystal Care -->
-        <div class="sl-accordion">
-          <button class="sl-accordion-trigger" aria-expanded="false" data-target="acc-care">
+        <div class='sl-accordion'>
+          <button class='sl-accordion-trigger' aria-expanded='false' data-target='acc-care'>
             <span>Crystal Care</span>
-            <span class="sl-accordion-icon">+</span>
+            <span class='sl-accordion-icon'>+</span>
           </button>
-          <div class="sl-accordion-body" id="acc-care">
-            <ul class="sl-crystal-care-list">
+          <div class='sl-accordion-body' id='acc-care'>
+            <ul class='sl-crystal-care-list'>
               <li>{{ settings.crystal_care_1 | default: 'Cleanse monthly under moonlight or with sage' }}</li>
               <li>{{ settings.crystal_care_2 | default: 'Avoid prolonged direct sunlight' }}</li>
               <li>{{ settings.crystal_care_3 | default: 'Set your intention before wearing' }}</li>
@@ -313,62 +313,62 @@
 <!-- ── Related Products ── -->
 {%- assign related_collection = collections[product.type | handleize] -%}
 {%- if related_collection != blank and related_collection.products.size > 1 -%}
-  <section class="sl-section" style="padding-top: 0;">
-    <div class="sl-container">
-      <div class="sl-section-header">
-        <span class="sl-eyebrow">You May Also Like</span>
-        <h2 class="sl-section-title">Related <em>Pieces</em></h2>
-        <div class="sl-divider"></div>
+  <section class='sl-section' style='padding-top: 0;'>
+    <div class='sl-container'>
+      <div class='sl-section-header'>
+        <span class='sl-eyebrow'>You May Also Like</span>
+        <h2 class='sl-section-title'>Related <em>Pieces</em></h2>
+        <div class='sl-divider'></div>
       </div>
-      <div class="sl-product-grid">
+      <div class='sl-product-grid'>
         {%- for related in related_collection.products limit: 4 -%}
           {%- unless related.id == product.id -%}
-            <div class="sl-product-card sl-product-card--featured">
-              <a href="{{ related.url }}" class="sl-product-image-wrapper sl-product-image-wrapper--square">
+            <div class='sl-product-card sl-product-card--featured'>
+              <a href='{{ related.url }}' class='sl-product-image-wrapper sl-product-image-wrapper--square'>
                 {%- if related.featured_image != blank -%}
                   <img
-                    src="{{ related.featured_image | image_url: width: 600 }}"
-                    alt="{{ related.featured_image.alt | escape }}"
-                    loading="lazy"
-                    width="600"
+                    src='{{ related.featured_image | image_url: width: 600 }}'
+                    alt='{{ related.featured_image.alt | escape }}'
+                    loading='lazy'
+                    width='600'
                   >
                 {%- else -%}
-                  <div class="sl-product-placeholder"></div>
+                  <div class='sl-product-placeholder'></div>
                 {%- endif -%}
-                <div class="sl-product-hover-overlay">
-                  <span class="sl-btn-primary sl-btn--sm">View Product</span>
+                <div class='sl-product-hover-overlay'>
+                  <span class='sl-btn-primary sl-btn--sm'>View Product</span>
                 </div>
               </a>
-              <div class="sl-product-info sl-product-info--featured">
+              <div class='sl-product-info sl-product-info--featured'>
                 {%- if related.type != blank -%}
-                  <div class="sl-product-stone">{{ related.type }}</div>
+                  <div class='sl-product-stone'>{{ related.type }}</div>
                 {%- endif -%}
-                <a href="{{ related.url }}" class="sl-product-name-link">
-                  <h3 class="sl-product-name">{{ related.title }}</h3>
+                <a href='{{ related.url }}' class='sl-product-name-link'>
+                  <h3 class='sl-product-name'>{{ related.title }}</h3>
                 </a>
-                <div class="sl-product-price-row">
-                  <div class="sl-product-price">
+                <div class='sl-product-price-row'>
+                  <div class='sl-product-price'>
                     {%- if related.compare_at_price > related.price -%}
-                      <span class="sl-original-price">
+                      <span class='sl-original-price'>
                         {{- related.compare_at_price | money_without_trailing_zeros -}}
                       </span>
                     {%- endif -%}
-                    <span class="sl-sale-price">{{ related.price | money_without_trailing_zeros }}</span>
+                    <span class='sl-sale-price'>{{ related.price | money_without_trailing_zeros }}</span>
                   </div>
                   {%- if related.available -%}
-                    <form action="{{ routes.cart_add_url }}" method="post" class="sl-atc-form">
-                      <input type="hidden" name="id" value="{{ related.selected_or_first_available_variant.id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="sl-atc-btn">
+                    <form action='{{ routes.cart_add_url }}' method='post' class='sl-atc-form'>
+                      <input type='hidden' name='id' value='{{ related.selected_or_first_available_variant.id }}'>
+                      <input type='hidden' name='quantity' value='1'>
+                      <button type='submit' class='sl-atc-btn'>
                         <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.8"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          width='14'
+                          height='14'
+                          viewBox='0 0 24 24'
+                          fill='none'
+                          stroke='currentColor'
+                          stroke-width='1.8'
+                          stroke-linecap='round'
+                          stroke-linejoin='round'
                         >
                           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
                         </svg>
@@ -376,7 +376,7 @@
                       </button>
                     </form>
                   {%- else -%}
-                    <span class="sl-sold-out-label">Sold Out</span>
+                    <span class='sl-sold-out-label'>Sold Out</span>
                   {%- endif -%}
                 </div>
               </div>
@@ -389,18 +389,18 @@
 {%- endif -%}
 
 <!-- ── Sticky ATC Bar ── -->
-<div class="sl-sticky-atc" id="sl-sticky-atc">
-  <div class="sl-sticky-atc-inner">
-    <div class="sl-sticky-atc-info">
-      <span class="sl-sticky-atc-title">{{ product.title }}</span>
-      <span class="sl-sticky-atc-price" id="sl-sticky-price">
+<div class='sl-sticky-atc' id='sl-sticky-atc'>
+  <div class='sl-sticky-atc-inner'>
+    <div class='sl-sticky-atc-info'>
+      <span class='sl-sticky-atc-title'>{{ product.title }}</span>
+      <span class='sl-sticky-atc-price' id='sl-sticky-price'>
         {{- current_variant.price | money_without_trailing_zeros -}}
       </span>
     </div>
     {%- if current_variant.available -%}
-      <button type="button" class="sl-sticky-atc-btn" id="sl-sticky-atc-btn">Add to Cart</button>
+      <button type='button' class='sl-sticky-atc-btn' id='sl-sticky-atc-btn'>Add to Cart</button>
     {%- else -%}
-      <button type="button" class="sl-sticky-atc-btn sl-btn--disabled" id="sl-sticky-atc-btn" disabled>Sold Out</button>
+      <button type='button' class='sl-sticky-atc-btn sl-btn--disabled' id='sl-sticky-atc-btn' disabled>Sold Out</button>
     {%- endif -%}
   </div>
 </div>
