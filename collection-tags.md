@@ -1,458 +1,181 @@
-# Soulolith Collection Taxonomy Mapping
-
-## 7 Chakra Crystals
-- TAG = chakra-all
-
-## Agate Crystals
-- TAG = crystal-agate
-
-## Amazonite Crystals
-- TAG = crystal-amazonite
-
-## Amethyst Crystals
-- TAG = crystal-amethyst
-
-## Animal Crystal Decor
-- TAG = decor-animal
-
-## Anniversary Gifts
-- TAG = gift-anniversary
-
-## Anti-Radiation Chip
-- TAG = intent-protection-tech
-
-## Aventurine Crystals
-- TAG = crystal-aventurine
-
-## Bestsellers
-- MANUAL
-
-## Bird Crystal Decor
-- TAG = decor-bird
-
----
-
-## Birthday Gifts
-- TAG = gift-birthday
-
-## Black Rutile Crystals
-- TAG = crystal-black-rutile
-
-## Black Tourmaline Crystals
-- TAG = crystal-black-tourmaline
-
-## Blue Agate Crystals
-- TAG = crystal-blue-agate
-
-## Brass Crystal Items
-- TAG = material-brass
-
-## Bronzite Crystals
-- TAG = crystal-bronzite
-
-## Buddha Crystal Decor
-- TAG = decor-buddha
-
-## Buddha Statues
-- TAG = decor-buddha-statue
-
-## Calcite Crystals
-- TAG = crystal-calcite
-
-## Camphor Dani
-- TAG = decor-camphor-dani
-
----
-
-## Chrysocolla Crystals
-- TAG = crystal-chrysocolla
-
-## Citrine Crystals
-- TAG = crystal-citrine
-
-## Clear Quartz Crystals
-- TAG = crystal-clear-quartz
-
-## Copper Crystals
-- TAG = material-copper
-
-## Corporate Gifts
-- TAG = gift-corporate
-
-## Crystal Anklets
-- TAG = type-anklet
-
-## Crystal Bracelets
-- TAG = type-bracelet
-
-## Crystal Clusters
-- TAG = decor-cluster
-
-## Crystal Earrings
-- TAG = type-earring
-
-## Crystal Face Tools
-- TAG = type-face-tool
-
----
-
-## Crystal Idols (home-decor-idols)
-- TAG = decor-crystal-idol
-
-## Crystal Idols (category-idols)
-- TAG = decor-idol
-
-## Crystal Kada
-- TAG = type-kada
-
-## Crystal Massage Roller
-- TAG = type-massage-roller
-
-## Crystal Necklaces
-- TAG = type-necklace
-
-## Crystal Pendants
-- TAG = type-pendant
-
-## Crystal Pendulum
-- TAG = type-pendulum
-
-## Crystal Pyramid
-- TAG = decor-pyramid
-
-## Crystal Pyramids
-- TAG = decor-crystal-pyramid
-
-## Crystal Rings
-- TAG = type-ring
-
----
-
-## Crystal Showpieces
-- TAG = decor-showpiece
-
-## Crystal Spheres & Balls
-- TAG = decor-sphere
-
-## Crystal Toran
-- TAG = decor-toran
-
-## Crystal Tortoise (home-decor-tortoise)
-- TAG = decor-crystal-tortoise
-
-## Crystal Tortoise (category-tortoise)
-- TAG = decor-tortoise
-
-## Crystal Towers
-- TAG = decor-tower
-
-## Crystal Trees
-- TAG = decor-tree
-
-## Crystal Windchimes
-- TAG = decor-windchime
-
-## Crystals for Abundance
-- TAG = meaning-abundance
-
-## Crystals for Anger
-- TAG = meaning-anger
-
----
-
-## Crystals for Anxiety
-- TAG = meaning-anxiety
-
-## Crystals for Calm
-- TAG = meaning-calm
-
-## Crystals for Communication Skills
-- TAG = meaning-communication-skills
-
-## Crystals for Concentration
-- TAG = meaning-concentration
-
-## Crystals for Confidence
-- TAG = meaning-confidence
-
-## Crystals for Courage
-- TAG = meaning-courage
-
-## Crystals for Creativity
-- TAG = meaning-creativity
-
-## Crystals for Depression
-- TAG = meaning-depression
-
-## Crystals for Education
-- TAG = meaning-education
-
-## Crystals for Focus
-- TAG = meaning-focus
-
----
-
-## Crystals for Fortune
-- TAG = meaning-fortune
-
-## Crystals for Good Luck
-- TAG = meaning-good-luck
-
-## Crystals for Growth
-- TAG = meaning-growth
-
-## Crystals for Happiness
-- TAG = meaning-happiness
-
-## Crystals for Healing
-- TAG = meaning-healing
-
-## Crystals for Health
-- TAG = meaning-health
-
-## Crystals for Joy
-- TAG = meaning-joy
-
-## Crystals for Love
-- TAG = meaning-love
-
-## Crystals for Luck
-- TAG = meaning-luck
-
-## Crystals for Meditation
-- TAG = meaning-meditation
-
----
-
-## Crystals for Money
-- TAG = meaning-money
-
-## Crystals for Motivation
-- TAG = meaning-motivation
-
-## Crystals for Negativity
-- TAG = meaning-negativity
-
-## Crystals for Opportunity
-- TAG = meaning-opportunity
-
-## Crystals for Peace
-- TAG = meaning-peace
-
-## Crystals for Positivity
-- TAG = meaning-positivity
-
-## Crystals for Power
-- TAG = meaning-power
-
-## Crystals for Pregnancy
-- TAG = meaning-pregnancy
-
-## Crystals for Progress
-- TAG = meaning-progress
-
-## Crystals for Prosperity
-- TAG = meaning-prosperity
-
----
-
-## Crystals for Protection
-- TAG = meaning-protection
-
-## Crystals for Stability
-- TAG = meaning-stability
-
-## Crystals for Strength
-- TAG = meaning-strength
-
-## Crystals for Success
-- TAG = meaning-success
-
-## Crystals for Wealth
-- TAG = meaning-wealth
-
-## Crystals for Will Power
-- TAG = meaning-will-power
-
-## Crystals for Wisdom
-- TAG = meaning-wisdom
-
-## Customized Bracelets
-- TAG = type-customized-bracelet
-
-## Dream Catchers
-- TAG = decor-dream-catcher
-
-## Evil Eye Crystals
-- TAG = crystal-evil-eye
-
----
-
-## Evil Eye Products
-- TAG = intent-evil-eye
-
-## Finance Stones
-- TAG = meaning-finance
-
-## Firoza Crystals
-- TAG = crystal-firoza
-
-## Flower Carnelian Crystals
-- TAG = crystal-flower-carnelian
-
-## Fluorite Crystals
-- TAG = crystal-fluorite
-
-## Ganesha Idols
-- TAG = decor-ganesha
-
-## Geodes & Crystal Caves
-- TAG = decor-geode
-
-## Gifts for Her
-- TAG = gift-for-her
-
-## Gifts for Him
-- TAG = gift-for-him
-
-## Gomati Chakra
-- TAG = spiritual-gomati-chakra
-
----
-
-## Gomti Chakra Crystals
-- TAG = crystal-gomti-chakra
-
-## Green Aventurine Crystals
-- TAG = crystal-green-aventurine
-
-## Green Jade Crystals
-- TAG = crystal-green-jade
-
-## Gua Sha
-- TAG = type-gua-sha
-
-## Hematite Crystals
-- TAG = crystal-hematite
-
-## Howlite Crystals
-- TAG = crystal-howlite
-
-## Intention Bracelets
-- TAG = type-intention-bracelet
-
-## Jaap Mala
-- TAG = spiritual-jaap-mala
-
-## Jasper Dalmatian Crystals
-- TAG = crystal-jasper-dalmatian
-
-## Kambaba Jasper Crystals
-- TAG = crystal-kambaba-jasper
-
----
-
-## Labradorite Crystals
-- TAG = crystal-labradorite
-
-## Lapis Lazuli Crystals
-- TAG = crystal-lapis-lazuli
-
-## Lava Crystals
-- TAG = crystal-lava
-
-## Moonstone Crystals
-- TAG = crystal-moonstone
-
-## Mother Of Pearl Crystals
-- TAG = crystal-mother-of-pearl
-
-## Onyx Crystals
-- TAG = crystal-onyx
-
-## Opalite Crystals
-- TAG = crystal-opalite
-
-## Palm Stones
-- TAG = type-palm-stone
-
-## Peridot Crystals
-- TAG = crystal-peridot
-
-## Picture Jasper Crystals
-- TAG = crystal-picture-jasper
-
----
-
-## Pooja Articles
-- TAG = spiritual-pooja-article
-
-## Prehnite Crystals
-- TAG = crystal-prehnite
-
-## Pyrite Crystals
-- TAG = crystal-pyrite
-
-## Red Carnelian Crystals
-- TAG = crystal-red-carnelian
-
-## Red Jasper Crystals
-- TAG = crystal-red-jasper
-
-## Red Tiger Eye Crystals
-- TAG = crystal-red-tiger-eye
-
-## Rhodochrosite Crystals
-- TAG = crystal-rhodochrosite
-
-## Rhodonite Crystals
-- TAG = crystal-rhodonite
-
-## Rose Quartz Crystals
-- TAG = crystal-rose-quartz
-
-## Rudraksh Crystals
-- TAG = crystal-rudraksh
-
----
-
-## Salt Lamps
-- TAG = decor-salt-lamp
-
-## Selenite Crystals
-- TAG = crystal-selenite
-
-## Serpentine Crystals
-- TAG = crystal-serpentine
-
-## Shivling
-- TAG = spiritual-shivling
-
-## Shree Yantra
-- TAG = spiritual-shree-yantra
-
-## Shungite Crystals
-- TAG = crystal-shungite
-
-## Silver Jewellery
-- TAG = material-silver
-
-## Smokey Quartz Crystals
-- TAG = crystal-smokey-quartz
-
-## Sodalite Crystals
-- TAG = crystal-sodalite
-
-## Sulemani Crystals
-- TAG = crystal-sulemani
-
----
-
-## Switch Word Cards
-- TAG = spiritual-switch-word
-
-## Tiger Eye Crystals
-- TAG = crystal-tiger-eye
-
-## Tumble Stones
-- TAG = type-tumble-stone
+# Soulolith Collection Rules Mapping
+
+## Crystal Collections
+7 Chakra Crystals → chakra-all
+Agate Crystals → crystal-agate
+Amazonite Crystals → crystal-amazonite
+Amethyst Crystals → crystal-amethyst
+Aquamarine Crystals → crystal-aquamarine
+Aura Quartz Crystals → crystal-aura-quartz
+Aventurine Crystals → crystal-aventurine
+Azurite Crystals → crystal-azurite
+Black Obsidian Crystals → crystal-black-obsidian
+Black Rutile Crystals → crystal-black-rutile
+Black Tourmaline Crystals → crystal-black-tourmaline
+Bloodstone Crystals → crystal-bloodstone
+Blue Agate Crystals → crystal-blue-agate
+Blue K2 Azurite Crystals → crystal-blue-k2-azurite
+Bronzite Crystals → crystal-bronzite
+Calcite Crystals → crystal-calcite
+Chrysocolla Crystals → crystal-chrysocolla
+Citrine Crystals → crystal-citrine
+Clear Quartz Crystals → crystal-clear-quartz
+Firoza Crystals → crystal-firoza
+Flower Carnelian Crystals → crystal-flower-carnelian
+Fluorite Crystals → crystal-fluorite
+Gomti Chakra Crystals → crystal-gomti-chakra
+Green Aventurine Crystals → crystal-green-aventurine
+Green Jade Crystals → crystal-green-jade
+Hematite Crystals → crystal-hematite
+Howlite Crystals → crystal-howlite
+Jasper Dalmatian Crystals → crystal-jasper-dalmatian
+Kambaba Jasper Crystals → crystal-kambaba-jasper
+Labradorite Crystals → crystal-labradorite
+Lapis Lazuli Crystals → crystal-lapis-lazuli
+Lava Crystals → crystal-lava
+Moonstone Crystals → crystal-moonstone
+Mother Of Pearl Crystals → crystal-mother-of-pearl
+Onyx Crystals → crystal-onyx
+Opalite Crystals → crystal-opalite
+Peridot Crystals → crystal-peridot
+Picture Jasper Crystals → crystal-picture-jasper
+Prehnite Crystals → crystal-prehnite
+Pyrite Crystals → crystal-pyrite
+Red Carnelian Crystals → crystal-red-carnelian
+Red Garnet Crystals → crystal-red-garnet
+Red Jasper Crystals → crystal-red-jasper
+Red Tiger Eye Crystals → crystal-red-tiger-eye
+Rhodochrosite Crystals → crystal-rhodochrosite
+Rhodonite Crystals → crystal-rhodonite
+Rose Quartz Crystals → crystal-rose-quartz
+Rudraksh Crystals → crystal-rudraksh
+Selenite Crystals → crystal-selenite
+Serpentine Crystals → crystal-serpentine
+Shungite Crystals → crystal-shungite
+Smoky Quartz Crystals → crystal-smoky-quartz
+Sodalite Crystals → crystal-sodalite
+Sulemani Crystals → crystal-sulemani
+Tiger Eye Crystals → crystal-tiger-eye
+
+## Meaning Collections
+Crystals for Abundance → meaning-abundance
+Crystals for Anger → meaning-anger
+Crystals for Anxiety → meaning-anxiety
+Crystals for Calm → meaning-calm
+Crystals for Clarity → meaning-clarity
+Crystals for Communication Skills → meaning-communication-skills
+Crystals for Concentration → meaning-concentration
+Crystals for Confidence → meaning-confidence
+Crystals for Courage → meaning-courage
+Crystals for Creativity → meaning-creativity
+Crystals for Depression → meaning-depression
+Crystals for Education → meaning-education
+Crystals for Focus → meaning-focus
+Crystals for Fortune → meaning-fortune
+Crystals for Good Luck → meaning-good-luck
+Crystals for Grounding → meaning-grounding
+Crystals for Growth → meaning-growth
+Crystals for Happiness → meaning-happiness
+Crystals for Healing → meaning-healing
+Crystals for Health → meaning-health
+Crystals for Intuition → meaning-intuition
+Crystals for Joy → meaning-joy
+Crystals for Love → meaning-love
+Crystals for Meditation → meaning-meditation
+Crystals for Motivation → meaning-motivation
+Crystals for Negativity → meaning-negativity
+Crystals for Opportunity → meaning-opportunity
+Crystals for Peace → meaning-peace
+Crystals for Positivity → meaning-positivity
+Crystals for Power → meaning-power
+Crystals for Pregnancy → meaning-pregnancy
+Crystals for Progress → meaning-progress
+Crystals for Prosperity → meaning-prosperity
+Crystals for Protection → meaning-protection
+Crystals for Sleep → meaning-sleep
+Crystals for Stability → meaning-stability
+Crystals for Strength → meaning-strength
+Crystals for Success → meaning-success
+Crystals for Wealth → meaning-wealth
+Crystals for Will Power → meaning-will-power
+Crystals for Wisdom → meaning-wisdom
+
+## Type Collections
+Crystal Anklets → type-anklet
+Crystal Bracelets → type-bracelet
+Customized Bracelets → type-customized-bracelet
+Crystal Earrings → type-earring
+Crystal Face Tools → type-face-tool
+Gua Sha → type-gua-sha
+Intention Bracelets → type-intention-bracelet
+Crystal Kada → type-kada
+Crystal Massage Roller → type-massage-roller
+Crystal Necklaces → type-necklace
+Palm Stones → type-palm-stone
+Crystal Pendants → type-pendant
+Crystal Pendulum → type-pendulum
+Crystal Rings → type-ring
+Tumble Stones → type-tumble-stone
+
+## Gift Collections
+Anniversary Gifts → gift-anniversary
+Birthday Gifts → gift-birthday
+Corporate Gifts → gift-corporate
+Gifts for Her → gift-for-her
+Gifts for Him → gift-for-him
+
+## Decor Collections
+Animal Crystal Decor → decor-animal
+Bird Crystal Decor → decor-bird
+Buddha Crystal Decor → decor-buddha
+Buddha Statues → decor-buddha-statue
+Camphor Dani → decor-camphor-dani
+Crystal Clusters → decor-cluster
+Crystal Idols → decor-crystal-idol
+Crystal Pyramids → decor-crystal-pyramid
+Crystal Showpieces → decor-showpiece
+Crystal Spheres & Balls → decor-sphere
+Crystal Toran → decor-toran
+Crystal Tortoise → decor-crystal-tortoise
+Crystal Towers → decor-tower
+Crystal Trees → decor-tree
+Crystal Windchimes → decor-windchime
+Dream Catchers → decor-dream-catcher
+Ganesha Idols → decor-ganesha
+Geodes & Crystal Caves → decor-geode
+Salt Lamps → decor-salt-lamp
+
+## Spiritual Collections
+Gomati Chakra → spiritual-gomati-chakra
+Jaap Mala → spiritual-jaap-mala
+Pooja Articles → spiritual-pooja-article
+Shivling → spiritual-shivling
+Shree Yantra → spiritual-shree-yantra
+Switch Word Cards → spiritual-switch-word
+Om Mani Bracelets → spiritual-om-mani
+
+## Material Collections
+Brass Crystal Items → material-brass
+Copper Crystals → material-copper
+Silver Jewellery → material-silver
+
+## Intent Collections
+Anti-Radiation Chip → intent-protection-tech
+Evil Eye Products → intent-evil-eye
+
+## Zodiac Collections
+Crystals for Aries → zodiac-aries
+Crystals for Taurus → zodiac-taurus
+Crystals for Gemini → zodiac-gemini
+Crystals for Cancer → zodiac-cancer
+Crystals for Leo → zodiac-leo
+Crystals for Virgo → zodiac-virgo
+Crystals for Libra → zodiac-libra
+Crystals for Scorpio → zodiac-scorpio
+Crystals for Sagittarius → zodiac-sagittarius
+Crystals for Capricorn → zodiac-capricorn
+Crystals for Aquarius → zodiac-aquarius
+Crystals for Pisces → zodiac-pisces
+
+## Manual Collections
+Bestsellers → MANUAL
