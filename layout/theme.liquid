@@ -160,6 +160,15 @@
               </button>
             </div>
 
+            <div class='sl-nav-item' data-mega='zodiac'>
+              <button class='sl-nav-link-main sl-nav-trigger' aria-expanded='false' aria-haspopup='true' type='button'>
+                BY ZODIAC
+                <svg class='sl-nav-chevron' width='10' height='6' viewBox='0 0 10 6' fill='none' aria-hidden='true'>
+                  <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
             <div class='sl-nav-item' data-mega='home-decor'>
               <button class='sl-nav-link-main sl-nav-trigger' aria-expanded='false' aria-haspopup='true' type='button'>
                 HOME DECOR
@@ -245,7 +254,17 @@
             </div>
           </div>
         </div>
-
+        <div class='sl-mega-panel' data-panel='zodiac' role='region' aria-label='Browse Zodiac'>
+          <div class='sl-mega-panel-inner'>
+            <div class='sl-mega-flow sl-mega-flow--3'>
+              {%- for link in linklists['nav-by-zodiac'].links -%}
+                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>
+                  {{ link.title }}
+                </a>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
         <div class='sl-mega-panel' data-panel='home-decor' role='region' aria-label='Browse Home Decor'>
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--4'>
@@ -349,6 +368,23 @@
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-by-crystals'].links -%}
                 <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
+
+          <div class='sl-mob-accordion'>
+            <button class='sl-mob-link-main sl-mob-trigger' aria-expanded='false' type='button'>
+              By Zodiac
+              <svg class='sl-mob-chevron' width='12' height='8' viewBox='0 0 10 6' fill='none' aria-hidden='true'>
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div class='sl-mob-panel' hidden>
+              {%- for link in linklists['nav-by-zodiac'].links -%}
+                <a href='{{ link.url }}' class='sl-mob-sub-link'>
+                  {{ link.title }}
+                </a>
               {%- endfor -%}
             </div>
           </div>
