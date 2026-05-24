@@ -3881,22 +3881,19 @@ slider-component,
   max-height: none !important;
 }
 
-
-/* Make the gallery fill the viewport as a flex column */
+/* Product Gallery — bounded height, full image with contain */
 .sl-product-gallery {
   position: sticky;
   top: calc(var(--header-height, 160px) + 16px);
   align-self: start;
-  max-height: calc(100vh - var(--header-height, 160px) - 32px);
-  display: flex;
-  flex-direction: column;
+  max-height: none;
+  display: block;
 }
 
-/* Main image takes remaining space after thumbnails */
 .sl-product-main-image {
-  flex: 1;
-  min-height: 0;           /* ← critical: allows flex child to shrink */
   overflow: hidden !important;
+  width: 100%;
+  height: min(540px, 60vh);   /* fits on screen, no overflow */
   border: 1px solid var(--border);
   background: var(--bg-card);
   margin-bottom: 12px;
@@ -3905,8 +3902,20 @@ slider-component,
 .sl-product-main-image img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain !important;
+  object-fit: contain !important;  /* full image inside the box, no crop */
   display: block;
+}
+
+@media (max-width: 768px) {
+  .sl-product-main-image {
+    height: auto !important;
+    max-height: none !important;
+  }
+  .sl-product-main-image img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
 }
 
 /* ── Product Image: Zoom Lightbox + Swipe ──────────────────── */

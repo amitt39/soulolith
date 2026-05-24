@@ -422,32 +422,38 @@
     padding: 40px 0 100px;
     align-items: start;
   }
+
+  /* Product Gallery — no height constraint, full image visible */
   .sl-product-gallery {
     position: sticky;
-    top: calc(var(--header-height, 100px) + 16px);
+    top: calc(var(--header-height, 160px) + 16px);
     align-self: start;
+    max-height: none;
+    display: block;
   }
+
   .sl-product-main-image {
-    position: relative;
-    width: 100%;
-    max-height: calc(100vh - var(--header-height, 100px) - 140px);
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    background: var(--bg-card);
+    overflow: visible !important;
+    height: auto !important;
     border: 1px solid var(--border);
+    background: var(--bg-card);
+    margin-bottom: 12px;
   }
+
   .sl-product-main-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block;
   }
+
   .sl-product-main-image:hover img {
     transform: scale(1.03);
   }
+
   .sl-product-img-placeholder {
     width: 100%;
-    height: 100%;
+    min-height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -455,6 +461,7 @@
     color: rgba(240, 234, 224, 0.06);
     background: var(--bg-card);
   }
+
   .sl-img-counter {
     position: absolute;
     bottom: 12px;
@@ -466,6 +473,7 @@
     background: rgba(8, 7, 6, 0.7);
     padding: 4px 10px;
   }
+
   .sl-product-thumbs {
     display: flex;
     gap: 8px;
@@ -724,12 +732,10 @@
     background: rgba(196, 136, 122, 0.1) !important;
     border-color: var(--rose) !important;
   }
-  /* When item is wishlisted — fill state */
   .sl-wl-slot .wishlist-hero-custom-button.sl-wl-icon-btn.wlh-added {
     background: rgba(196, 136, 122, 0.15) !important;
     border-color: var(--rose) !important;
   }
-  /* Scale the SVG heart icon */
   .sl-wl-slot .wlh-svg-Icon,
   .sl-wl-slot .wishlist-hero-custom-button svg {
     width: 18px !important;
@@ -737,11 +743,9 @@
     color: var(--rose-light) !important;
     stroke: var(--rose-light) !important;
   }
-  /* Suppress any auto-injected full-size product page wishlist button */
   #wishlist-hero-product-page-button {
     display: none !important;
   }
-  /* ── Hide ALL auto-injected wishlist-hero buttons outside our CTA slot ── */
   .wishlist-hero-custom-button:not(.sl-wl-icon-btn),
   .product-form__item[id*='wishlist'],
   [class*='wishlist-hero'][class*='floating']:not(.sl-wl-icon-btn) {
@@ -751,17 +755,9 @@
     overflow: hidden !important;
     pointer-events: none !important;
   }
+
   .sl-cart-qty {
     height: 52px;
-  }
-  .sl-add-to-cart.sl-atc-full {
-    height: 52px;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .sl-cart-qty {
     display: flex;
     align-items: center;
     border: 1px solid var(--border);
@@ -927,7 +923,6 @@
     padding-bottom: 20px;
   }
 
-  /* Description inside accordion */
   .sl-product-description {
     color: var(--text-muted);
     font-size: 14px;
@@ -952,7 +947,6 @@
     font-weight: 500;
   }
 
-  /* Meta inside accordion */
   .sl-product-meta {
     display: flex;
     flex-direction: column;
@@ -977,7 +971,6 @@
     color: var(--text);
   }
 
-  /* Crystal care inside accordion */
   .sl-crystal-care-list {
     list-style: none;
     padding: 0;
@@ -1068,7 +1061,6 @@
     color: var(--text);
   }
 
-  /* Push wishlist up when sticky visible */
   body.sl-sticky-visible .wishlist-hero--floating-launcher,
   body.sl-sticky-visible [id*='wishlist-hero-floating'],
   body.sl-sticky-visible [class*='floating-launcher'] {
@@ -1086,9 +1078,16 @@
     .sl-product-gallery {
       position: static;
     }
+    /* Mobile: no forced aspect ratio — show full image */
     .sl-product-main-image {
-      aspect-ratio: 4/3;
+      aspect-ratio: unset;
       max-height: none;
+      overflow: visible;
+    }
+    .sl-product-main-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
     }
     .sl-product-title {
       font-size: clamp(18px, 5vw, 24px);
@@ -1123,6 +1122,7 @@
       width: calc(20% - 7px);
     }
   }
+
   #wishlisthero-product-page-button-container {
     display: none !important;
   }
