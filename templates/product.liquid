@@ -39,25 +39,33 @@
   <div class='sl-product-layout'>
     <!-- ── LEFT: Gallery ── -->
     <div class='sl-product-gallery'>
-      <!-- Main image with counter -->
-      <div class='sl-product-main-image' id='sl-main-image-wrap'>
-        {%- if product.featured_image != blank -%}
-          <img
-            id='sl-main-product-image'
-            src='{{ product.featured_image | image_url: width: 900 }}'
-            alt='{{ product.featured_image.alt | escape }}'
-            loading='eager'
-            width='900'
-          >
-        {%- else -%}
-          <div class='sl-product-img-placeholder'>◈</div>
-        {%- endif -%}
-        {%- if product_images.size > 1 -%}
-          <div class='sl-img-counter'>
-            <span id='sl-img-current'>01</span> / <span>{{ product_images.size | prepend: '00' | slice: -2, 2 }}</span>
-          </div>
-        {%- endif -%}
+      <!-- Main image slider -->
+<div class='sl-product-main-image' id='sl-main-image-wrap'>
+
+  <div class='sl-mobile-gallery-track' id='sl-mobile-gallery'>
+    {%- for image in product_images -%}
+      <div
+        class='sl-mobile-gallery-slide'
+        data-index='{{ forloop.index }}'
+      >
+        <img
+          src='{{ image | image_url: width: 900 }}'
+          alt='{{ image.alt | escape }}'
+          loading='{% if forloop.first %}eager{% else %}lazy{% endif %}'
+          width='900'
+        >
       </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if product_images.size > 1 -%}
+    <div class='sl-img-counter'>
+      <span id='sl-img-current'>01</span> /
+      <span>{{ product_images.size | prepend: '00' | slice: -2, 2 }}</span>
+    </div>
+  {%- endif -%}
+
+</div>
 
       <!-- Thumbnails -->
       {%- if product_images.size > 1 -%}
@@ -1121,11 +1129,81 @@
     .sl-product-thumb {
       width: calc(20% - 7px);
     }
+
+    /* ── Mobile Swipe Gallery ── */
+
+    .sl-product-main-image {
+      border: none;
+      background: transparent;
+      margin-bottom: 12px;
+    }
+
+    .sl-mobile-gallery-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      gap: 12px;
+
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .sl-mobile-gallery-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sl-mobile-gallery-slide {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .sl-mobile-gallery-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    /* hide thumbnails on mobile */
+
+    .sl-product-thumbs {
+      display: none;
+    }
+
   }
+
+  @media screen and (max-width: 768px) {
+
+  .sl-product-gallery {
+    padding-bottom: 12px;
+  }
+
+  .sl-product-gallery-counter {
+    position: static !important;
+    display: block;
+    text-align: center;
+    margin: 14px 0 8px;
+  }
+
+  .sl-swipe-hint {
+    position: static !important;
+    display: block;
+    text-align: center;
+    margin: 0 0 24px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+  }
+
+}
+
 
   #wishlisthero-product-page-button-container {
     display: none !important;
   }
+
 </style>
 
 <script>
@@ -1142,6 +1220,7 @@
     var thumbs      = document.querySelectorAll('.sl-product-thumb');
     var mainImg     = document.getElementById('sl-main-product-image');
     var imgCurrent  = document.getElementById('sl-img-current');
+    var mobileGallery = document.getElementById('sl-mobile-gallery');
 
     function formatPrice(cents) {
       return '₹' + Math.round(cents / 100).toLocaleString('en-IN');
@@ -1208,6 +1287,24 @@
         }
       });
     });
+
+    /* ── Mobile swipe counter ── */
+
+if (mobileGallery && imgCurrent) {
+
+  mobileGallery.addEventListener('scroll', function() {
+
+    var slides = mobileGallery.querySelectorAll('.sl-mobile-gallery-slide');
+
+    var slideWidth = slides[0].offsetWidth + 12;
+
+    var index = Math.round(mobileGallery.scrollLeft / slideWidth) + 1;
+
+    imgCurrent.textContent = index.toString().padStart(2, '0');
+
+  });
+
+}
 
     /* ── Intention picker ── */
     document.querySelectorAll('.sl-intention-option').forEach(function(btn) {
