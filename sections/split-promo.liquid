@@ -1,0 +1,555 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════╗
+  ║   SOULOLITH — Split Promo Banners                ║
+  ║   File: sections/split-promo.liquid              ║
+  ╚══════════════════════════════════════════════════╝
+{% endcomment %}
+
+{%- liquid
+  assign sid = 'sp-' | append: section.id
+
+  assign left_show = section.settings.left_enable
+  assign left_badge = section.settings.left_badge
+  assign left_heading = section.settings.left_heading
+  assign left_sub = section.settings.left_subheading
+  assign left_code = section.settings.left_code
+  assign left_code_label = section.settings.left_code_label
+  assign left_cta = section.settings.left_cta_text
+  assign left_link = section.settings.left_cta_link
+  assign left_img = section.settings.left_image
+  assign left_bg = section.settings.left_bg_color
+
+  assign right_show = section.settings.right_enable
+  assign right_badge = section.settings.right_badge
+  assign right_heading = section.settings.right_heading
+  assign right_sub = section.settings.right_subheading
+  assign right_cta = section.settings.right_cta_text
+  assign right_link = section.settings.right_cta_link
+  assign right_img = section.settings.right_image
+  assign right_bg = section.settings.right_bg_color
+
+  assign pt = section.settings.padding_top
+  assign pb = section.settings.padding_bottom
+-%}
+
+{%- unless left_show or right_show -%}
+  {%- if request.design_mode -%}
+    <div style='padding:1.5rem;text-align:center;background:#080706;border:1px dashed rgba(196,136,122,0.25);'>
+      <p style="font-family:'Jost',sans-serif;font-size:0.75rem;letter-spacing:0.15em;color:rgba(240,234,224,0.35);text-transform:uppercase;margin:0;">
+        Split Promo — Both panels hidden
+      </p>
+    </div>
+  {%- endif -%}
+{%- else -%}
+  <section
+    id='{{ sid }}'
+    class='split-promo'
+    style='padding-top:{{ pt }}px;padding-bottom:{{ pb }}px;'
+  >
+    <div
+      class='
+        sp__grid
+        {%- if left_show and right_show %} sp__grid--both
+        {%- elsif left_show %} sp__grid--single
+        {%- else %} sp__grid--single
+        {%- endif %}
+      '
+    >
+      {%- comment %} ═══ LEFT PANEL — PERMANENT OFFER ═══ {%- endcomment %}
+      {%- if left_show -%}
+        <div class='sp__panel sp__panel--left' style='background:{{ left_bg }};'>
+          {%- if left_img != blank -%}
+            <div class='sp__panel-bg' aria-hidden='true'>
+              <img
+                src='{{ left_img | image_url: width: 800 }}'
+                srcset='{{ left_img | image_url: width: 480 }} 480w, {{ left_img | image_url: width: 800 }} 800w'
+                sizes='(max-width:749px) 100vw, 50vw'
+                alt=''
+                class='sp__panel-img'
+                loading='lazy'
+                width='{{ left_img.width }}'
+                height='{{ left_img.height }}'
+              >
+              <div class='sp__panel-overlay'></div>
+            </div>
+          {%- endif -%}
+
+          <div class='sp__panel-content'>
+            {%- if left_badge != blank -%}
+              <p class='sp__badge'>{{ left_badge | escape }}</p>
+            {%- endif -%}
+
+            {%- if left_heading != blank -%}
+              <h3 class='sp__heading'>{{ left_heading }}</h3>
+            {%- endif -%}
+
+            {%- if left_sub != blank -%}
+              <p class='sp__sub'>{{ left_sub | escape }}</p>
+            {%- endif -%}
+
+            {%- if left_code != blank -%}
+              <div class='sp__code-wrap'>
+                {%- if left_code_label != blank -%}
+                  <span class='sp__code-label'>{{ left_code_label | escape }}</span>
+                {%- endif -%}
+                <div class='sp__code'>
+                  <span class='sp__code-text'>{{ left_code | escape }}</span>
+                  <button
+                    class='sp__code-copy'
+                    data-code='{{ left_code | escape }}'
+                    aria-label='Copy code {{ left_code | escape }}'
+                  >
+                    <svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                      <rect x="4.5" y="4.5" width="8" height="8" rx="0.5" stroke="currentColor" stroke-width="0.8"/>
+                      <path d="M1 9V1.5A.5.5 0 0 1 1.5 1H9" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
+                    </svg>
+                    <span class='sp__copy-label'>Copy</span>
+                  </button>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if left_cta != blank -%}
+              <a href='{{ left_link | default: '#' }}' class='sp__cta'>
+                {{ left_cta | escape }}
+                <span class='sp__cta-arrow' aria-hidden='true'>→</span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment %} ═══ RIGHT PANEL — SEASONAL ═══ {%- endcomment %}
+      {%- if right_show -%}
+        <div class='sp__panel sp__panel--right' style='background:{{ right_bg }};'>
+          {%- if right_img != blank -%}
+            <div class='sp__panel-bg' aria-hidden='true'>
+              <img
+                src='{{ right_img | image_url: width: 800 }}'
+                srcset='{{ right_img | image_url: width: 480 }} 480w, {{ right_img | image_url: width: 800 }} 800w'
+                sizes='(max-width:749px) 100vw, 50vw'
+                alt=''
+                class='sp__panel-img'
+                loading='lazy'
+                width='{{ right_img.width }}'
+                height='{{ right_img.height }}'
+              >
+              <div class='sp__panel-overlay'></div>
+            </div>
+          {%- endif -%}
+
+          <div class='sp__panel-content'>
+            {%- if right_badge != blank -%}
+              <p class='sp__badge'>{{ right_badge | escape }}</p>
+            {%- endif -%}
+
+            {%- if right_heading != blank -%}
+              <h3 class='sp__heading sp__heading--large'>{{ right_heading }}</h3>
+            {%- endif -%}
+
+            {%- if right_sub != blank -%}
+              <p class='sp__sub'>{{ right_sub | escape }}</p>
+            {%- endif -%}
+
+            {%- if right_cta != blank -%}
+              <a href='{{ right_link | default: '#' }}' class='sp__cta'>
+                {{ right_cta | escape }}
+                <span class='sp__cta-arrow' aria-hidden='true'>→</span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endunless -%}
+
+<style>
+    /* ── TOKENS ── */
+    #{{ sid }} {
+      --sp-accent:      #c4887a;
+      --sp-accent-dim:  rgba(196,136,122,0.35);
+      --sp-white:       #F0EAE0;
+      --sp-white-mid:   rgba(240,234,224,0.65);
+      --sp-white-low:   rgba(240,234,224,0.4);
+      --sp-font-head:   'Cormorant Garamond', Georgia, serif;
+      --sp-font-body:   'Jost', sans-serif;
+      --sp-radius:      2px;
+      --sp-transition:  0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    #{{ sid }} { width:100%; box-sizing:border-box; }
+
+    /* ── GRID ── */
+    #{{ sid }} .sp__grid--both   { display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:0 clamp(1.25rem,4vw,5rem); }
+    #{{ sid }} .sp__grid--single { display:grid; grid-template-columns:1fr; gap:2px; padding:0 clamp(1.25rem,4vw,5rem); max-width:800px; margin:0 auto; }
+
+    /* ── PANEL ── */
+    #{{ sid }} .sp__panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--sp-radius);
+      min-height: 280px;
+      display: flex;
+      align-items: flex-start;
+      border: 1px solid rgba(196,136,122,0.15);
+    }
+
+    /* ── BACKGROUND IMAGE ── */
+    #{{ sid }} .sp__panel-bg { position:absolute; inset:0; }
+
+    #{{ sid }} .sp__panel-img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transform: scale(1);
+      transition: transform var(--sp-transition);
+    }
+
+   #{{ sid }} .sp__panel-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+    135deg,
+    rgba(8,7,6,0.95) 0%,
+    rgba(8,7,6,0.88) 50%,
+    rgba(8,7,6,0.78) 100%
+  );
+  }
+
+    @media (hover: hover) {
+      #{{ sid }} .sp__panel:hover .sp__panel-img { transform: scale(1.04); }
+    }
+
+    /* ── CONTENT ── */
+    #{{ sid }} .sp__panel-content {
+      position: relative;
+      z-index: 2;
+      padding: 2.5rem 2.25rem;
+      width: 100%;
+    }
+
+    /* ── BADGE ── */
+    #{{ sid }} .sp__badge {
+      font-family: var(--sp-font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sp-accent);
+      margin: 0 0 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    #{{ sid }} .sp__badge::before,
+    #{{ sid }} .sp__badge::after {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: var(--sp-accent-dim);
+      flex-shrink: 0;
+    }
+
+    /* ── HEADING ── */
+    #{{ sid }} .sp__heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--sp-white);
+      margin: 0 0 0.6rem;
+      line-height: 1.15;
+    }
+
+    #{{ sid }} .sp__heading--large {
+      font-size: clamp(1.9rem, 2.8vw, 3rem);
+    }
+
+    /* ── SUBHEADING ── */
+    #{{ sid }} .sp__sub {
+      font-family: var(--sp-font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      line-height: 1.7;
+      color: var(--sp-white-mid);
+      margin: 0 0 1.5rem;
+      max-width: 36ch;
+    }
+
+    /* ── DISCOUNT CODE ── */
+    #{{ sid }} .sp__code-wrap { margin-bottom: 1.5rem; }
+
+    #{{ sid }} .sp__code-label {
+      display: block;
+      font-family: var(--sp-font-body);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sp-white-low);
+      margin-bottom: 0.5rem;
+    }
+
+    #{{ sid }} .sp__code {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      border: 1px solid var(--sp-accent-dim);
+      padding: 0.55rem 1rem;
+      border-radius: var(--sp-radius);
+      background: rgba(196,136,122,0.08);
+      transition: background var(--sp-transition), border-color var(--sp-transition);
+    }
+
+    #{{ sid }} .sp__code:hover {
+      background: rgba(196,136,122,0.14);
+      border-color: var(--sp-accent);
+    }
+
+    #{{ sid }} .sp__code-text {
+      font-family: var(--sp-font-body);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--sp-accent);
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    #{{ sid }} .sp__code-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: none; border: none;
+      cursor: pointer;
+      color: var(--sp-white-low);
+      font-family: var(--sp-font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0;
+      transition: color 0.3s ease;
+    }
+
+    #{{ sid }} .sp__code-copy:hover { color: var(--sp-white); }
+    #{{ sid }} .sp__code-copy.copied { color: var(--sp-accent); }
+
+    /* ── CTA ── */
+    #{{ sid }} .sp__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--sp-font-body);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--sp-white);
+      background: transparent;
+      padding: 0.8rem 1.75rem;
+      border-radius: var(--sp-radius);
+      border: 1px solid rgba(240,234,224,0.4);
+      transition: border-color var(--sp-transition), color var(--sp-transition);
+    }
+
+    #{{ sid }} .sp__cta:hover {
+      border-color: var(--sp-accent);
+      color: var(--sp-accent);
+    }
+
+    #{{ sid }} .sp__cta-arrow { transition: transform 0.3s ease; }
+
+    #{{ sid }} .sp__cta:hover .sp__cta-arrow { transform: translateX(4px); }
+
+    /* ── MOBILE ── */
+    @media screen and (max-width: 749px) {
+      #{{ sid }} .sp__grid--both,
+      #{{ sid }} .sp__grid--single {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+        gap: 1rem;
+      }
+
+      #{{ sid }} .sp__panel { min-height: 240px; }
+      #{{ sid }} .sp__panel-content { padding: 2rem 1.5rem; }
+      #{{ sid }} .sp__heading { font-size: 1.75rem; }
+      #{{ sid }} .sp__heading--large { font-size: 2rem; }
+    }
+</style>
+
+<script>
+  (function () {
+    var section = document.getElementById('{{ sid }}');
+    if (!section) return;
+    section.querySelectorAll('.sp__code-copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var code = btn.getAttribute('data-code');
+        if (!code) return;
+        navigator.clipboard.writeText(code).then(function () {
+          var label = btn.querySelector('.sp__copy-label');
+          if (label) {
+            label.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(function () {
+              label.textContent = 'Copy';
+              btn.classList.remove('copied');
+            }, 2000);
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Split Promo Banners",
+  "tag": "section",
+  "class": "soulolith-split-promo",
+  "settings": [
+    {
+      "type": "header",
+      "content": "⬅ Left Panel — Permanent Offer"
+    },
+    {
+      "type": "checkbox",
+      "id": "left_enable",
+      "label": "Show Left Panel",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "left_badge",
+      "label": "Badge Text",
+      "default": "Welcome Offer"
+    },
+    {
+      "type": "textarea",
+      "id": "left_heading",
+      "label": "Heading",
+      "default": "₹50 Off Your First Order"
+    },
+    {
+      "type": "text",
+      "id": "left_subheading",
+      "label": "Subheading",
+      "default": "Bring positivity, beauty & good energy home."
+    },
+    {
+      "type": "text",
+      "id": "left_code_label",
+      "label": "Code Label",
+      "default": "Use Code"
+    },
+    {
+      "type": "text",
+      "id": "left_code",
+      "label": "Discount Code",
+      "default": "FIRST50",
+      "info": "Displays with a one-click copy button."
+    },
+    {
+      "type": "text",
+      "id": "left_cta_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "left_cta_link",
+      "label": "Button Link",
+      "info": "Tip: type /collections/all for all products page."
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Background Image",
+      "info": "Recommended: 800x560px."
+    },
+    {
+      "type": "color",
+      "id": "left_bg_color",
+      "label": "Background Fallback Color",
+      "default": "#0e0d0c"
+    },
+    {
+      "type": "header",
+      "content": "➡ Right Panel — Seasonal / Sale"
+    },
+    {
+      "type": "checkbox",
+      "id": "right_enable",
+      "label": "Show Right Panel",
+      "default": true,
+      "info": "Hide when no active campaign. Left panel expands to full width."
+    },
+    {
+      "type": "text",
+      "id": "right_badge",
+      "label": "Badge Text",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "textarea",
+      "id": "right_heading",
+      "label": "Heading",
+      "default": "10%–20% Off Healing Crystals"
+    },
+    {
+      "type": "text",
+      "id": "right_subheading",
+      "label": "Subheading",
+      "default": "Energy. Balance. Beauty. Shop the sale."
+    },
+    {
+      "type": "text",
+      "id": "right_cta_text",
+      "label": "Button Text",
+      "default": "Shop the Sale"
+    },
+    {
+      "type": "url",
+      "id": "right_cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Background Image",
+      "info": "Recommended: 800x560px."
+    },
+    {
+      "type": "color",
+      "id": "right_bg_color",
+      "label": "Background Fallback Color",
+      "default": "#111010"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split Promo Banners"
+    }
+  ]
+}
+{% endschema %}

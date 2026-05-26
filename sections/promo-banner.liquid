@@ -1,0 +1,603 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════╗
+  ║   SOULOLITH — Promo Banner Section               ║
+  ║   File: sections/promo-banner.liquid             ║
+  ╚══════════════════════════════════════════════════╝
+{% endcomment %}
+
+{%- liquid
+  assign sid = 'pb-' | append: section.id
+  assign enabled = section.settings.enable_section
+  assign badge = section.settings.badge_text
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign cta_text = section.settings.cta_text
+  assign cta_link = section.settings.cta_link
+  assign desk_img = section.settings.desktop_image
+  assign mob_img = section.settings.mobile_image
+  assign opacity = section.settings.overlay_opacity
+  assign height = section.settings.section_height
+  assign pt = section.settings.padding_top
+  assign pb = section.settings.padding_bottom
+  assign alignment = section.settings.text_alignment
+  assign bg_fallback = section.settings.background_color
+
+  assign overlay_val = opacity | divided_by: 100.0
+-%}
+
+{%- unless enabled -%}
+  {%- if request.design_mode -%}
+    <div style='padding:2rem;text-align:center;background:#080706;border:1px dashed rgba(196,136,122,0.3);'>
+      <p style="font-family:'Jost',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:rgba(245,240,235,0.4);text-transform:uppercase;margin:0;">
+        Promo Banner — Hidden (enable in Theme Editor)
+      </p>
+    </div>
+  {%- endif -%}
+  {%- break -%}
+{%- endunless -%}
+
+<section
+  id='{{ sid }}'
+  class='promo-banner pb--align-{{ alignment }}'
+  style='
+    background-color: {{ bg_fallback }};
+    padding-top: {{ pt }}px;
+    padding-bottom: {{ pb }}px;
+  '
+>
+  {%- comment %} ── BACKGROUND IMAGES ── {%- endcomment %}
+  <div class='pb__bg' aria-hidden='true'>
+    <div class='pb__fade-top'></div>
+    <div class='pb__fade-bottom'></div>
+    {%- comment %} Desktop image {%- endcomment %}
+    {%- if desk_img != blank -%}
+      <img
+        src='{{ desk_img | image_url: width: 1800 }}'
+        srcset='
+          {{ desk_img | image_url: width: 800 }}  800w,
+          {{ desk_img | image_url: width: 1200 }} 1200w,
+          {{ desk_img | image_url: width: 1800 }} 1800w
+        '
+        sizes='100vw'
+        alt=''
+        class='pb__bg-img pb__bg-img--desk'
+        loading='lazy'
+        width='{{ desk_img.width }}'
+        height='{{ desk_img.height }}'
+      >
+    {%- endif -%}
+
+    {%- comment %} Mobile image (falls back to desktop) {%- endcomment %}
+    {%- if mob_img != blank -%}
+      <img
+        src='{{ mob_img | image_url: width: 800 }}'
+        srcset='
+          {{ mob_img | image_url: width: 480 }} 480w,
+          {{ mob_img | image_url: width: 800 }} 800w
+        '
+        sizes='100vw'
+        alt=''
+        class='pb__bg-img pb__bg-img--mob'
+        loading='lazy'
+        width='{{ mob_img.width }}'
+        height='{{ mob_img.height }}'
+      >
+    {%- endif -%}
+
+    {%- comment %} Overlay {%- endcomment %}
+    <div
+      class='pb__overlay'
+      style='background: rgba(8,7,6,{{ overlay_val }});'
+    ></div>
+  </div>
+
+  {%- comment %} ── CONTENT ── {%- endcomment %}
+  <div
+    class='pb__inner'
+    style='min-height: {{ height }}px;'
+  >
+    <div class='pb__content'>
+      {%- if badge != blank -%}
+        <p class='pb__badge'>
+          <span class='pb__badge-line' aria-hidden='true'></span>
+          {{ badge | escape }}
+          <span class='pb__badge-line' aria-hidden='true'></span>
+        </p>
+      {%- endif -%}
+
+      {%- if heading != blank -%}
+        <h2 class='pb__heading'>{{ heading | escape }}</h2>
+      {%- endif -%}
+
+      {%- if subheading != blank -%}
+        <p class='pb__subheading'>{{ subheading | escape }}</p>
+      {%- endif -%}
+
+      {%- if cta_text != blank -%}
+        <div class='pb__cta-wrap'>
+          <a
+            href='{{ cta_link | default: '#' }}'
+            class='pb__cta'
+            {% if cta_link == blank %}
+              aria-disabled='true'
+            {% endif %}
+          >
+            <span class='pb__cta-text'>{{ cta_text | escape }}</span>
+            <span class='pb__cta-icon' aria-hidden='true'>
+              <svg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                <path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+    /* ────────────────────────────────────────────────
+       TOKENS
+    ──────────────────────────────────────────────── */
+    #{{ sid }} {
+      --pb-accent:      #c4887a;
+      --pb-accent-dim:  rgba(196, 136, 122, 0.45);
+      --pb-white:       #f5f0eb;
+      --pb-white-mid:   rgba(245, 240, 235, 0.65);
+      --pb-white-low:   rgba(245, 240, 235, 0.42);
+      --pb-font-head:   'Cormorant Garamond', 'Cormorant', Georgia, serif;
+      --pb-font-body:   'Jost', 'DM Sans', sans-serif;
+      --pb-transition:  0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ────────────────────────────────────────────────
+       SECTION
+    ──────────────────────────────────────────────── */
+    #{{ sid }} {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      margin-top: -2px;
+    }
+
+    /* ────────────────────────────────────────────────
+       BACKGROUND
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    #{{ sid }} .pb__bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1);
+      transition: transform 8s ease;
+    }
+
+    /* desktop shows desk image, hides mob */
+    #{{ sid }} .pb__bg-img--mob  { display: none; }
+    #{{ sid }} .pb__bg-img--desk { display: block; }
+
+   #{{ sid }} .pb__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  #{{ sid }} .pb__fade-top,
+  #{{ sid }} .pb__fade-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 120px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  #{{ sid }} .pb__fade-top {
+    top: 0;
+    background: linear-gradient(to bottom, #080706 0%, transparent 100%);
+  }
+
+  #{{ sid }} .pb__fade-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, #080706 0%, transparent 100%);
+  }
+
+    /* ────────────────────────────────────────────────
+       INNER / LAYOUT
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__inner {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0 clamp(1.5rem, 6vw, 7rem);
+    }
+
+    /* alignment variants */
+    #{{ sid }}.pb--align-center .pb__inner { justify-content: center; }
+    #{{ sid }}.pb--align-left   .pb__inner { justify-content: flex-start; }
+    #{{ sid }}.pb--align-right  .pb__inner { justify-content: flex-end; }
+
+    /* ────────────────────────────────────────────────
+       CONTENT BOX
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__content {
+      max-width: 640px;
+      width: 100%;
+    }
+
+    #{{ sid }}.pb--align-center .pb__content {
+      text-align: center;
+    }
+    #{{ sid }}.pb--align-left .pb__content {
+      text-align: left;
+    }
+    #{{ sid }}.pb--align-right .pb__content {
+      text-align: right;
+    }
+
+    /* ────────────────────────────────────────────────
+       BADGE
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--pb-font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--pb-accent);
+      margin: 0 0 1.25rem;
+    }
+
+    #{{ sid }}.pb--align-center .pb__badge {
+      justify-content: center;
+      width: 100%;
+    }
+
+    #{{ sid }} .pb__badge-line {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--pb-accent-dim);
+      flex-shrink: 0;
+    }
+
+    /* ────────────────────────────────────────────────
+       HEADING
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__heading {
+      font-family: var(--pb-font-head);
+      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      color: var(--pb-white);
+      text-transform: uppercase;
+      margin: 0 0 1rem;
+    }
+
+    /* ────────────────────────────────────────────────
+       SUBHEADING
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__subheading {
+      font-family: var(--pb-font-body);
+      font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+      letter-spacing: 0.1em;
+      line-height: 1.75;
+      color: var(--pb-white-mid);
+      margin: 0 0 2rem;
+      max-width: 44ch;
+    }
+
+    #{{ sid }}.pb--align-center .pb__subheading {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #{{ sid }}.pb--align-right .pb__subheading {
+      margin-left: auto;
+    }
+
+    /* ────────────────────────────────────────────────
+       CTA
+    ──────────────────────────────────────────────── */
+    #{{ sid }} .pb__cta-wrap {
+      display: flex;
+    }
+
+    #{{ sid }}.pb--align-center .pb__cta-wrap { justify-content: center; }
+    #{{ sid }}.pb--align-left   .pb__cta-wrap { justify-content: flex-start; }
+    #{{ sid }}.pb--align-right  .pb__cta-wrap { justify-content: flex-end; }
+
+    #{{ sid }} .pb__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--pb-font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--pb-white);
+      border: 1px solid rgba(245, 240, 235, 0.35);
+      padding: 0.9rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition:
+        color var(--pb-transition),
+        border-color var(--pb-transition);
+    }
+
+    #{{ sid }} .pb__cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--pb-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--pb-transition);
+      z-index: 0;
+    }
+
+    #{{ sid }} .pb__cta-text,
+    #{{ sid }} .pb__cta-icon {
+      position: relative;
+      z-index: 1;
+      transition: color var(--pb-transition);
+    }
+
+    #{{ sid }} .pb__cta-icon {
+      display: flex;
+      align-items: center;
+      transform: translateX(0);
+      transition: transform var(--pb-transition);
+    }
+
+    @media (hover: hover) {
+      #{{ sid }} .pb__cta:hover {
+        color: #080706;
+        border-color: var(--pb-accent);
+      }
+      #{{ sid }} .pb__cta:hover::before {
+        transform: scaleX(1);
+      }
+      #{{ sid }} .pb__cta:hover .pb__cta-icon {
+        transform: translateX(5px);
+      }
+      #{{ sid }}:hover .pb__bg-img {
+        transform: scale(1.03);
+      }
+    }
+
+    /* ────────────────────────────────────────────────
+       MOBILE
+    ──────────────────────────────────────────────── */
+    @media screen and (max-width: 749px) {
+      /* swap images */
+      #{{ sid }} .pb__bg-img--desk {
+        {%- if mob_img != blank -%}
+  #{{ sid }} .pb__bg-img--desk { display: none; }
+  {%- else -%}
+  #{{ sid }} .pb__bg-img--desk { display: block; }
+  {%- endif -%}
+      }
+      #{{ sid }} .pb__bg-img--mob  { display: block; }
+
+      #{{ sid }} .pb__inner {
+        padding: 0 1.25rem;
+        justify-content: center !important;
+      }
+
+      #{{ sid }} .pb__content {
+        text-align: center !important;
+      }
+
+      #{{ sid }} .pb__badge {
+        justify-content: center;
+        width: 100%;
+      }
+
+      #{{ sid }} .pb__subheading {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #{{ sid }} .pb__cta-wrap {
+        justify-content: center !important;
+      }
+
+      #{{ sid }} .pb__cta {
+        padding: 0.85rem 1.75rem;
+      }
+    }
+    /* Blend with hero above and section below */
+  #{{ sid }}::before,
+  #{{ sid }}::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  #{{ sid }}::before {
+    top: 0;
+    height: 250px;
+    background: linear-gradient(
+      to bottom,
+      #080706 0%,
+      #080706 20%,
+      rgba(8,7,6,0.85) 50%,
+      transparent 100%
+    );
+  }
+
+  #{{ sid }}::after {
+    bottom: 0;
+    height: 180px;
+    background: linear-gradient(to top, #080706 0%, transparent 100%);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Promo Banner",
+  "tag": "section",
+  "class": "soulolith-promo-banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Enable this section",
+      "default": true,
+      "info": "Uncheck to hide this banner without deleting it."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "New Arrival",
+      "info": "Small label above the heading. E.g. 'Diwali Collection', 'Limited Edition'."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Protection Collection"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading (optional)",
+      "default": "Grounding crystals. Crafted for energetic stability."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Background Image",
+      "info": "Recommended: 1800×700px. Wide cinematic crop."
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Background Image (optional)",
+      "info": "Recommended: 800×900px. Portrait crop. Falls back to desktop image if not set."
+    },
+    {
+      "type": "header",
+      "content": "Overlay & Appearance"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Darkness",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 45,
+      "info": "Increase if text is hard to read over image."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Fallback Color",
+      "default": "#080706",
+      "info": "Shown when no image is set."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Banner Height",
+      "min": 300,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo Banner",
+      "settings": {
+        "enable_section": true,
+        "badge_text": "New Arrival",
+        "heading": "The Protection Collection",
+        "subheading": "Grounding crystals. Crafted for energetic stability.",
+        "cta_text": "Shop Now",
+        "overlay_opacity": 45,
+        "section_height": 520,
+        "text_alignment": "center"
+      }
+    }
+  ]
+}
+{% endschema %}

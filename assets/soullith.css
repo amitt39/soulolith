@@ -4253,3 +4253,87 @@ h1.product-title {
 .wishlist-hero-custom-button svg path {
   fill: currentColor !important;
 }
+
+/* Cart secondary text readability fix */
+
+.cart-drawer *,
+.cart-page *,
+.cart__footer *,
+.ajaxcart *,
+.drawer *,
+.order-summary * {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Muted/helper text */
+.cart-drawer p,
+.cart-page p,
+.cart-drawer .text-subdued,
+.cart-page .text-subdued,
+.cart-drawer small,
+.cart-page small,
+.cart-drawer .caption,
+.cart-page .caption,
+.cart-drawer .cart-note,
+.cart-page .cart-note,
+.cart-drawer .payment-method__description,
+.cart-page .payment-method__description {
+  color: rgba(255, 245, 235, 0.72) !important;
+}
+
+/* Placeholder text */
+.cart-page textarea::placeholder,
+.cart-drawer textarea::placeholder,
+.cart-page input::placeholder,
+.cart-drawer input::placeholder {
+  color: rgba(255, 245, 235, 0.45) !important;
+}
+
+/* Shipping/helper labels */
+.cart-page .totals__subtotal-value,
+.cart-page .tax-note,
+.cart-page .shipping-note,
+.cart-drawer .tax-note,
+.cart-drawer .shipping-note {
+  color: rgba(255, 245, 235, 0.68) !important;
+}
+
+/* Improve tiny text readability */
+.cart-page small,
+.cart-drawer small {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Payment helper text readability fix */
+
+.sl-payment-option-sub,
+#sl-total-note,
+.sl-payment-option small,
+.sl-payment-option p {
+  color: rgba(255, 245, 235, 0.68) !important;
+}
+
+/* Optional: slightly brighter on selected card */
+.sl-payment-option.active .sl-payment-option-sub,
+.sl-payment-option input:checked ~ .sl-payment-option-inner .sl-payment-option-sub {
+  color: rgba(255, 245, 235, 0.78) !important;
+}
+
+/* COD fee note readability fix */
+
+#sl-cod-note p {
+  color: rgba(255, 245, 235, 0.72) !important;
+  background: rgba(196, 136, 122, 0.12) !important;
+  border-color: rgba(196, 136, 122, 0.18) !important;
+}
+
+/* Hero → Promo Banner blend */
+.sl-hero-blend {
+  height: 220px;
+  margin-top: -220px;
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(to bottom, transparent 0%, #080706 100%);
+  pointer-events: none;
+}

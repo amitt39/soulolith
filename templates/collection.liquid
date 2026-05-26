@@ -3,132 +3,298 @@
   Clean layout — no sidebar filters, full-width grid
 {% endcomment %}
 
-{%- assign banner_image = collection.image -%}
+{%- comment %}=== SECTION BANNER URLS — paste CDN links here as you upload ==={%- endcomment %}
+{%- assign url_all = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/Shop_all.png?v=1779624026' -%}
+{%- assign url_crystals = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/By_Crystals.png?v=1779625431' -%}
+{%- assign url_meaning = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/by_meaning.png?v=1779625861' -%}
+{%- assign url_zodiac = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/By_Zodiac.png?v=1779625558' -%}
+{%- assign url_decor = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/decor.png?v=1779625933' -%}
+{%- assign url_jewellery = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/jewllary.png?v=1779626072' -%}
+{%- assign url_gifting = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/gifting.png?v=1779625980' -%}
+{%- assign url_spiritual = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/spiritual.png?v=1779626511' -%}
+{%- assign url_meditation = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/medition_and_tools.png?v=1779626558' -%}
+{%- assign url_vastu = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/vastu_and_protection.png?v=1779626624' -%}
+{%- assign url_wellness = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/wellness.png?v=1779626641' -%}
+
+{%- comment %}=== AUTO-DETECT SECTION FROM NAV ==={%- endcomment %}
+{%- assign section_banner_url = '' -%}
+
+{%- if collection.handle == 'all' -%}
+  {%- assign section_banner_url = url_all -%}
+{%- else -%}
+  {%- for nav in linklists['main-menu'].links -%}
+    {%- assign nav_t = nav.title | downcase -%}
+
+    {%- if nav_t contains 'category' -%}
+      {%- for sub in nav.links -%}
+        {%- assign sub_t = sub.title | downcase -%}
+        {%- if sub_t contains 'spiritual' -%}
+          {%- assign cat_url = url_spiritual -%}
+        {%- elsif sub_t contains 'meditation' -%}
+          {%- assign cat_url = url_meditation -%}
+        {%- elsif sub_t contains 'vastu' -%}
+          {%- assign cat_url = url_vastu -%}
+        {%- elsif sub_t contains 'wellness' -%}
+          {%- assign cat_url = url_wellness -%}
+        {%- else -%}
+          {%- assign cat_url = '' -%}
+        {%- endif -%}
+        {%- for subsub in sub.links -%}
+          {%- if subsub.url contains collection.handle -%}
+            {%- assign section_banner_url = cat_url -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+
+    {%- elsif nav_t contains 'crystal' -%}
+      {%- for sub in nav.links -%}
+        {%- if sub.url contains collection.handle -%}{%- assign section_banner_url = url_crystals -%}{%- endif -%}
+      {%- endfor -%}
+
+    {%- elsif nav_t contains 'meaning' -%}
+      {%- for sub in nav.links -%}
+        {%- if sub.url contains collection.handle -%}{%- assign section_banner_url = url_meaning -%}{%- endif -%}
+      {%- endfor -%}
+
+    {%- elsif nav_t contains 'zodiac' -%}
+      {%- for sub in nav.links -%}
+        {%- if sub.url contains collection.handle -%}{%- assign section_banner_url = url_zodiac -%}{%- endif -%}
+      {%- endfor -%}
+
+    {%- elsif nav_t contains 'decor' -%}
+      {%- for sub in nav.links -%}
+        {%- if sub.url contains collection.handle -%}{%- assign section_banner_url = url_decor -%}{%- endif -%}
+      {%- endfor -%}
+
+    {%- elsif nav_t contains 'jewel' -%}
+      {%- for sub in nav.links -%}
+        {%- if sub.url contains collection.handle -%}{%- assign section_banner_url = url_jewellery -%}{%- endif -%}
+      {%- endfor -%}
+
+    {%- elsif nav_t contains 'gift' -%}
+      {%- for sub in nav.links -%}
+        {%- if sub.url contains collection.handle -%}{%- assign section_banner_url = url_gifting -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- comment %}=== FINAL BANNER — section banner takes priority, then collection image ==={%- endcomment %}
+{%- assign banner_url = '' -%}
+{%- if section_banner_url != blank -%}
+  {%- assign banner_url = section_banner_url -%}
+{%- elsif collection.image != blank -%}
+  {%- assign banner_url = collection.image | image_url: width: 1920 -%}
+{%- endif -%}
+
 {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
 
 <!-- Shop Hero Banner -->
-<section class="sl-shop-hero"
-  {% if banner_image != blank %}
-    style="background-image: linear-gradient(rgba(8,7,6,0.65), rgba(8,7,6,0.65)), url('{{ banner_image | image_url: width: 1920 }}'); background-size: cover; background-position: center; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;"
-  {% endif %}>
-  <div class="sl-container">
-    <span class="sl-eyebrow">
-      {%- if collection.handle == 'all' -%}Browse Everything
-      {%- else -%}{{ collection.title }}{%- endif -%}
+<section
+  class='sl-shop-hero'
+  {% if banner_url != blank %}
+    style="background-image: linear-gradient(rgba(8,7,6,0.4), rgba(8,7,6,0.75), rgba(8,7,6,0.4)), url('{{ banner_url }}');"
+  {% endif %}
+>
+  <div class='sl-container'>
+    <span class='sl-eyebrow'>
+      {%- if collection.handle == 'all' -%}
+        Browse Everything
+      {%- else -%}
+        {{ collection.title }}
+      {%- endif -%}
     </span>
     <h1>
-      {%- if collection.handle == 'all' -%}Shop <em>All</em>
-      {%- else -%}{{ collection.title }}{%- endif -%}
+      {%- if collection.handle == 'all' -%}
+        Shop <em>All</em>
+      {%- else -%}
+        {{ collection.title }}
+      {%- endif -%}
     </h1>
     {%- if collection.description != blank -%}
-      <p class="sl-collection-desc">{{ collection.description }}</p>
+      <p class='sl-collection-desc'>{{ collection.description }}</p>
     {%- endif -%}
   </div>
 </section>
 
-<div class="sl-container">
-
-  <!-- Category Quick Links (only on Shop All page) -->
-  {%- if collection.handle == 'all' -%}
-    <div class="sl-quick-filters">
-      <a href="/collections/all" class="sl-quick-filter sl-quick-filter--active">All</a>
-      <a href="/collections/raw-stones" class="sl-quick-filter">Raw Stones</a>
-      <a href="/collections/tumble-stones" class="sl-quick-filter">Tumble Stones</a>
-      <a href="/collections/pyramids" class="sl-quick-filter">Pyramids</a>
-      <a href="/collections/spheres" class="sl-quick-filter">Spheres</a>
-      <a href="/collections/towers-pencils" class="sl-quick-filter">Towers</a>
-      <a href="/collections/crystal-trees" class="sl-quick-filter">Crystal Trees</a>
-      <a href="/collections/selenite" class="sl-quick-filter">Selenite</a>
-      <a href="/collections/bracelets" class="sl-quick-filter">Bracelets</a>
-      <a href="/collections/7-chakra" class="sl-quick-filter">7 Chakra</a>
-    </div>
-  {%- endif -%}
-
+<div class='sl-container'>
   <!-- Top Bar -->
-  <div class="sl-shop-top">
-    <span class="sl-product-count">{{ collection.products_count }} product{%- if collection.products_count != 1 -%}s{%- endif -%}</span>
-    <select class="sl-sort-select" onchange="window.location.href=window.location.pathname+'?sort_by='+this.value">
-      <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
-      <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-      <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-      <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-      <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+  <div class='sl-shop-top'>
+    <span class='sl-product-count'>
+      {{- collection.products_count }} product
+      {%- if collection.products_count != 1 -%}s{%- endif -%}
+    </span>
+    <select class='sl-sort-select' onchange="window.location.href=window.location.pathname+'?sort_by='+this.value">
+      <option
+        value='manual'
+        {% if sort_by == 'manual' %}
+          selected
+        {% endif %}
+      >
+        Featured
+      </option>
+      <option
+        value='best-selling'
+        {% if sort_by == 'best-selling' %}
+          selected
+        {% endif %}
+      >
+        Best Selling
+      </option>
+      <option
+        value='price-ascending'
+        {% if sort_by == 'price-ascending' %}
+          selected
+        {% endif %}
+      >
+        Price: Low to High
+      </option>
+      <option
+        value='price-descending'
+        {% if sort_by == 'price-descending' %}
+          selected
+        {% endif %}
+      >
+        Price: High to Low
+      </option>
+      <option
+        value='created-descending'
+        {% if sort_by == 'created-descending' %}
+          selected
+        {% endif %}
+      >
+        Newest
+      </option>
     </select>
   </div>
 
+  <!-- Price Filter -->
+  <div class='sl-price-filter'>
+    <span class='sl-price-filter-label'>Price</span>
+    <div class='sl-price-inputs'>
+      <span class='sl-rupee'>₹</span>
+      <input type='number' id='sl-price-min' placeholder='Min' class='sl-price-input' min='0'>
+      <span class='sl-price-sep'>—</span>
+      <span class='sl-rupee'>₹</span>
+      <input type='number' id='sl-price-max' placeholder='Max' class='sl-price-input' min='0'>
+      <button class='sl-price-apply' onclick='slApplyPriceFilter()'>Apply</button>
+      <button class='sl-price-clear' onclick='slClearPriceFilter()'>Clear</button>
+    </div>
+  </div>
+
   <!-- Product Grid -->
-  <div class="sl-product-grid-full">
+  <div class='sl-product-grid-full'>
     {%- paginate collection.products by 16 -%}
       {%- for product in collection.products -%}
-
-        <div class="sl-product-card sl-product-card--featured">
-          <a href="{{ product.url }}" class="sl-product-image-wrapper sl-product-image-wrapper--square" aria-label="{{ product.title }}">
+        <div class='sl-product-card sl-product-card--featured' data-price='{{ product.price | divided_by: 100 }}'>
+          <a
+            href='{{ product.url }}'
+            class='sl-product-image-wrapper sl-product-image-wrapper--square'
+            aria-label='{{ product.title }}'
+          >
             {%- if product.featured_image != blank -%}
-              <img src="{{ product.featured_image | image_url: width: 600 }}"
-                   alt="{{ product.featured_image.alt | escape }}"
-                   loading="lazy" width="600">
+              <img
+                src='{{ product.featured_image | image_url: width: 600 }}'
+                alt='{{ product.featured_image.alt | escape }}'
+                loading='lazy'
+                width='600'
+              >
             {%- else -%}
-              <div class="sl-product-placeholder"></div>
+              <div class='sl-product-placeholder'></div>
             {%- endif -%}
             {%- if product.tags contains 'badge:New' -%}
-              <div class="sl-product-badge">New</div>
+              <div class='sl-product-badge'>New</div>
             {%- elsif product.tags contains 'badge:Bestseller' -%}
-              <div class="sl-product-badge">Bestseller</div>
+              <div class='sl-product-badge'>Bestseller</div>
             {%- endif -%}
-            <div class="sl-product-hover-overlay">
-              <span class="sl-btn-primary sl-btn--sm">View Product</span>
+            <div class='sl-product-hover-overlay'>
+              <span class='sl-btn-primary sl-btn--sm'>View Product</span>
             </div>
           </a>
-          <div class="sl-product-info sl-product-info--featured">
+          <div class='sl-product-info sl-product-info--featured'>
             {%- if product.type != blank -%}
-              <div class="sl-product-stone">{{ product.type }}</div>
+              <div class='sl-product-stone'>{{ product.type }}</div>
             {%- endif -%}
-            <a href="{{ product.url }}" class="sl-product-name-link">
-              <h3 class="sl-product-name">{{ product.title }}</h3>
+            <a href='{{ product.url }}' class='sl-product-name-link'>
+              <h3 class='sl-product-name'>{{ product.title }}</h3>
             </a>
-            <div class="sl-product-price-row">
-              <div class="sl-product-price">
+            <div class='sl-product-price-row'>
+              <div class='sl-product-price'>
                 {%- if product.compare_at_price > product.price -%}
-                  <span class="sl-original-price">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                  <span class='sl-original-price'>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
                 {%- endif -%}
-                <span class="sl-sale-price">{{ product.price | money_without_trailing_zeros }}</span>
+                <span class='sl-sale-price'>{{ product.price | money_without_trailing_zeros }}</span>
               </div>
               {%- if product.available -%}
-                <form action="{{ routes.cart_add_url }}" method="post" class="sl-atc-form">
-                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                  <input type="hidden" name="quantity" value="1">
-                  <button type="submit" class="sl-atc-btn" aria-label="Add {{ product.title }} to cart">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                <form action='{{ routes.cart_add_url }}' method='post' class='sl-atc-form'>
+                  <input type='hidden' name='id' value='{{ product.selected_or_first_available_variant.id }}'>
+                  <input type='hidden' name='quantity' value='1'>
+                  <button type='submit' class='sl-atc-btn' aria-label='Add {{ product.title }} to cart'>
+                    <svg
+                      width='14'
+                      height='14'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='1.8'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                    >
+                      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+                    </svg>
                     Add to Cart
                   </button>
                 </form>
               {%- else -%}
-                <span class="sl-sold-out-label">Sold Out</span>
+                <span class='sl-sold-out-label'>Sold Out</span>
               {%- endif -%}
             </div>
           </div>
         </div>
 
       {%- else -%}
-        <div class="sl-empty-collection">
-          <p class="sl-empty-icon">◈</p>
-          <p class="sl-empty-text">No products found</p>
-          <a href="/collections/all" class="sl-btn-outline">Shop All</a>
+        <div class='sl-empty-collection'>
+          <p class='sl-empty-icon'>◈</p>
+          <p class='sl-empty-text'>No products found</p>
+          <a href='/collections/all' class='sl-btn-outline'>Shop All</a>
         </div>
       {%- endfor -%}
 
       {%- if paginate.pages > 1 -%}
-        <div class="sl-pagination">
+        <div class='sl-pagination'>
           {{ paginate | default_pagination }}
         </div>
       {%- endif -%}
     {%- endpaginate -%}
   </div>
-
 </div>
 
 <!-- ═══ STYLES ═══ -->
 <style>
+  .sl-shop-hero {
+    background-size: cover;
+    background-position: center center;
+    height: 45vh;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sl-shop-hero h1 {
+    color: #ffffff !important;
+    text-shadow: 0 0 30px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 1);
+  }
+  .sl-shop-hero .sl-eyebrow {
+    color: #c4887a !important;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 1), 0 1px 3px rgba(0, 0, 0, 1);
+  }
+  .sl-shop-hero .sl-collection-desc {
+    color: #ffffff !important;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 1), 0 1px 3px rgba(0, 0, 0, 1);
+  }
+
   .sl-collection-desc {
     color: var(--text-muted, #a09888);
     max-width: 480px;
@@ -146,7 +312,7 @@
   }
   .sl-quick-filter {
     padding: 8px 18px;
-    border: 1px solid rgba(240,234,224,0.1);
+    border: 1px solid rgba(240, 234, 224, 0.1);
     border-radius: 30px;
     font-family: 'Jost', sans-serif;
     font-size: 12px;
@@ -172,7 +338,7 @@
     align-items: center;
     margin-bottom: 30px;
     padding: 20px 0 16px;
-    border-bottom: 1px solid rgba(240,234,224,0.06);
+    border-bottom: 1px solid rgba(240, 234, 224, 0.06);
   }
   .sl-product-count {
     font-family: 'Jost', sans-serif;
@@ -182,8 +348,8 @@
     color: var(--text-muted, #a09888);
   }
   .sl-sort-select {
-    background: rgba(240,234,224,0.04);
-    border: 1px solid rgba(240,234,224,0.1);
+    background: rgba(240, 234, 224, 0.04);
+    border: 1px solid rgba(240, 234, 224, 0.1);
     color: var(--text, #f0eae0);
     font-family: 'Jost', sans-serif;
     font-size: 12px;
@@ -233,13 +399,14 @@
     font-size: 14px;
     letter-spacing: 1px;
   }
-  .sl-pagination a, .sl-pagination span {
+  .sl-pagination a,
+  .sl-pagination span {
     display: inline-block;
     padding: 8px 14px;
     margin: 0 4px;
     color: var(--text-muted, #a09888);
     text-decoration: none;
-    border: 1px solid rgba(240,234,224,0.08);
+    border: 1px solid rgba(240, 234, 224, 0.08);
     border-radius: 4px;
     transition: all 0.3s;
   }
@@ -254,11 +421,152 @@
   }
 
   @media (max-width: 1024px) {
-    .sl-product-grid-full { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .sl-product-grid-full {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
   }
   @media (max-width: 768px) {
-    .sl-product-grid-full { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .sl-quick-filters { padding: 24px 0 0; gap: 6px; }
-    .sl-quick-filter { padding: 6px 14px; font-size: 11px; }
+    .sl-shop-hero {
+      height: 35vh;
+      min-height: 200px;
+    }
+    .sl-product-grid-full {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .sl-quick-filters {
+      padding: 24px 0 0;
+      gap: 6px;
+    }
+    .sl-quick-filter {
+      padding: 6px 14px;
+      font-size: 11px;
+    }
+  }
+  .sl-price-filter {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(240, 234, 224, 0.06);
+    margin-bottom: 24px;
+  }
+  .sl-price-filter-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted, #a09888);
+    white-space: nowrap;
+  }
+  .sl-price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sl-rupee {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted, #a09888);
+  }
+  .sl-price-input {
+    width: 90px;
+    background: rgba(240, 234, 224, 0.04);
+    border: 1px solid rgba(240, 234, 224, 0.1);
+    color: var(--text, #f0eae0);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    outline: none;
+  }
+  .sl-price-input:focus {
+    border-color: var(--rose, #c4887a);
+  }
+  .sl-price-sep {
+    color: var(--text-muted, #a09888);
+  }
+  .sl-price-apply {
+    background: var(--rose, #c4887a);
+    color: var(--bg, #080706);
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .sl-price-apply:hover {
+    opacity: 0.85;
+  }
+  .sl-price-clear {
+    background: transparent;
+    color: var(--text-muted, #a09888);
+    border: 1px solid rgba(240, 234, 224, 0.1);
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sl-price-clear:hover {
+    border-color: var(--rose, #c4887a);
+    color: var(--rose, #c4887a);
+  }
+  .sl-product-card--hidden {
+    display: none !important;
+  }
+  @media (max-width: 768px) {
+    .sl-price-filter {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .sl-price-input {
+      width: 75px;
+    }
   }
 </style>
+<script>
+  function slApplyPriceFilter() {
+    const min = parseFloat(document.getElementById('sl-price-min').value) || 0;
+    const max = parseFloat(document.getElementById('sl-price-max').value) || Infinity;
+    let visible = 0;
+    document.querySelectorAll('.sl-product-card').forEach((card) => {
+      const price = parseFloat(card.dataset.price);
+      const hidden = price < min || price > max;
+      card.classList.toggle('sl-product-card--hidden', hidden);
+      if (!hidden) visible++;
+    });
+    let msg = document.getElementById('sl-no-results');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.id = 'sl-no-results';
+      msg.style.cssText =
+        'grid-column:1/-1;text-align:center;padding:60px 0;font-family:Jost,sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#a09888;display:none;';
+      msg.innerHTML = '◈<br><br>No products found in this price range';
+      document.querySelector('.sl-product-grid-full').appendChild(msg);
+    }
+    msg.style.display = visible === 0 ? 'block' : 'none';
+  }
+  function slClearPriceFilter() {
+    document.getElementById('sl-price-min').value = '';
+    document.getElementById('sl-price-max').value = '';
+    document.querySelectorAll('.sl-product-card').forEach((card) => {
+      card.classList.remove('sl-product-card--hidden');
+    });
+    const msg = document.getElementById('sl-no-results');
+    if (msg) msg.style.display = 'none';
+  }
+  document.getElementById('sl-price-max').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') slApplyPriceFilter();
+  });
+</script>

@@ -1,0 +1,573 @@
+{% comment %}
+  ╔══════════════════════════════════════════════════╗
+  ║   SOULOLITH — Featured Collections Section       ║
+  ║   File: sections/featured-collections.liquid     ║
+  ╚══════════════════════════════════════════════════╝
+{% endcomment %}
+
+{%- liquid
+  assign section_id = 'fc-' | append: section.id
+  assign heading = section.settings.heading
+  assign subtitle = section.settings.subtitle
+  assign btn_text = section.settings.button_text
+  assign bg_color = section.settings.background_color
+  assign pt = section.settings.padding_top
+  assign pb = section.settings.padding_bottom
+-%}
+
+<section
+  id='{{ section_id }}'
+  class='featured-collections'
+  style='background-color:{{ bg_color }};padding-top:{{ pt }}px;padding-bottom:{{ pb }}px;'
+>
+  {%- if heading != blank or subtitle != blank -%}
+    <div class='fc__header'>
+      {%- if heading != blank -%}
+        <h2 class='fc__heading sl-section-title'>{{ heading | escape }}</h2>
+      {%- endif -%}
+      {%- if subtitle != blank -%}
+        <p class='fc__subtitle'>{{ subtitle | escape }}</p>
+      {%- endif -%}
+      <div class='fc__divider' aria-hidden='true'></div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class='fc__track-wrapper' role='region' aria-label='{{ heading | default: 'Featured Collections' | escape }}'>
+      <div class='fc__track'>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign col = block.settings.collection
+            assign cust_sub = block.settings.custom_subtitle
+            assign cust_img = block.settings.custom_image
+            assign block_btn = block.settings.block_button_text | default: btn_text
+
+            if cust_img != blank
+              assign card_image = cust_img
+            elsif col != blank and col.featured_image != blank
+              assign card_image = col.featured_image
+            else
+              assign card_image = null
+            endif
+
+            if col != blank
+              assign card_title = col.title
+              assign card_url = col.url
+            else
+              assign card_title = 'Collection'
+              assign card_url = '#'
+            endif
+          -%}
+
+          <article class='fc__card' {{ block.shopify_attributes }}>
+            <a href='{{ card_url }}' class='fc__card-link' aria-label='Explore {{ card_title | escape }} collection'>
+              <div class='fc__card-media'>
+                {%- if card_image != null -%}
+                  <img
+                    src='{{ card_image | image_url: width: 900 }}'
+                    srcset='
+                      {{ card_image | image_url: width: 480 }} 480w,
+                      {{ card_image | image_url: width: 700 }} 700w,
+                      {{ card_image | image_url: width: 900 }} 900w
+                    '
+                    sizes='(max-width: 749px) 85vw, (max-width: 1099px) 45vw, 33vw'
+                    alt='{{ card_image.alt | default: card_title | escape }}'
+                    class='fc__card-img'
+                    loading='lazy'
+                    width='{{ card_image.width }}'
+                    height='{{ card_image.height }}'
+                  >
+                {%- else -%}
+                  <div class='fc__card-img fc__card-img--placeholder'>
+                    {{ 'collection-1' | placeholder_svg_tag: 'fc__placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+
+                <div class='fc__card-overlay' aria-hidden='true'></div>
+
+                <div class='fc__card-content'>
+                  <div class='fc__card-inner'>
+                    <p class='fc__card-eyebrow' aria-hidden='true'>Collection</p>
+                    <h3 class='fc__card-title'>{{ card_title | escape }}</h3>
+
+                    {%- if cust_sub != blank -%}
+                      <p class='fc__card-desc'>{{ cust_sub | escape }}</p>
+                    {%- elsif col != blank and col.description != blank -%}
+                      <p class='fc__card-desc'>{{ col.description | strip_html | truncate: 90 }}</p>
+                    {%- endif -%}
+
+                    <span class='fc__card-btn' aria-hidden='true'>
+                      <span class='fc__card-btn-text'>{{ block_btn | escape }}</span>
+                      <span class='fc__card-btn-line'></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class='fc__dots' aria-hidden='true'>
+        {%- for block in section.blocks -%}
+          <button
+            class='fc__dot{% if forloop.first %} fc__dot--active{% endif %}'
+            data-target='{{ forloop.index0 }}'
+            aria-label='Go to collection {{ forloop.index }}'
+          ></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  {%- else -%}
+    {%- if request.design_mode -%}
+      <div class='fc__empty-state'>
+        <p>Add collection cards using the + Add block button in the Theme Editor.</p>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</section>
+
+<style>
+  /* ── TOKENS ── */
+  #{{ section_id }} {
+    --fc-accent:       #c4887a;
+    --fc-gold-line:    rgba(196,136,122,0.35);
+    --fc-border:       rgba(196,136,122,0.2);
+    --fc-white:        #F0EAE0;
+    --fc-white-muted:  rgba(240,234,224,0.55);
+    --fc-font-head:    'Cormorant Garamond', Georgia, serif;
+    --fc-font-body:    'Jost', sans-serif;
+    --fc-transition:   0.55s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+
+  #{{ section_id }} { position:relative; width:100%; overflow:hidden; }
+
+  /* ── HEADER ── */
+  #{{ section_id }} .fc__header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 1.5rem;
+  }
+
+  /* ── HEADING — matches h2.sl-section-title ── */
+  #{{ section_id }} .fc__heading {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #F0EAE0;
+    margin: 0 0 12px;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  /* ── SUBTITLE ── */
+  #{{ section_id }} .fc__subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    color: var(--fc-white-muted);
+    margin: 0 auto 1.5rem;
+    max-width: 460px;
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
+  #{{ section_id }} .fc__divider {
+    width: 36px;
+    height: 1px;
+    background: var(--fc-gold-line);
+    margin: 0 auto;
+  }
+
+  /* ── TRACK ── */
+  #{{ section_id }} .fc__track-wrapper {
+    padding: 0 clamp(1.25rem, 4vw, 5rem);
+  }
+
+  #{{ section_id }} .fc__track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* ── CARD ── */
+  #{{ section_id }} .fc__card { position:relative; list-style:none; }
+
+  #{{ section_id }} .fc__card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    outline-offset: 4px;
+    outline-color: var(--fc-accent);
+  }
+
+  #{{ section_id }} .fc__card-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid var(--fc-border);
+    aspect-ratio: 10 / 11;
+    background: #0e0d0c;
+    cursor: pointer;
+  }
+
+  /* ── IMAGE ── */
+  #{{ section_id }} .fc__card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1);
+    transition: transform var(--fc-transition);
+    will-change: transform;
+  }
+
+  #{{ section_id }} .fc__card-img--placeholder {
+    display: flex; align-items: center; justify-content: center;
+    background: #111010;
+  }
+
+  #{{ section_id }} .fc__placeholder-svg {
+    width: 64px; opacity: 0.18; fill: var(--fc-accent);
+  }
+
+  /* ── OVERLAY ── */
+  #{{ section_id }} .fc__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(8,7,6,0.88) 0%,
+      rgba(8,7,6,0.50) 40%,
+      rgba(8,7,6,0.15) 70%,
+      rgba(8,7,6,0.05) 100%
+    );
+    transition: background var(--fc-transition);
+    z-index: 1;
+  }
+
+  /* ── CONTENT ── */
+  #{{ section_id }} .fc__card-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.75rem 1.5rem;
+  }
+
+  #{{ section_id }} .fc__card-inner {
+    width: 100%;
+    transform: translateY(6px);
+    transition: transform var(--fc-transition);
+  }
+
+  #{{ section_id }} .fc__card-eyebrow {
+    font-family: var(--fc-font-body);
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    color: var(--fc-accent);
+    text-transform: uppercase;
+    margin: 0 0 0.35rem;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+  }
+
+  #{{ section_id }} .fc__card-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.3rem, 1.8vw, 1.75rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #F0EAE0;
+    margin: 0 0 0.45rem;
+    line-height: 1.2;
+  }
+
+  #{{ section_id }} .fc__card-desc {
+    font-family: var(--fc-font-body);
+    font-size: 0.76rem;
+    line-height: 1.65;
+    letter-spacing: 0.04em;
+    color: var(--fc-white-muted);
+    margin: 0 0 1.1rem;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease 0.08s, transform 0.4s ease 0.08s;
+    max-width: 26ch;
+  }
+
+  /* ── CTA ── */
+  #{{ section_id }} .fc__card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: var(--fc-font-body);
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fc-accent);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease 0.12s, transform 0.4s ease 0.12s;
+  }
+
+  #{{ section_id }} .fc__card-btn-line {
+    display: block;
+    width: 26px;
+    height: 1px;
+    background: var(--fc-accent);
+    transition: width 0.35s ease;
+    flex-shrink: 0;
+  }
+
+  /* ── HOVER ── */
+  @media (hover: hover) {
+    #{{ section_id }} .fc__card-link:hover .fc__card-img { transform: scale(1.06); }
+
+    #{{ section_id }} .fc__card-link:hover .fc__card-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(8,7,6,0.78) 0%,
+        rgba(8,7,6,0.35) 40%,
+        rgba(8,7,6,0.10) 70%,
+        rgba(8,7,6,0.04) 100%
+      );
+    }
+
+    #{{ section_id }} .fc__card-link:hover .fc__card-inner { transform: translateY(0); }
+
+    #{{ section_id }} .fc__card-link:hover .fc__card-eyebrow,
+    #{{ section_id }} .fc__card-link:hover .fc__card-desc,
+    #{{ section_id }} .fc__card-link:hover .fc__card-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #{{ section_id }} .fc__card-link:hover .fc__card-btn-line { width: 42px; }
+  }
+
+  /* Touch: always show content */
+  @media (hover: none) {
+    #{{ section_id }} .fc__card-eyebrow,
+    #{{ section_id }} .fc__card-desc,
+    #{{ section_id }} .fc__card-btn { opacity:1; transform:translateY(0); }
+    #{{ section_id }} .fc__card-inner { transform:translateY(0); }
+  }
+
+  /* ── DOTS ── */
+  #{{ section_id }} .fc__dots {
+    display: none;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  #{{ section_id }} .fc__dot {
+    width: 18px; height: 2px;
+    background: var(--fc-border);
+    border: none; border-radius: 1px;
+    cursor: pointer; padding: 0;
+    transition: background 0.3s ease, width 0.3s ease;
+  }
+
+  #{{ section_id }} .fc__dot--active { background: var(--fc-accent); width: 32px; }
+
+  /* ── EMPTY STATE ── */
+  #{{ section_id }} .fc__empty-state {
+    border: 1px dashed var(--fc-border);
+    padding: 3rem 2rem;
+    text-align: center;
+    margin: 0 2rem;
+    border-radius: 2px;
+  }
+
+  #{{ section_id }} .fc__empty-state p {
+    font-family: var(--fc-font-body);
+    font-size: 0.85rem;
+    color: var(--fc-white-muted);
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  /* ── TABLET ── */
+  @media screen and (max-width: 1099px) {
+    #{{ section_id }} .fc__track { grid-template-columns: repeat(2,1fr); }
+  }
+
+  /* ── MOBILE CAROUSEL ── */
+  @media screen and (max-width: 749px) {
+    #{{ section_id }} .fc__heading { font-size: 32px; }
+    #{{ section_id }} .fc__header  { margin-bottom: 2rem; }
+
+    #{{ section_id }} .fc__track-wrapper { padding: 0; }
+
+    #{{ section_id }} .fc__track {
+      display: flex;
+      flex-direction: row;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      gap: 1rem;
+      padding: 0 1.25rem 1rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #{{ section_id }} .fc__track::-webkit-scrollbar { display: none; }
+
+    #{{ section_id }} .fc__card {
+      flex: 0 0 82vw;
+      max-width: 300px;
+      scroll-snap-align: center;
+    }
+
+    #{{ section_id }} .fc__card-media { aspect-ratio: 4 / 5; }
+    #{{ section_id }} .fc__dots { display: flex; }
+  }
+
+  @media screen and (max-width: 389px) {
+    #{{ section_id }} .fc__card { flex: 0 0 88vw; }
+  }
+</style>
+
+<script>
+  (function () {
+    var section = document.getElementById('{{ section_id }}');
+    if (!section) return;
+    var track = section.querySelector('.fc__track');
+    var dots = section.querySelectorAll('.fc__dot');
+    if (!track || !dots.length) return;
+
+    function onScroll() {
+      if (window.innerWidth > 749) return;
+      var cards = track.querySelectorAll('.fc__card');
+      var idx = Math.round(track.scrollLeft / (cards[0].getBoundingClientRect().width + 16));
+      dots.forEach(function (d, i) {
+        d.classList.toggle('fc__dot--active', i === idx);
+      });
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        var cards = track.querySelectorAll('.fc__card');
+        var t = parseInt(dot.getAttribute('data-target'), 10);
+        if (cards[t]) cards[t].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+    });
+
+    track.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Featured Collections",
+  "tag": "section",
+  "class": "soulolith-featured-collections",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore Our Collections"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Curated with intention. Crafted for the soul."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Default CTA Button Text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#080706"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "custom_subtitle",
+          "label": "Card Subtitle / Description",
+          "placeholder": "Grounding pieces designed for energetic stability.",
+          "info": "Overrides the collection description."
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Card Image (optional)",
+          "info": "Overrides the collection's featured image. Ideal: 900×1125px."
+        },
+        {
+          "type": "text",
+          "id": "block_button_text",
+          "label": "Button Text Override",
+          "placeholder": "Explore Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Featured Collections",
+      "blocks": [{ "type": "collection_card" }, { "type": "collection_card" }, { "type": "collection_card" }]
+    }
+  ]
+}
+{% endschema %}

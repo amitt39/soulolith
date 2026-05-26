@@ -157,48 +157,6 @@
               </span>
             </div>
 
-            <!-- COD fee row — separate, shown only when COD selected -->
-            <div class='sl-summary-row sl-cod-fee-row' id='sl-cod-fee-row' style='display:none;'>
-              <span style='color:var(--text-muted);font-size:12px;'>COD Handling Fee</span>
-              <span style='color:var(--rose-light);'>+₹100</span>
-            </div>
-
-            <!-- Payment Method Selector -->
-            <div class='sl-payment-selector'>
-              <p class='sl-payment-selector-label'>How would you like to pay?</p>
-
-              <div class='sl-payment-options'>
-                <label class='sl-payment-option' id='opt-prepaid'>
-                  <input type='radio' name='sl_payment_pref' value='prepaid' checked>
-                  <div class='sl-payment-option-inner'>
-                    <div class='sl-payment-option-top'>
-                      <span class='sl-payment-option-title'>Pay Online</span>
-                      <span class='sl-payment-option-badge'>Recommended</span>
-                    </div>
-                    <span class='sl-payment-option-sub'>UPI · Cards · Net Banking · Wallets</span>
-                  </div>
-                </label>
-
-                <label class='sl-payment-option' id='opt-cod'>
-                  <input type='radio' name='sl_payment_pref' value='cod'>
-                  <div class='sl-payment-option-inner'>
-                    <div class='sl-payment-option-top'>
-                      <span class='sl-payment-option-title'>Cash on Delivery</span>
-                      <span class='sl-payment-option-fee'>+₹100 fee</span>
-                    </div>
-                    <span class='sl-payment-option-sub'>Pay cash when your order arrives</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <!-- COD note -->
-            <div id='sl-cod-note' style='display:none;margin:4px 0 12px;'>
-              <p style='font-size:10px;letter-spacing:0.5px;color:var(--text-faint);text-align:center;line-height:1.6;padding:8px;background:rgba(196,136,122,0.05);border:1px solid rgba(196,136,122,0.1);border-radius:4px;'>
-                ₹100 COD fee is applied at checkout · WhatsApp OTP verification required
-              </p>
-            </div>
-
             <!-- Total -->
             <div class='sl-summary-row total'>
               <span>Total</span>
@@ -394,84 +352,6 @@
     border-radius: 2px;
   }
 
-  /* Payment selector */
-  .sl-payment-selector {
-    margin: 16px 0 4px;
-  }
-  .sl-payment-selector-label {
-    font-family: 'Jost', sans-serif;
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-  }
-  .sl-payment-options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .sl-payment-option {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 14px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .sl-payment-option input[type='radio'] {
-    margin-top: 3px;
-    accent-color: var(--rose-light);
-    flex-shrink: 0;
-  }
-  .sl-payment-option:has(input:checked) {
-    border-color: var(--rose-dark);
-    background: rgba(196, 136, 122, 0.05);
-  }
-  .sl-payment-option-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    flex: 1;
-  }
-  .sl-payment-option-top {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .sl-payment-option-title {
-    font-family: 'Jost', sans-serif;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--text);
-  }
-  .sl-payment-option-sub {
-    font-family: 'Jost', sans-serif;
-    font-size: 10px;
-    color: var(--text-faint);
-  }
-  .sl-payment-option-badge {
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--rose-light);
-    background: rgba(196, 136, 122, 0.1);
-    border: 1px solid rgba(196, 136, 122, 0.2);
-    padding: 2px 6px;
-    border-radius: 2px;
-  }
-  .sl-payment-option-fee {
-    font-size: 10px;
-    color: var(--text-muted);
-  }
-  .sl-cod-fee-row {
-    border-top: 1px dashed var(--border);
-    padding-top: 10px;
-    margin-top: 4px;
-  }
   .sl-qty-loading {
     opacity: 0.5;
     pointer-events: none;
@@ -537,17 +417,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var FREE_THRESHOLD = {{ settings.free_shipping_threshold | default: 1999 | times: 100 }};
-    var SHIPPING_COST  = 9900;   // ₹99
-    var COD_FEE        = 10000;  // ₹100
+    var SHIPPING_COST  = 9900;
     var currentSubtotal = {{ cart.items_subtotal_price }};
 
     function fmt(cents) {
       return '₹' + Math.round(Number(cents) / 100).toLocaleString('en-IN');
-    }
-
-    function isCod() {
-      var r = document.querySelector('input[name="sl_payment_pref"]:checked');
-      return r && r.value === 'cod';
     }
 
     function isFreeShip(subtotal) {
@@ -567,13 +441,10 @@
     }
 
     function updateBreakdown(subtotal) {
-      var cod        = isCod();
-      var freeShip   = isFreeShip(subtotal);
-      var shipCost   = freeShip ? 0 : SHIPPING_COST;
-      var codFee     = cod ? COD_FEE : 0;
-      var total      = subtotal + shipCost + codFee;
+      var freeShip = isFreeShip(subtotal);
+      var shipCost = freeShip ? 0 : SHIPPING_COST;
+      var total    = subtotal + shipCost;
 
-      // Shipping label — always shipping only, never COD fee
       var shipLabel = document.getElementById('sl-shipping-label');
       if (shipLabel) {
         if (freeShip) {
@@ -583,28 +454,12 @@
         }
       }
 
-      // COD fee row
-      var codRow  = document.getElementById('sl-cod-fee-row');
-      var codNote = document.getElementById('sl-cod-note');
-      if (codRow)  codRow.style.display  = cod ? 'flex' : 'none';
-      if (codNote) codNote.style.display = cod ? 'block' : 'none';
-
-      // Total
       var totalEl = document.getElementById('sl-total');
       if (totalEl) totalEl.textContent = fmt(total);
 
-      // Total note breakdown
       var noteEl = document.getElementById('sl-total-note');
       if (noteEl) {
-        if (cod && freeShip) {
-          noteEl.textContent = 'Shipping: Free  +  COD: ₹100';
-        } else if (cod && !freeShip) {
-          noteEl.textContent = 'Shipping: ₹99  +  COD: ₹100';
-        } else if (!cod && !freeShip) {
-          noteEl.textContent = 'Includes ₹99 shipping';
-        } else {
-          noteEl.textContent = 'Free shipping applied!';
-        }
+        noteEl.textContent = freeShip ? 'Free shipping applied!' : 'Includes ₹99 shipping';
       }
     }
 
@@ -656,7 +511,6 @@
       .catch(function() { widget.classList.remove('sl-qty-loading'); window.location.reload(); });
     }
 
-    // Quantity controls
     document.querySelectorAll('.sl-cart-qty[data-cart-handled]').forEach(function(widget) {
       var input    = widget.querySelector('input');
       var minusBtn = widget.querySelector('[data-action="minus"]');
@@ -667,7 +521,6 @@
       input.addEventListener('change', function() { setQty(widget, line, parseInt(input.value, 10)); });
     });
 
-    // Remove item
     document.querySelectorAll('.sl-cart-item-remove').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -690,14 +543,6 @@
       });
     });
 
-    // Payment method toggle
-    document.querySelectorAll('input[name="sl_payment_pref"]').forEach(function(radio) {
-      radio.addEventListener('change', function() {
-        updateBreakdown(currentSubtotal);
-      });
-    });
-
-    // Init
     updateShippingBar(currentSubtotal);
     updateBreakdown(currentSubtotal);
   });

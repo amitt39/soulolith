@@ -97,7 +97,7 @@
         "type": "text",
         "id": "announcement_text",
         "label": "Announcement Text",
-        "default": "FREE SHIPPING ON ORDERS ABOVE ₹1499  |  100% AUTHENTIC CRYSTALS",
+        "default": "FREE SHIPPING ON ORDERS ABOVE ₹1999  |  100% AUTHENTIC CRYSTALS",
         "info": "Use | to separate two messages"
       },
       {
@@ -147,7 +147,7 @@
         "type": "number",
         "id": "free_shipping_threshold",
         "label": "Free Shipping Threshold (₹)",
-        "default": 1499,
+        "default": 1999,
         "info": "Must match your Shopify shipping rate"
       }
     ]
@@ -165,7 +165,7 @@
         "type": "text",
         "id": "trust_badge_2",
         "label": "Trust Badge 2",
-        "default": "Free Shipping Above ₹1499"
+        "default": "Free Shipping Above ₹1999"
       },
       {
         "type": "text",
@@ -217,7 +217,7 @@
         "type": "text",
         "id": "cart_trust_2",
         "label": "Cart Trust Badge 2",
-        "default": "Free Shipping Above ₹1499"
+        "default": "Free Shipping Above ₹1999"
       },
       {
         "type": "text",
