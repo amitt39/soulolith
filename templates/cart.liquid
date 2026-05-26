@@ -1,224 +1,229 @@
 {% comment %}
-  SOULOLITH — Cart Page v2
+  SOULOLITH — Cart Page v3 (Redesigned)
   File: templates/cart.liquid
 {% endcomment %}
 
-<section class='sl-section' style='padding-top: 28px;'>
+{%- assign free_threshold = settings.free_shipping_threshold | default: 1999 | times: 100 -%}
+
+<section class='sl-section' style='padding-top: 28px; padding-bottom: 80px;'>
   <div class='sl-container'>
-    <div class='sl-section-header' style='margin-bottom: 20px;'>
+    <div class='sl-section-header' style='margin-bottom: 32px;'>
       <span class='sl-eyebrow'>Your Selections</span>
       <h1 class='sl-section-title'>Your <em>Cart</em></h1>
       <div class='sl-divider'></div>
     </div>
 
     {%- if cart.item_count > 0 -%}
-      {%- assign free_threshold = settings.free_shipping_threshold | default: 1999 | times: 100 -%}
-
       <form action='{{ routes.cart_url }}' method='post' id='sl-cart-form'>
         <div class='sl-cart-layout'>
-          <!-- ── Cart Items ── -->
-          <div class='sl-cart-items' id='sl-cart-items'>
-            {%- for item in cart.items -%}
-              <div class='sl-cart-item' data-key='{{ item.key }}'>
-                <a href='{{ item.url }}' class='sl-cart-item-image'>
-                  {%- if item.image != blank -%}
-                    <img
-                      src='{{ item.image | image_url: width: 200 }}'
-                      alt='{{ item.image.alt | escape }}'
-                      loading='lazy'
-                      width='200'
-                    >
-                  {%- else -%}
-                    <div style='width:100%;height:100%;background:linear-gradient(135deg,#2a1520,#3d2030);display:flex;justify-content:center;align-items:center;color:rgba(240,234,224,0.1);font-size:24px;'>
-                      ◈
+          <!-- ══════════ LEFT COLUMN ══════════ -->
+          <div class='sl-cart-left'>
+            <!-- ── Cart Items ── -->
+            <div class='sl-cart-items' id='sl-cart-items'>
+              {%- for item in cart.items -%}
+                <div class='sl-cart-item' data-key='{{ item.key }}'>
+                  <a href='{{ item.url }}' class='sl-cart-item-image'>
+                    {%- if item.image != blank -%}
+                      <img
+                        src='{{ item.image | image_url: width: 160 }}'
+                        alt='{{ item.image.alt | escape }}'
+                        loading='lazy'
+                        width='160'
+                      >
+                    {%- else -%}
+                      <div class='sl-cart-img-placeholder'>◈</div>
+                    {%- endif -%}
+                  </a>
+                  <div class='sl-cart-item-info'>
+                    {%- if item.product.type != blank -%}
+                      <div class='sl-cart-item-stone'>{{ item.product.type }}</div>
+                    {%- endif -%}
+                    <a href='{{ item.url }}' class='sl-cart-item-name'>{{ item.title }}</a>
+                    {%- unless item.variant.title == 'Default Title' -%}
+                      <p class='sl-cart-item-variant'>{{ item.variant.title }}</p>
+                    {%- endunless -%}
+                    <div class='sl-cart-item-bottom'>
+                      <div class='sl-cart-qty' data-line='{{ forloop.index }}' data-cart-handled='true'>
+                        <button
+                          type='button'
+                          data-action='minus'
+                          aria-label='Decrease'
+                          {% if item.quantity <= 1 %}
+                            disabled
+                          {% endif %}
+                        >
+                          −
+                        </button>
+                        <input
+                          type='number'
+                          name='updates[]'
+                          id='updates_{{ item.key }}'
+                          value='{{ item.quantity }}'
+                          min='1'
+                          aria-label='Quantity'
+                        >
+                        <button type='button' data-action='plus' aria-label='Increase'>+</button>
+                      </div>
+                      <div class='sl-cart-item-price' data-unit-price='{{ item.original_price }}'>
+                        {{ item.final_line_price | money_without_trailing_zeros }}
+                      </div>
+                      <a
+                        href='{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0'
+                        class='sl-cart-item-remove'
+                        data-line='{{ forloop.index }}'
+                        aria-label='Remove {{ item.title | escape }}'
+                      >
+                        <svg
+                          width='11'
+                          height='11'
+                          viewBox='0 0 24 24'
+                          fill='none'
+                          stroke='currentColor'
+                          stroke-width='1.5'
+                        >
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                          <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+                        </svg>
+                        Remove
+                      </a>
                     </div>
-                  {%- endif -%}
-                </a>
-                <div class='sl-cart-item-info'>
-                  {%- if item.product.type != blank -%}
-                    <div class='sl-cart-item-stone'>{{ item.product.type }}</div>
-                  {%- endif -%}
-                  <a href='{{ item.url }}' class='sl-cart-item-name'>{{ item.title }}</a>
-                  {%- unless item.variant.title == 'Default Title' -%}
-                    <p style='font-size:11px;color:var(--text-faint);letter-spacing:1px;margin-bottom:6px;'>
-                      {{ item.variant.title }}
-                    </p>
-                  {%- endunless -%}
-                  <div class='sl-cart-item-price' data-unit-price='{{ item.original_price }}'>
-                    {{ item.final_line_price | money_without_trailing_zeros }}
-                  </div>
-                  <div class='sl-cart-item-actions'>
-                    <div class='sl-cart-qty' data-line='{{ forloop.index }}' data-cart-handled='true'>
-                      <button
-                        type='button'
-                        data-action='minus'
-                        aria-label='Decrease'
-                        {% if item.quantity <= 1 %}
-                          disabled
-                        {% endif %}
-                      >
-                        −
-                      </button>
-                      <input
-                        type='number'
-                        name='updates[]'
-                        id='updates_{{ item.key }}'
-                        value='{{ item.quantity }}'
-                        min='1'
-                        aria-label='Quantity'
-                      >
-                      <button type='button' data-action='plus' aria-label='Increase'>+</button>
-                    </div>
-                    <a
-                      href='{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0'
-                      class='sl-cart-item-remove'
-                      data-line='{{ forloop.index }}'
-                      aria-label='Remove {{ item.title | escape }}'
-                    >
-                      <svg
-                        width='12'
-                        height='12'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='currentColor'
-                        stroke-width='1.5'
-                      >
-                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
-                      </svg>
-                      Remove
-                    </a>
                   </div>
                 </div>
-              </div>
-            {%- endfor -%}
+              {%- endfor -%}
 
-            <!-- Add more items button -->
-            <div class='sl-cart-add-more'>
-              <a href='{{ routes.collections_url }}/all' class='sl-add-more-btn'>
-                <svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'>
-                  <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                Add More Items
-              </a>
-              <a href='{{ routes.collections_url }}/all' class='sl-continue-shopping'>← Continue Shopping</a>
+              <div class='sl-cart-actions'>
+                <a href='{{ routes.collections_url }}/all' class='sl-add-more-btn'>
+                  <svg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'>
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  Add More Items
+                </a>
+                <a href='{{ routes.collections_url }}/all' class='sl-continue-link'>← Continue Shopping</a>
+              </div>
+            </div>
+
+            <!-- ── Complete Your Ritual ── -->
+            <div class='sl-recommendations' id='sl-recommendations' style='display:none;'>
+              <div class='sl-rec-header'>
+                <span class='sl-eyebrow' style='font-size:9px;'>You May Also Love</span>
+                <h3 class='sl-rec-title'>Complete Your <em>Ritual</em></h3>
+                <div class='sl-divider' style='margin:10px 0 24px;'></div>
+              </div>
+              <div class='sl-rec-grid' id='sl-rec-grid'></div>
             </div>
           </div>
 
-          <!-- ── Order Summary ── -->
-          <div class='sl-cart-summary'>
-            <h3 class='sl-summary-title'>Order Summary</h3>
+          <!-- ══════════ RIGHT COLUMN — STICKY SUMMARY ══════════ -->
+          <div class='sl-cart-right'>
+            <div class='sl-cart-summary'>
+              <h3 class='sl-summary-title'>Order Summary</h3>
 
-            <!-- Free shipping progress bar -->
-            <div class='sl-free-shipping-bar' id='sl-shipping-bar'>
-              {%- if cart.items_subtotal_price >= free_threshold -%}
-                <div class='sl-shipping-bar-msg sl-shipping-bar-msg--unlocked'>✦ You've unlocked free shipping!</div>
-                <div class='sl-shipping-bar-track'><div class='sl-shipping-bar-fill' style='width:100%;'></div></div>
-              {%- else -%}
-                {%- assign remaining = free_threshold | minus: cart.items_subtotal_price -%}
-                {%- assign progress = cart.items_subtotal_price | times: 100 | divided_by: free_threshold -%}
-                <div class='sl-shipping-bar-msg'>
-                  Add <strong>{{ remaining | money_without_trailing_zeros }}</strong> more to unlock free delivery
-                </div>
-                <div class='sl-shipping-bar-track'>
-                  <div class='sl-shipping-bar-fill' style='width:{{ progress }}%;'></div>
-                </div>
-              {%- endif -%}
-            </div>
-
-            <!-- Subtotal -->
-            <div class='sl-summary-row'>
-              <span
-                >Subtotal (<span id='sl-item-count'>{{ cart.item_count }}</span> item
-                {%- if cart.item_count != 1 %}s{% endif -%}
-                )</span
-              >
-              <span id='sl-subtotal'>{{ cart.items_subtotal_price | money_without_trailing_zeros }}</span>
-            </div>
-
-            <!-- Discounts -->
-            {%- if cart.cart_level_discount_applications.size > 0 -%}
-              {%- for discount in cart.cart_level_discount_applications -%}
-                <div class='sl-summary-row' style='color:var(--rose-light);'>
-                  <span>{{ discount.title }}</span>
-                  <span>−{{ discount.total_allocated_amount | money_without_trailing_zeros }}</span>
-                </div>
-              {%- endfor -%}
-            {%- endif -%}
-
-            <!-- Shipping row — always shows shipping, never COD fee -->
-            <div class='sl-summary-row'>
-              <span>Shipping</span>
-              <span id='sl-shipping-label'>
+              <!-- Free shipping bar -->
+              <div class='sl-free-shipping-bar' id='sl-shipping-bar'>
                 {%- if cart.items_subtotal_price >= free_threshold -%}
-                  <span style='color:var(--rose-light);'>Free</span>
+                  <div class='sl-shipping-bar-msg sl-shipping-bar-msg--unlocked'>✦ You've unlocked free shipping!</div>
+                  <div class='sl-shipping-bar-track'><div class='sl-shipping-bar-fill' style='width:100%;'></div></div>
                 {%- else -%}
-                  ₹99
+                  {%- assign remaining = free_threshold | minus: cart.items_subtotal_price -%}
+                  {%- assign progress = cart.items_subtotal_price | times: 100 | divided_by: free_threshold -%}
+                  <div class='sl-shipping-bar-msg'>
+                    Add <strong>{{ remaining | money_without_trailing_zeros }}</strong> more for free delivery
+                  </div>
+                  <div class='sl-shipping-bar-track'>
+                    <div class='sl-shipping-bar-fill' style='width:{{ progress }}%;'></div>
+                  </div>
                 {%- endif -%}
-              </span>
-            </div>
-
-            <!-- Total -->
-            <div class='sl-summary-row total'>
-              <span>Total</span>
-              <span id='sl-total'>{{ cart.total_price | money_without_trailing_zeros }}</span>
-            </div>
-            <p
-              id='sl-total-note'
-              style='font-size:9px;color:var(--text-faint);letter-spacing:0.5px;text-align:right;margin-top:4px;margin-bottom:0;'
-            ></p>
-
-            <!-- Order Note -->
-            <div style='margin-top:16px;margin-bottom:16px;'>
-              <label
-                for='sl-cart-note'
-                style="font-family:'Jost';font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px;"
-                >Order Note (Optional)</label
-              >
-              <textarea
-                id='sl-cart-note'
-                name='note'
-                class='sl-form-input sl-form-textarea'
-                style='min-height:80px;'
-                placeholder='Crystal intentions, gift message...'
-              >{{ cart.note }}</textarea>
-            </div>
-
-            <div class='sl-cart-reassurance'>
-              <span>✦</span>
-              <p>Ethically sourced crystals, handcrafted with intention — beautifully packaged for you.</p>
-            </div>
-
-            <button type='submit' name='checkout' class='sl-btn-primary sl-checkout-btn' id='sl-checkout-btn'>
-              Proceed to Checkout
-            </button>
-
-            <div class='sl-trust-badges'>
-              <div class='sl-trust-badge'>
-                <span class='sl-trust-badge-icon'>◈</span>{{ settings.cart_trust_1 | default: 'Secure Checkout' }}
               </div>
-              <div class='sl-trust-badge'>
-                <span class='sl-trust-badge-icon'>✦</span>
-                {{- settings.cart_trust_2 | default: 'Free Shipping Above ₹1499' }}
-              </div>
-              <div class='sl-trust-badge'>
-                <span class='sl-trust-badge-icon'>○</span>{{ settings.cart_trust_3 | default: 'Easy 7-Day Returns' }}
-              </div>
-              <div class='sl-trust-badge'>
-                <span class='sl-trust-badge-icon'>◇</span>
-                {{- settings.cart_trust_4 | default: '100% Authentic Crystals' }}
-              </div>
-            </div>
 
-            <div style='margin-top:20px;padding-top:20px;border-top:1px solid var(--border);'>
-              <p style='font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-faint);margin-bottom:12px;text-align:center;'>
-                We Accept
-              </p>
-              <div class='sl-footer-payment-icons' style='justify-content:center;'>
-                {% if shop.enabled_payment_types != blank %}
-                  {% for type in shop.enabled_payment_types %}
-                    {{ type | payment_type_svg_tag: class: 'sl-payment-icon-svg' }}
-                  {% endfor %}
-                {% endif %}
+              <!-- Subtotal -->
+              <div class='sl-summary-row'>
+                <span
+                  >Subtotal (<span id='sl-item-count'>{{ cart.item_count }}</span> item
+                  {%- if cart.item_count != 1 %}s{% endif -%}
+                  )</span
+                >
+                <span id='sl-subtotal'>{{ cart.items_subtotal_price | money_without_trailing_zeros }}</span>
+              </div>
+
+              <!-- Discounts -->
+              {%- if cart.cart_level_discount_applications.size > 0 -%}
+                {%- for discount in cart.cart_level_discount_applications -%}
+                  <div class='sl-summary-row' style='color:var(--rose-light);'>
+                    <span>{{ discount.title }}</span>
+                    <span>−{{ discount.total_allocated_amount | money_without_trailing_zeros }}</span>
+                  </div>
+                {%- endfor -%}
+              {%- endif -%}
+
+              <!-- Shipping -->
+              <div class='sl-summary-row'>
+                <span>Shipping</span>
+                <span id='sl-shipping-label'>
+                  {%- if cart.items_subtotal_price >= free_threshold -%}
+                    <span style='color:var(--rose-light);'>Free</span>
+                  {%- else -%}
+                    ₹99
+                  {%- endif -%}
+                </span>
+              </div>
+
+              <!-- Total -->
+              <div class='sl-summary-row sl-summary-total'>
+                <span>Total</span>
+                <span id='sl-total'>{{ cart.total_price | money_without_trailing_zeros }}</span>
+              </div>
+              <p id='sl-total-note' class='sl-total-note'></p>
+
+              <!-- Order Note -->
+              <div class='sl-note-wrap'>
+                <label for='sl-cart-note' class='sl-note-label'>Order Note (Optional)</label>
+                <textarea
+                  id='sl-cart-note'
+                  name='note'
+                  class='sl-form-input sl-form-textarea'
+                  placeholder='Crystal intentions, gift message...'
+                >{{ cart.note }}</textarea>
+              </div>
+
+              <div class='sl-cart-reassurance'>
+                <span>✦</span>
+                <p>Ethically sourced crystals, handcrafted with intention — beautifully packaged for you.</p>
+              </div>
+
+              <button type='submit' name='checkout' class='sl-btn-primary sl-checkout-btn' id='sl-checkout-btn'>
+                Proceed to Checkout
+              </button>
+
+              <!-- Trust badges -->
+              <div class='sl-trust-badges'>
+                <div class='sl-trust-badge'>
+                  <span class='sl-trust-badge-icon'>◈</span>{{ settings.cart_trust_1 | default: 'Secure Checkout' }}
+                </div>
+                <div class='sl-trust-badge'>
+                  <span class='sl-trust-badge-icon'>✦</span>
+                  {{- settings.cart_trust_2 | default: 'Free Shipping Above ₹1999' }}
+                </div>
+                <div class='sl-trust-badge'>
+                  <span class='sl-trust-badge-icon'>○</span>{{ settings.cart_trust_3 | default: 'Easy 7-Day Returns' }}
+                </div>
+                <div class='sl-trust-badge'>
+                  <span class='sl-trust-badge-icon'>◇</span>
+                  {{- settings.cart_trust_4 | default: '100% Authentic Crystals' }}
+                </div>
+              </div>
+
+              <!-- Payment icons -->
+              <div class='sl-payment-icons-wrap'>
+                <p class='sl-payment-icons-label'>We Accept</p>
+                <div class='sl-footer-payment-icons' style='justify-content:center;'>
+                  {% if shop.enabled_payment_types != blank %}
+                    {% for type in shop.enabled_payment_types %}
+                      {{ type | payment_type_svg_tag: class: 'sl-payment-icon-svg' }}
+                    {% endfor %}
+                  {% endif %}
+                </div>
               </div>
             </div>
           </div>
@@ -226,11 +231,11 @@
       </form>
 
     {%- else -%}
-      <div style='text-align:center;padding:120px 0;'>
-        <div style='font-size:72px;color:rgba(240,234,224,0.06);margin-bottom:24px;'>◈</div>
+      <div class='sl-cart-empty'>
+        <div class='sl-cart-empty-icon'>◈</div>
         <span class='sl-eyebrow' style='display:block;margin-bottom:16px;'>Nothing here yet</span>
-        <h2 style='font-size:clamp(28px,4vw,48px);font-weight:300;margin-bottom:20px;'>Your cart is <em>empty</em></h2>
-        <p style='color:var(--text-muted);font-size:13px;margin-bottom:40px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.7;'>
+        <h2 class='sl-cart-empty-title'>Your cart is <em>empty</em></h2>
+        <p class='sl-cart-empty-text'>
           The right crystal is waiting for you. Browse our collection and let the stones speak to you.
         </p>
         <a href='{{ routes.collections_url }}/all' class='sl-btn-primary'>Explore Collection</a>
@@ -240,58 +245,129 @@
 </section>
 
 <style>
+  /* ── LAYOUT ── */
+  .sl-cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .sl-cart-right {
+    position: sticky;
+    top: 100px;
+  }
+
+  /* ── CART ITEM ── */
   .sl-cart-item {
     display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 24px;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
     align-items: start;
-    padding: 24px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border);
   }
+
+  .sl-cart-item-image img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+  }
+
+  .sl-cart-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #2a1520, #3d2030);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(240, 234, 224, 0.1);
+    font-size: 20px;
+    border-radius: 2px;
+  }
+
   .sl-cart-item-info {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
-  .sl-cart-item-actions {
+
+  .sl-cart-item-stone {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--rose-light, #c4887a);
+  }
+
+  .sl-cart-item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text, #f0eae0);
+    text-decoration: none;
+    line-height: 1.3;
+  }
+
+  .sl-cart-item-name:hover {
+    color: var(--rose-light, #c4887a);
+  }
+
+  .sl-cart-item-variant {
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  .sl-cart-item-bottom {
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-top: 12px;
+    gap: 16px;
+    margin-top: 10px;
+    flex-wrap: wrap;
   }
+
+  .sl-cart-item-price {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: var(--text, #f0eae0);
+    margin-left: auto;
+  }
+
   .sl-cart-item-remove {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     font-family: 'Jost', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--text-muted);
-    border: 1px solid transparent;
-    padding: 6px 10px;
-    transition: color 0.2s, border-color 0.2s;
-    cursor: pointer;
     text-decoration: none;
+    transition: color 0.2s;
   }
+
   .sl-cart-item-remove:hover {
-    color: var(--rose-light);
-    border-color: var(--rose-dark);
+    color: var(--rose-light, #c4887a);
   }
   .sl-cart-qty button:disabled {
     opacity: 0.25;
     cursor: not-allowed;
   }
 
-  /* Add more / continue shopping */
-  .sl-cart-add-more {
+  /* ── CART ACTIONS ── */
+  .sl-cart-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 24px;
+    padding: 20px 0;
     flex-wrap: wrap;
     gap: 12px;
   }
+
   .sl-add-more-btn {
     display: inline-flex;
     align-items: center;
@@ -303,41 +379,180 @@
     color: var(--text);
     background: transparent;
     border: 1px solid var(--border);
-    padding: 10px 20px;
+    padding: 10px 18px;
     transition: border-color 0.2s, color 0.2s;
     text-decoration: none;
   }
+
   .sl-add-more-btn:hover {
     border-color: var(--gold);
     color: var(--gold);
   }
 
-  /* Free shipping bar */
-  .sl-free-shipping-bar {
-    margin: 0 0 16px;
-    padding: 14px 16px;
-    background: rgba(196, 160, 106, 0.06);
-    border: 1px solid rgba(196, 160, 106, 0.15);
-    border-radius: 4px;
-  }
-  .sl-shipping-bar-msg {
+  .sl-continue-link {
     font-family: 'Jost', sans-serif;
-    font-size: 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .sl-continue-link:hover {
+    color: var(--text);
+  }
+
+  /* ── RECOMMENDATIONS ── */
+  .sl-recommendations {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sl-rec-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text, #f0eae0);
+    margin: 6px 0 0;
+  }
+
+  .sl-rec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .sl-rec-card {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .sl-rec-card:hover {
+    border-color: rgba(196, 136, 122, 0.4);
+  }
+
+  .sl-rec-card-img {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .sl-rec-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .sl-rec-card:hover .sl-rec-card-img img {
+    transform: scale(1.04);
+  }
+
+  .sl-rec-card-body {
+    padding: 12px;
+  }
+
+  .sl-rec-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text, #f0eae0);
+    margin: 0 0 4px;
+    line-height: 1.3;
+    text-decoration: none;
+    display: block;
+  }
+
+  .sl-rec-card-price {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
     color: var(--text-muted);
     margin-bottom: 10px;
+  }
+
+  .sl-rec-add-btn {
+    width: 100%;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text, #f0eae0);
+    background: transparent;
+    border: 1px solid rgba(196, 136, 122, 0.3);
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+    border-radius: 1px;
+  }
+
+  .sl-rec-add-btn:hover {
+    background: var(--rose, #c4887a);
+    border-color: var(--rose, #c4887a);
+    color: #080706;
+  }
+
+  .sl-rec-add-btn.adding {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .sl-rec-add-btn.added {
+    background: rgba(196, 136, 122, 0.15);
+    border-color: var(--rose, #c4887a);
+    color: var(--rose, #c4887a);
+  }
+
+  /* ── SUMMARY ── */
+  .sl-cart-summary {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 28px;
+  }
+
+  .sl-summary-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text, #f0eae0);
+    margin: 0 0 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .sl-free-shipping-bar {
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    background: rgba(196, 160, 106, 0.06);
+    border: 1px solid rgba(196, 160, 106, 0.15);
+    border-radius: 3px;
+  }
+
+  .sl-shipping-bar-msg {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
     text-align: center;
   }
+
   .sl-shipping-bar-msg strong {
     color: var(--gold);
   }
+
   .sl-shipping-bar-msg--unlocked {
     color: var(--rose-light);
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
+
   .sl-shipping-bar-track {
     width: 100%;
     height: 2px;
@@ -345,6 +560,7 @@
     overflow: hidden;
     border-radius: 2px;
   }
+
   .sl-shipping-bar-fill {
     height: 100%;
     background: linear-gradient(to right, var(--gold), var(--rose-light));
@@ -352,82 +568,203 @@
     border-radius: 2px;
   }
 
-  .sl-qty-loading {
-    opacity: 0.5;
-    pointer-events: none;
+  .sl-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(196, 136, 122, 0.08);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: rgba(240, 234, 224, 0.65);
   }
 
-  @media (max-width: 768px) {
-    .sl-cart-item {
-      grid-template-columns: 108px 1fr;
-      gap: 16px;
-      padding: 20px 0;
-    }
-    .sl-add-more-btn {
-      width: 100%;
-      justify-content: center;
-    }
-    .sl-cart-add-more {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  .sl-summary-total {
+    border-bottom: none;
+    padding-top: 14px;
+    margin-top: 4px;
+    border-top: 1px solid rgba(196, 136, 122, 0.2);
   }
+
+  .sl-summary-total span {
+    color: var(--text, #f0eae0) !important;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .sl-total-note {
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.5px;
+    text-align: right;
+    margin: 4px 0 16px;
+  }
+
+  .sl-note-wrap {
+    margin-bottom: 16px;
+  }
+
+  .sl-note-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+
   .sl-cart-reassurance {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     margin-bottom: 16px;
-    border: 1px solid rgba(196, 136, 122, 0.15);
-    background: rgba(196, 136, 122, 0.04);
+    border: 1px solid rgba(196, 136, 122, 0.12);
+    background: rgba(196, 136, 122, 0.03);
+    border-radius: 2px;
   }
+
   .sl-cart-reassurance span {
     color: var(--rose);
-    font-size: 12px;
+    font-size: 11px;
     flex-shrink: 0;
     margin-top: 2px;
   }
+
   .sl-cart-reassurance p {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
+    font-size: 13px;
     font-style: italic;
     color: var(--text-muted);
     line-height: 1.6;
     margin: 0;
   }
-  .sl-summary-row {
-    color: var(--text);
-    border-bottom: 1px solid rgba(196, 136, 122, 0.1);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-  }
-  .sl-summary-row span {
-    color: rgba(240, 234, 224, 0.75);
-  }
-  .sl-summary-row.total span {
-    color: var(--text);
-    font-size: 16px;
-  }
-  .sl-summary-title {
-    color: var(--text);
+
+  .sl-checkout-btn {
+    width: 100%;
     margin-bottom: 20px;
+  }
+
+  .sl-trust-badges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .sl-trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+
+  .sl-trust-badge-icon {
+    color: var(--rose, #c4887a);
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .sl-payment-icons-wrap {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  .sl-payment-icons-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .sl-qty-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* ── EMPTY ── */
+  .sl-cart-empty {
+    text-align: center;
+    padding: 120px 0;
+  }
+
+  .sl-cart-empty-icon {
+    font-size: 64px;
+    color: rgba(240, 234, 224, 0.05);
+    margin-bottom: 24px;
+  }
+
+  .sl-cart-empty-title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 300;
+    margin-bottom: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text, #f0eae0);
+  }
+
+  .sl-cart-empty-text {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 36px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media screen and (max-width: 1099px) {
+    .sl-cart-layout {
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+    }
+    .sl-rec-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .sl-cart-layout {
+      grid-template-columns: 1fr;
+    }
+    .sl-cart-right {
+      position: static;
+    }
+    .sl-rec-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .sl-cart-item {
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+    }
+    .sl-trust-badges {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var FREE_THRESHOLD = {{ settings.free_shipping_threshold | default: 1999 | times: 100 }};
-    var SHIPPING_COST  = 9900;
+    var FREE_THRESHOLD  = {{ settings.free_shipping_threshold | default: 1999 | times: 100 }};
+    var SHIPPING_COST   = 9900;
     var currentSubtotal = {{ cart.items_subtotal_price }};
+    var firstProductId  = {{ cart.items.first.product_id | default: 0 }};
 
+    /* ── FORMAT ── */
     function fmt(cents) {
       return '₹' + Math.round(Number(cents) / 100).toLocaleString('en-IN');
     }
 
-    function isFreeShip(subtotal) {
-      return subtotal >= FREE_THRESHOLD;
-    }
+    function isFreeShip(subtotal) { return subtotal >= FREE_THRESHOLD; }
 
+    /* ── SHIPPING BAR ── */
     function updateShippingBar(subtotal) {
       var bar = document.getElementById('sl-shipping-bar');
       if (!bar) return;
@@ -436,55 +773,51 @@
       } else {
         var remaining = FREE_THRESHOLD - subtotal;
         var progress  = Math.min(100, Math.round(subtotal * 100 / FREE_THRESHOLD));
-        bar.innerHTML = '<div class="sl-shipping-bar-msg">Add <strong>' + fmt(remaining) + '</strong> more to unlock free delivery</div><div class="sl-shipping-bar-track"><div class="sl-shipping-bar-fill" style="width:' + progress + '%;"></div></div>';
+        bar.innerHTML = '<div class="sl-shipping-bar-msg">Add <strong>' + fmt(remaining) + '</strong> more for free delivery</div><div class="sl-shipping-bar-track"><div class="sl-shipping-bar-fill" style="width:' + progress + '%;"></div></div>';
       }
     }
 
+    /* ── BREAKDOWN ── */
     function updateBreakdown(subtotal) {
       var freeShip = isFreeShip(subtotal);
-      var shipCost = freeShip ? 0 : SHIPPING_COST;
-      var total    = subtotal + shipCost;
+      var total    = subtotal + (freeShip ? 0 : SHIPPING_COST);
 
       var shipLabel = document.getElementById('sl-shipping-label');
       if (shipLabel) {
-        if (freeShip) {
-          shipLabel.innerHTML = '<span style="color:var(--rose-light);">Free</span>';
-        } else {
-          shipLabel.textContent = '₹99';
-        }
+        shipLabel.innerHTML = freeShip
+          ? '<span style="color:var(--rose-light);">Free</span>'
+          : '₹99';
       }
 
       var totalEl = document.getElementById('sl-total');
       if (totalEl) totalEl.textContent = fmt(total);
 
       var noteEl = document.getElementById('sl-total-note');
-      if (noteEl) {
-        noteEl.textContent = freeShip ? 'Free shipping applied!' : 'Includes ₹99 shipping';
-      }
+      if (noteEl) noteEl.textContent = freeShip ? 'Free shipping applied!' : 'Includes ₹99 shipping';
     }
 
+    /* ── SUMMARY UPDATE ── */
     function updateSummary(cart) {
       if (!cart || typeof cart.items_subtotal_price === 'undefined') return;
       currentSubtotal = cart.items_subtotal_price;
-      var subtotalEl = document.getElementById('sl-subtotal');
-      var countEl    = document.getElementById('sl-item-count');
+      var subtotalEl  = document.getElementById('sl-subtotal');
+      var countEl     = document.getElementById('sl-item-count');
       if (subtotalEl) subtotalEl.textContent = fmt(cart.items_subtotal_price);
       if (countEl)    countEl.textContent    = cart.item_count || 0;
       document.querySelectorAll('.sl-cart-count').forEach(function(b) {
-        b.textContent = cart.item_count || 0;
-        b.style.display = (cart.item_count > 0) ? 'flex' : 'none';
+        b.textContent   = cart.item_count || 0;
+        b.style.display = cart.item_count > 0 ? 'flex' : 'none';
       });
       updateShippingBar(cart.items_subtotal_price);
       updateBreakdown(cart.items_subtotal_price);
     }
 
     function updateLinePrice(key, cents) {
-      var itemEl = document.querySelector('.sl-cart-item[data-key="' + key + '"]');
-      if (!itemEl) return;
-      var priceEl = itemEl.querySelector('.sl-cart-item-price');
-      if (priceEl) priceEl.textContent = fmt(cents);
+      var el = document.querySelector('.sl-cart-item[data-key="' + key + '"] .sl-cart-item-price');
+      if (el) el.textContent = fmt(cents);
     }
 
+    /* ── QTY ── */
     function setQty(widget, line, newQty) {
       var input    = widget.querySelector('input');
       var minusBtn = widget.querySelector('[data-action="minus"]');
@@ -521,6 +854,7 @@
       input.addEventListener('change', function() { setQty(widget, line, parseInt(input.value, 10)); });
     });
 
+    /* ── REMOVE ── */
     document.querySelectorAll('.sl-cart-item-remove').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -543,7 +877,73 @@
       });
     });
 
+    /* ── RECOMMENDATIONS ── */
+    function loadRecommendations(productId) {
+      if (!productId) return;
+      fetch('/recommendations/products.json?product_id=' + productId + '&limit=3&intent=related')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var products = data.products;
+          if (!products || products.length === 0) return;
+          var grid    = document.getElementById('sl-rec-grid');
+          var wrapper = document.getElementById('sl-recommendations');
+          if (!grid || !wrapper) return;
+
+          products.forEach(function(product) {
+            var variant  = product.variants[0];
+            var imgSrc   = product.featured_image
+              ? product.featured_image + '&width=300'
+              : '';
+            var price    = '₹' + Math.round(variant.price / 100).toLocaleString('en-IN');
+            var card     = document.createElement('div');
+            card.className = 'sl-rec-card';
+            card.innerHTML =
+              '<a href="' + product.url + '" class="sl-rec-card-img">' +
+                (imgSrc ? '<img src="' + imgSrc + '" alt="' + product.title + '" loading="lazy">' : '') +
+              '</a>' +
+              '<div class="sl-rec-card-body">' +
+                '<a href="' + product.url + '" class="sl-rec-card-title">' + product.title + '</a>' +
+                '<div class="sl-rec-card-price">' + price + '</div>' +
+                '<button class="sl-rec-add-btn" data-variant-id="' + variant.id + '">Add to Cart</button>' +
+              '</div>';
+            grid.appendChild(card);
+          });
+
+          wrapper.style.display = 'block';
+
+          /* Add to cart from rec */
+          grid.querySelectorAll('.sl-rec-add-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var variantId = btn.getAttribute('data-variant-id');
+              btn.textContent = 'Adding...';
+              btn.classList.add('adding');
+              fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: parseInt(variantId, 10), quantity: 1 })
+              })
+              .then(function(r) { return r.json(); })
+              .then(function() {
+                btn.textContent = '✓ Added';
+                btn.classList.remove('adding');
+                btn.classList.add('added');
+                return fetch('/cart.js');
+              })
+              .then(function(r) { return r.json(); })
+              .then(function(cart) { updateSummary(cart); })
+              .catch(function() {
+                btn.textContent = 'Add to Cart';
+                btn.classList.remove('adding');
+              });
+            });
+          });
+        })
+        .catch(function() {});
+    }
+
+    /* ── INIT ── */
     updateShippingBar(currentSubtotal);
     updateBreakdown(currentSubtotal);
+    loadRecommendations(firstProductId);
   });
 </script>
