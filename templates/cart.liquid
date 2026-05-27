@@ -731,50 +731,44 @@
   }
 
   @media screen and (max-width: 749px) {
-    .sl-cart-layout {
-      grid-template-columns: 1fr;
-    }
-    .sl-cart-right {
-      position: static;
-    }
-    .sl-rec-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .sl-cart-item {
-      grid-template-columns: 90px 1fr;
-      gap: 14px;
-    }
-    .sl-trust-badges {
-      grid-template-columns: 1fr;
-    }
+  .sl-cart-layout {
+    grid-template-columns: 1fr;
+  }
+  .sl-cart-right {
+    position: static;
+  }
+  .sl-rec-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sl-cart-item {
+    grid-template-columns: 90px 1fr;
+    gap: 14px;
+  }
+  .sl-trust-badges {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── MOBILE REORDER: items → summary → recommendations ── */
+@media screen and (max-width: 768px) {
+  .sl-cart-layout {
+    display: flex;
+    flex-direction: column;
   }
 
-  /* ── MOBILE REORDER: items → summary → recommendations ── */
-  @media screen and (max-width: 768px) {
-    .sl-cart-layout {
-      display: flex;
-      flex-direction: column;
-    }
-
-    /*
+  /*
    * Flatten .sl-cart-left so its two children (#sl-cart-items and
    * #sl-recommendations) become direct flex children of .sl-cart-layout,
    * making them independently orderable.
    */
-    .sl-cart-left {
-      display: contents;
-    }
-
-    #sl-cart-items {
-      order: 1;
-    }
-    .sl-cart-right {
-      order: 2;
-    }
-    #sl-recommendations {
-      order: 3;
-    }
+  .sl-cart-left {
+    display: contents;
   }
+
+  #sl-cart-items      { order: 1; }
+  .sl-cart-right      { order: 2; }
+  #sl-recommendations { order: 3; }
+}
 </style>
 
 <script>

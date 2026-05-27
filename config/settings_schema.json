@@ -306,13 +306,13 @@
         "type": "text",
         "id": "story_founder_heading",
         "label": "Heading",
-        "default": "A passion born from healing"
+        "default": "A passion born from intention"
       },
       {
         "type": "textarea",
         "id": "story_founder_p1",
         "label": "Paragraph 1",
-        "default": "Soulolith was born from a deeply personal journey. After years of navigating stress, anxiety, and the search for inner peace, our founder discovered the transformative power of crystals — not as superstition, but as tools for intention and mindfulness."
+        "default": "Soulolith was born from a deeply personal journey. After years of navigating modern chaos and emotional imbalance, and the search for inner peace, our founder discovered the transformative power of crystals — not as superstition, but as tools for intention and mindfulness."
       },
       {
         "type": "textarea",

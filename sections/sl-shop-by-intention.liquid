@@ -6,13 +6,13 @@ File: sections/sl-shop-by-intention.liquid
 {% comment %}
 <section class="sl-section sl-intention-section">
   <div class="sl-container">
-    
+
   <div class="sl-section-header">
     <span class="sl-eyebrow">{{ section.settings.eyebrow | default: 'Curated for Your Journey' }}</span>
     <h2 class="sl-section-title">{{ section.settings.heading | default: 'Shop by <em>Intention</em>' }}</h2>
     <div class="sl-divider"></div>
   </div>
-  
+
   <div class="sl-intention-grid">
     {%- for block in section.blocks -%}
       <a href="{{ block.settings.url | default: routes.collections_url | append: '/all' }}"

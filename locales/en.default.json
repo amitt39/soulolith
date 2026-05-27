@@ -97,5 +97,12 @@
   "pagination": {
     "previous": "Previous",
     "next": "Next"
+  },
+  "shopify": {
+    "checkout": {
+      "general": {
+        "pay_now_button_label": "Place Order"
+      }
+    }
   }
 }

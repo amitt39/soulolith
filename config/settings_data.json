@@ -1,1 +1,206 @@
-{"current":{"favicon":"shopify:\/\/shop_images\/soullith-favicon-bold.png","announcement_enabled":true,"announcement_text":"FREE SHIPPING ON ORDERS ABOVE ₹1499  |  NEW COLLECTION: CRYSTAL INTENTIONS","social_instagram_link":"https:\/\/www.instagram.com\/soulolith_wellness\/?utm_source=ig_web_button_share_sheet","social_facebook_link":"","social_youtube_link":"","trust_badge_1":"Authentic Natural Crystals","contact_email":"support@soulolith.com","colors":{"color_rose":"#c4887a","color_rose_light":"#d9a898","color_rose_dark":"#9a6358","color_bg":"#080706","color_text":"#f0eae0"},"sections":{"sl-hero":{"type":"sl-hero","settings":{"hero_image":"shopify:\/\/shop_images\/lucid-origin_a_cinematic_photo_of_Luxury_dark_atmospheric_flat_lay_abundantly_scattered_raw_c-0.jpg","hero_image_mobile":"shopify:\/\/shop_images\/lucid-origin_a_cinematic_photo_of_Luxury_dark_atmospheric_flat_lay_abundantly_scattered_raw_c-0_1.jpg","eyebrow":"✦ New Collection — Crystal Intentions ✦","heading":"<p>Wear the <em>Energy<\/em><br\/>of the Earth<\/p>","subheading":"Handcrafted stone jewelry · Ethically sourced crystals","primary_btn_label":"Explore Collection","primary_btn_url":"","secondary_btn_label":"Our Story","secondary_btn_url":""}},"sl-category-strip":{"type":"sl-category-strip","settings":{}},"sl-shop-by-intention":{"type":"sl-shop-by-intention","settings":{}},"sl-featured-products":{"type":"sl-featured-products","custom_css":["ul {grid-template-columns: repeat(4, 1fr) !important;}"],"settings":{"eyebrow":"Handpicked for You","heading":"Bestselling Pieces","collection":"bestsellers","product_count":6,"cta_label":"View All Products","cta_url":"shopify:\/\/collections"}},"sl-brand-story":{"type":"sl-brand-story","settings":{"image":"shopify:\/\/shop_images\/lucid-origin_a_cinematic_photo_of_Elegant_hands_holding_a_glowing_amethyst_crystal_cluster_da-0.jpg","eyebrow":"Our Philosophy","heading":"Stones that Speak to the Soul","btn_label":"Discover Our Story","btn_url":""}},"sl-testimonials":{"type":"sl-testimonials","settings":{"eyebrow":"Customer Stories","heading":"Loved by Souls"}},"sl-instagram":{"type":"sl-instagram","settings":{"eyebrow":"Follow Our World","handle":"@soulolith_wellness","instagram_url":"https:\/\/www.instagram.com\/soulolith_wellness\/?utm_source=ig_web_button_share_sheet","btn_label":"Follow on Instagram"}},"sl-newsletter":{"type":"sl-newsletter","settings":{"eyebrow":"Join the Community","heading":"Stay in Vibration","subtext":"Get early access to new arrivals, crystal guides, and exclusive offers — delivered gently to your inbox.","placeholder":"Your email address","btn_label":"Subscribe"}}},"content_for_index":[],"blocks":{"7870687481494312845":{"type":"shopify:\/\/apps\/wishlist-hero\/blocks\/app-embed\/a9a5079b-59e8-47cb-b659-ecf1c60b9b72","disabled":false,"settings":{"additionalWLButtonCssClasses":"","additionalWLCartBubbleCssClasses":""}},"5543792312086422108":{"type":"shopify:\/\/apps\/marketing-support-on-whatsapp\/blocks\/widget\/d56220c8-e303-4e59-a70a-59dd55affd80","disabled":false,"settings":{}},"11502817661673146621":{"type":"shopify:\/\/apps\/releasit-cod-fee-partial-pay\/blocks\/app-embed\/019a066b-bc34-792e-8460-8aae1d0bdf53","disabled":false,"settings":{}}}},"presets":{}}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "favicon": "shopify://shop_images/soullith-favicon-bold.png",
+    "announcement_enabled": true,
+    "announcement_text": "FREE SHIPPING ON ORDERS ABOVE ₹1999  |  NEW COLLECTION: CRYSTAL INTENTIONS",
+    "social_instagram_link": "https://www.instagram.com/soulolith_wellness/?utm_source=ig_web_button_share_sheet",
+    "social_facebook_link": "",
+    "social_youtube_link": "",
+    "trust_badge_1": "Authentic Natural Crystals",
+    "contact_email": "support@soulolith.com",
+    "colors": {
+      "color_rose": "#c4887a",
+      "color_rose_light": "#d9a898",
+      "color_rose_dark": "#9a6358",
+      "color_bg": "#080706",
+      "color_text": "#f0eae0"
+    },
+    "sections": {
+      "sl-hero": {
+        "type": "sl-hero",
+        "settings": {
+          "hero_image": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Luxury_dark_atmospheric_flat_lay_abundantly_scattered_raw_c-0.jpg",
+          "hero_image_mobile": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Luxury_dark_atmospheric_flat_lay_abundantly_scattered_raw_c-0_1.jpg",
+          "eyebrow": "✦ New Collection — Crystal Intentions ✦",
+          "heading": "<p>Wear the <em>Energy</em><br/>of the Earth</p>",
+          "subheading": "Handcrafted stone jewelry · Ethically sourced crystals",
+          "primary_btn_label": "Explore Collection",
+          "primary_btn_url": "",
+          "secondary_btn_label": "Our Story",
+          "secondary_btn_url": ""
+        }
+      },
+      "sl-category-strip": {
+        "type": "sl-category-strip",
+        "settings": {}
+      },
+      "sl-shop-by-intention": {
+        "type": "sl-shop-by-intention",
+        "settings": {}
+      },
+      "sl-featured-products": {
+        "type": "sl-featured-products",
+        "custom_css": [
+          "ul {grid-template-columns: repeat(4, 1fr) !important;}"
+        ],
+        "settings": {
+          "eyebrow": "Handpicked for You",
+          "heading": "Bestselling Pieces",
+          "collection": "bestsellers",
+          "product_count": 6,
+          "cta_label": "View All Products",
+          "cta_url": "shopify://collections"
+        }
+      },
+      "sl-brand-story": {
+        "type": "sl-brand-story",
+        "settings": {
+          "image": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Elegant_hands_holding_a_glowing_amethyst_crystal_cluster_da-0.jpg",
+          "eyebrow": "Our Philosophy",
+          "heading": "Stones that Speak to the Soul",
+          "btn_label": "Discover Our Story",
+          "btn_url": ""
+        }
+      },
+      "sl-testimonials": {
+        "type": "sl-testimonials",
+        "settings": {
+          "eyebrow": "Customer Stories",
+          "heading": "Loved by Souls"
+        }
+      },
+      "sl-instagram": {
+        "type": "sl-instagram",
+        "settings": {
+          "eyebrow": "Follow Our World",
+          "handle": "@soulolith_wellness",
+          "instagram_url": "https://www.instagram.com/soulolith_wellness/?utm_source=ig_web_button_share_sheet",
+          "btn_label": "Follow on Instagram"
+        }
+      },
+      "sl-newsletter": {
+        "type": "sl-newsletter",
+        "settings": {
+          "eyebrow": "Join the Community",
+          "heading": "Stay in Vibration",
+          "subtext": "Get early access to new arrivals, crystal guides, and exclusive offers — delivered gently to your inbox.",
+          "placeholder": "Your email address",
+          "btn_label": "Subscribe"
+        }
+      },
+      "featured-collections": {
+        "type": "featured-collections",
+        "blocks": {
+          "collection_card_eKp7mN": {
+            "type": "collection_card",
+            "settings": {
+              "collection": "type-bracelet",
+              "custom_subtitle": "Handcrafted crystal bracelets for the modern soul.",
+              "custom_image": "shopify://shop_images/Aquamarine_20-_201.png",
+              "block_button_text": ""
+            }
+          },
+          "collection_card_e8JJKV": {
+            "type": "collection_card",
+            "settings": {
+              "collection": "meaning-protection",
+              "custom_subtitle": "Grounding pieces designed for energetic stability.",
+              "block_button_text": ""
+            }
+          },
+          "collection_card_4jnwnb": {
+            "type": "collection_card",
+            "settings": {
+              "collection": "meaning-prosperity",
+              "custom_subtitle": "Attract abundance with the power of intention.",
+              "block_button_text": ""
+            }
+          }
+        },
+        "block_order": [
+          "collection_card_eKp7mN",
+          "collection_card_e8JJKV",
+          "collection_card_4jnwnb"
+        ],
+        "settings": {
+          "heading": "Explore Our Collections",
+          "subtitle": "Curated with intention. Crafted for the soul.",
+          "button_text": "Explore Collection",
+          "background_color": "#080706",
+          "padding_top": 80,
+          "padding_bottom": 80
+        }
+      },
+      "promo-banner": {
+        "type": "promo-banner",
+        "settings": {
+          "enable_section": true,
+          "badge_text": "New Arrival",
+          "heading": "The Protection Collection",
+          "subheading": "Grounding crystals. Crafted for energetic stability.",
+          "cta_text": "Shop Now",
+          "cta_link": "shopify://collections/meaning-protection",
+          "desktop_image": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Rose_quartz_crystals_scattered_on_dark_black_surface_soft_p-0.jpg",
+          "mobile_image": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Rose_quartz_crystals_scattered_on_dark_black_surface_soft_p-0.jpg",
+          "overlay_opacity": 60,
+          "background_color": "#080706",
+          "text_alignment": "center",
+          "section_height": 520,
+          "padding_top": 0,
+          "padding_bottom": 0
+        }
+      },
+      "split-promo": {
+        "type": "split-promo",
+        "settings": {
+          "left_enable": true,
+          "left_badge": "Welcome Offer",
+          "left_heading": "₹50 Off Your First Order",
+          "left_subheading": "Bring positivity, beauty & good energy home.",
+          "left_code_label": "Use Code",
+          "left_code": "FIRST50",
+          "left_cta_text": "Shop Now",
+          "left_cta_link": "/collections/all",
+          "left_image": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Dozens_of_different_crystal_and_gemstone_varieties_arranged-0.jpg",
+          "left_bg_color": "#0e0d0c",
+          "right_enable": true,
+          "right_badge": "Limited Time Offer",
+          "right_heading": "10%–20% Off Natural Crystals",
+          "right_subheading": "Energy. Balance. Beauty. Shop the sale.",
+          "right_cta_text": "Shop the Sale",
+          "right_cta_link": "shopify://collections/crystal-collection",
+          "right_image": "shopify://shop_images/lucid-origin_a_cinematic_photo_of_Four_crystal_groups_arranged_in_quadrants_on_dark_surface_r-0.jpg",
+          "right_bg_color": "#111010",
+          "padding_top": 60,
+          "padding_bottom": 60
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "7870687481494312845": {
+        "type": "shopify://apps/wishlist-hero/blocks/app-embed/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+        "disabled": false,
+        "settings": {
+          "additionalWLButtonCssClasses": "",
+          "additionalWLCartBubbleCssClasses": ""
+        }
+      },
+      "5543792312086422108": {
+        "type": "shopify://apps/marketing-support-on-whatsapp/blocks/widget/d56220c8-e303-4e59-a70a-59dd55affd80",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  },
+  "presets": {}
+}
