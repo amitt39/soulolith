@@ -1099,9 +1099,29 @@ em {
 }
 .sl-footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 60px;
-  padding-bottom: 60px;
+  grid-template-columns: 1.5fr repeat(4, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+/* footer spacing cleanup */
+.sl-footer-col {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* make support align with top */
+.sl-footer-support {
+  align-self: start;
+}
+
+/* optional tighter footer links */
+.sl-footer-links li {
+  margin-bottom: 10px;
+}
+.sl-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .sl-footer-brand-logo {
   font-family: "Cormorant Garamond", serif;
@@ -4336,4 +4356,91 @@ h1.product-title {
   z-index: 10;
   background: linear-gradient(to bottom, transparent 0%, #080706 100%);
   pointer-events: none;
+}
+
+
+/* ── Footer Newsletter Column ── */
+.sl-footer-newsletter-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sl-footer-newsletter-sub {
+  font-family: var(--font-body, 'Jost', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.sl-footer-newsletter-row {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(var(--rose-gold-rgb, 196, 156, 112), 0.35);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.sl-footer-newsletter-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-family: var(--font-body, 'Jost', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--text-primary, #f5f0ea);
+  letter-spacing: 0.03em;
+}
+
+.sl-footer-newsletter-input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.sl-footer-newsletter-btn {
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(var(--rose-gold-rgb, 196, 156, 112), 0.35);
+  padding: 0 14px;
+  cursor: pointer;
+  color: var(--rose-gold, #c49c70);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sl-footer-newsletter-btn:hover {
+  background: rgba(var(--rose-gold-rgb, 196, 156, 112), 0.12);
+}
+
+.sl-footer-newsletter-success {
+  font-family: var(--font-body, 'Jost', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--rose-gold, #c49c70);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.sl-footer-newsletter-note {
+  font-family: var(--font-body, 'Jost', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Mobile: stack newsletter col ── */
+@media (max-width: 768px) {
+  .sl-footer-newsletter-row {
+    max-width: 100%;
+  }
 }

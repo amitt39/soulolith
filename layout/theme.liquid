@@ -483,6 +483,7 @@
     <footer class='sl-footer' role='contentinfo'>
       <div class='sl-container'>
         <div class='sl-footer-grid'>
+          {% comment %} {{- - ── COL 1: Brand ── - -}} {% endcomment %}
           <div class='sl-footer-col-1'>
             <a href='{{ routes.root_url }}' class='sl-footer-brand-logo'>
               <img
@@ -513,7 +514,6 @@
                   </svg>
                 </a>
               {%- endif -%}
-
               {%- if settings.social_facebook_link != blank -%}
                 <a
                   href='{{ settings.social_facebook_link }}'
@@ -527,7 +527,6 @@
                   </svg>
                 </a>
               {%- endif -%}
-
               {%- if settings.social_youtube_link != blank -%}
                 <a
                   href='{{ settings.social_youtube_link }}'
@@ -543,41 +542,102 @@
               {%- endif -%}
             </div>
           </div>
+
+          {% comment %}
+            {{- - ── COL 2: Newsletter (NEW) ── - -}}
+            <div class='sl-footer-newsletter-col'>
+              <h4 class='sl-footer-heading'>Join The Crystal Circle</h4>
+              <p class='sl-footer-newsletter-sub'>Rituals, restocks & exclusive offers — delivered to your inbox.</p>
+              {%- form 'customer', id: 'footer-newsletter-form' -%}
+                <input type='hidden' name='contact[tags]' value='newsletter'>
+                <div class='sl-footer-newsletter-row'>
+                  <input
+                    type='email'
+                    name='contact[email]'
+                    class='sl-footer-newsletter-input'
+                    placeholder='Your email address'
+                    autocomplete='email'
+                    required
+                    aria-label='Email address'
+                  >
+                  <button type='submit' class='sl-footer-newsletter-btn' aria-label='Subscribe'>
+                    <svg
+                      width='16'
+                      height='16'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='1.8'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                  </button>
+                </div>
+                {%- if form.posted_successfully? -%}
+                  <p class='sl-footer-newsletter-success'>✦ You're in. Welcome to the circle.</p>
+                {%- endif -%}
+              {%- endform -%}
+              <p class='sl-footer-newsletter-note'>No spam, ever. Unsubscribe anytime.</p>
+            </div>
+          {% endcomment %}
+
+          {% comment %} {{- - ── COL 3: Shop Collections ── - -}} {% endcomment %}
           <div>
-            <h4 class='sl-footer-heading'>Jewellery & Crystals</h4>
+            <h4 class='sl-footer-heading'>By Crystal</h4>
+
+            {% assign footer_crystals = linklists['footer-by-crystals'] %}
+
             <ul class='sl-footer-links'>
-              <li><a href='{{ routes.collections_url }}/bracelets'>Bracelets</a></li>
-              <li><a href='{{ routes.collections_url }}/raw-stones'>Raw Stones</a></li>
-              <li><a href='{{ routes.collections_url }}/tumble-stones'>Tumble Stones</a></li>
-              <li><a href='{{ routes.collections_url }}/chips-stone'>Chip Stones</a></li>
-              <li><a href='{{ routes.collections_url }}/clusters'>Clusters</a></li>
-              <li><a href='{{ routes.collections_url }}/geodes'>Geodes & Caves</a></li>
-              <li><a href='{{ routes.collections_url }}/palm-stones'>Palm Stones</a></li>
+              {% for link in footer_crystals.links %}
+                <li>
+                  <a href='{{ link.url }}'>{{ link.title }}</a>
+                </li>
+              {% endfor %}
             </ul>
           </div>
+
           <div>
-            <h4 class='sl-footer-heading'>Home Décor</h4>
+            <h4 class='sl-footer-heading'>Home Decor</h4>
+
+            {% assign footer_home_decor = linklists['footer-home-decor'] %}
+
             <ul class='sl-footer-links'>
-              <li><a href='{{ routes.collections_url }}/pyramids'>Pyramids</a></li>
-              <li><a href='{{ routes.collections_url }}/spheres'>Spheres & Balls</a></li>
-              <li><a href='{{ routes.collections_url }}/crystal-trees'>Crystal Trees</a></li>
-              <li><a href='{{ routes.collections_url }}/crystal-towers'>Crystal Towers</a></li>
-              <li><a href='{{ routes.collections_url }}/selenite'>Selenite Items</a></li>
-              <li><a href='{{ routes.collections_url }}/7-chakra'>7 Chakra Items</a></li>
-              <li><a href='{{ routes.collections_url }}/shree-yantra'>Shree Yantra</a></li>
-              <li><a href='{{ routes.collections_url }}/salt-lamps'>Salt Lamps</a></li>
+              {% for link in footer_home_decor.links %}
+                <li>
+                  <a href='{{ link.url }}'>{{ link.title }}</a>
+                </li>
+              {% endfor %}
             </ul>
           </div>
+
+          <div>
+            <h4 class='sl-footer-heading'>Jewellery</h4>
+
+            {% assign jewellery_footer = linklists['jewellery-footer'] %}
+
+            <ul class='sl-footer-links'>
+              {% for link in jewellery_footer.links %}
+                <li>
+                  <a href='{{ link.url }}'>{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          {% comment %} {{- - ── COL 4: Support ── - -}} {% endcomment %}
           <div>
             <h4 class='sl-footer-heading'>Support</h4>
+
+            {% assign support_footer = linklists['support-footer'] %}
+
             <ul class='sl-footer-links'>
-              <li><a href='{{ routes.root_url }}pages/contact'>Contact Us</a></li>
-              <li><a href='{{ routes.root_url }}policies/shipping-policy'>Shipping Policy</a></li>
-              <li><a href='{{ routes.root_url }}policies/refund-policy'>Return Policy</a></li>
-              <li><a href='{{ routes.root_url }}pages/track-order'>Track Order</a></li>
-              <li><a href='{{ routes.root_url }}pages/faq'>FAQ</a></li>
-              <li><a href='{{ routes.root_url }}pages/our-story'>Our Story</a></li>
-              <li><a href='{{ routes.root_url }}blogs/news'>Blog</a></li>
+              {% for link in support_footer.links %}
+                <li>
+                  <a href='{{ link.url }}'>{{ link.title }}</a>
+                </li>
+              {% endfor %}
             </ul>
           </div>
         </div>
