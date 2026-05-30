@@ -111,7 +111,14 @@
         "id": "hide_announcement_cart",
         "label": "Hide on Cart Page",
         "default": true
-      }
+      },
+      {
+      "type": "checkbox",
+      "id": "hide_empty_collections",
+      "label": "Hide empty collections from navigation",
+      "default": true,
+      "info": "When checked, collections with 0 products are hidden from menus. Uncheck to show them."
+    }
     ]
   },
   {

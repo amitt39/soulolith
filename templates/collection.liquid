@@ -4,6 +4,9 @@
 {% endcomment %}
 
 {%- comment %}=== SECTION BANNER URLS — paste CDN links here as you upload ==={%- endcomment %}
+{%- if collection.products_count == 0 and settings.hide_empty_collections -%}
+  <section class="sl-section" style="min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;"><div class="sl-container"><span class="sl-eyebrow">{{ collection.title }}</span><h1 style="font-size:clamp(32px,5vw,56px);font-weight:300;margin:16px 0;">No products <em>yet</em></h1><p style="color:var(--text-muted);margin-bottom:36px;">Check back soon or browse our full collection.</p><a href="/collections/all" class="sl-btn-primary">Shop All</a></div></section>
+{%- else -%}
 {%- assign url_all = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/Shop_all.png?v=1779624026' -%}
 {%- assign url_crystals = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/By_Crystals.png?v=1779625431' -%}
 {%- assign url_meaning = 'https://cdn.shopify.com/s/files/1/0816/7063/5763/files/by_meaning.png?v=1779625861' -%}
@@ -570,3 +573,4 @@
     if (e.key === 'Enter') slApplyPriceFilter();
   });
 </script>
+{%- endif -%}

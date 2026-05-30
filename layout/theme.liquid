@@ -219,9 +219,12 @@
                 <div class='sl-mega-group'>
                   <p class='sl-mega-group-title'>{{ sl_cat_labels[forloop.index0] }}</p>
                   {%- for link in sl_group_list.links -%}
-                    <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>
-                      {{- link.title -}}
-                    </a>
+                    {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                    {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                      <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>
+                        {{- link.title -}}
+                      </a>
+                    {%- endif -%}
                   {%- endfor -%}
                 </div>
               {%- endif -%}
@@ -234,7 +237,10 @@
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--3'>
               {%- for link in linklists['nav-by-meaning'].links -%}
-                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- endif -%}
               {%- else -%}
                 <p class='sl-mega-empty'>Add links to the <em>nav-by-meaning</em> menu in Navigation settings.</p>
               {%- endfor -%}
@@ -247,7 +253,10 @@
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--5'>
               {%- for link in linklists['nav-by-crystals'].links -%}
-                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- endif -%}
               {%- else -%}
                 <p class='sl-mega-empty'>Add links to the <em>nav-by-crystals</em> menu in Navigation settings.</p>
               {%- endfor -%}
@@ -258,9 +267,12 @@
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--3'>
               {%- for link in linklists['nav-by-zodiac'].links -%}
-                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>
-                  {{ link.title }}
-                </a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>
+                    {{ link.title }}
+                  </a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -269,7 +281,10 @@
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--4'>
               {%- for link in linklists['nav-home-decor'].links -%}
-                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -279,7 +294,10 @@
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--3'>
               {%- for link in linklists['nav-jewellery'].links -%}
-                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -289,7 +307,10 @@
           <div class='sl-mega-panel-inner'>
             <div class='sl-mega-flow sl-mega-flow--2'>
               {%- for link in linklists['nav-gifting'].links -%}
-                <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mega-link{% if link.active %} active{% endif %}'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -335,7 +356,10 @@
                 {%- if sl_group_list.links.size > 0 -%}
                   <p class='sl-mob-group-label'>{{ sl_cat_labels[forloop.index0] }}</p>
                   {%- for link in sl_group_list.links -%}
-                    <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                    {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                    {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                      <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                    {%- endif -%}
                   {%- endfor -%}
                 {%- endif -%}
               {%- endfor -%}
@@ -352,7 +376,10 @@
             </button>
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-by-meaning'].links -%}
-                <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -367,7 +394,10 @@
             </button>
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-by-crystals'].links -%}
-                <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -382,9 +412,12 @@
 
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-by-zodiac'].links -%}
-                <a href='{{ link.url }}' class='sl-mob-sub-link'>
-                  {{ link.title }}
-                </a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mob-sub-link'>
+                    {{ link.title }}
+                  </a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -399,7 +432,10 @@
             </button>
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-home-decor'].links -%}
-                <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -414,7 +450,10 @@
             </button>
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-jewellery'].links -%}
-                <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
@@ -429,7 +468,10 @@
             </button>
             <div class='sl-mob-panel' hidden>
               {%- for link in linklists['nav-gifting'].links -%}
-                <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- assign link_collection = collections[link.url | split: '/collections/' | last] -%}
+                {%- if settings.hide_empty_collections == false or link_collection.products_count > 0 -%}
+                  <a href='{{ link.url }}' class='sl-mob-sub-link'>{{ link.title }}</a>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           </div>
